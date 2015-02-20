@@ -62,6 +62,7 @@ DATABASES = {
         'NAME': 'sdump',
         'USER': 'sdump_owner',
         'PASSWORD': 'owner',
+        'PORT': '5433',        
         'HOST': 'localhost',
     }
 }
