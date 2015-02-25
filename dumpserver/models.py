@@ -24,8 +24,9 @@ class Servidor(models.Model):
     descripcion = models.TextField(null=True)
     
     class Meta:
-        db_table = 'servidores'   
-
+        db_table = 'servidores'
+        verbose_name_plural = 'Servidores'
+        
     def __str__(self):
         return self.nombre
 

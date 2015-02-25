@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.models import Grupo, Servidor, Base, Usuario
+from dumpserver.models import Grupo, Servidor, Base, Usuario
 
 # Register your models here.
 admin.site.register(Grupo)
