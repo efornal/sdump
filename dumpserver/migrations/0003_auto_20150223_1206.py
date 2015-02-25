@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0002_base'),
+        ('dumpserver', '0002_base'),
     ]
 
     operations = [
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(serialize=False, primary_key=True)),
                 ('nombre', models.CharField(max_length=100)),
                 ('usuario', models.CharField(max_length=100)),
-                ('grupos', models.ManyToManyField(to='app.Grupo')),
+                ('grupos', models.ManyToManyField(to='dumpserver.Grupo')),
             ],
             options={
                 'db_table': 'usuarios',
@@ -39,13 +39,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='base',
             name='grupo_id',
-            field=models.ForeignKey(to='app.Grupo', null=True),
+            field=models.ForeignKey(to='dumpserver.Grupo', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='base',
             name='servidor_id',
-            field=models.ForeignKey(to='app.Servidor', null=True),
+            field=models.ForeignKey(to='dumpserver.Servidor', null=True),
             preserve_default=True,
         ),
         migrations.AlterField(
