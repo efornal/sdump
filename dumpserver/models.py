@@ -10,7 +10,8 @@ class Grupo(models.Model):
     
     class Meta:
         db_table = 'grupos'   
-
+        verbose_name_plural = 'Grupos'
+        
     def __str__(self):
         return self.nombre
 
@@ -41,7 +42,8 @@ class Base(models.Model):
     grupo = models.ForeignKey(Grupo, null=True)
     
     class Meta:
-        db_table = 'bases'   
+        db_table = 'bases'
+        verbose_name_plural = 'Bases'
 
     def __str__(self):
         return self.nombre
@@ -54,8 +56,16 @@ class Usuario(models.Model):
     grupos = models.ManyToManyField(Grupo)
      
     class Meta:
-        db_table = 'usuarios'   
+        db_table = 'usuarios'
+        verbose_name_plural = 'Usuarios'
 
     def __str__(self):
         return self.nombre
+
+    def grupos_asignados(self):
+        grupos = []
+        for grupo in self.grupos.all():
+          grupos.append(grupo.nombre)
+          print grupo.nombre
+        return ', '.join(grupos)
 
