@@ -1,5 +1,7 @@
 from django.contrib import admin
 from dumpserver.models import Grupo, Servidor, Base, Usuario
+from django.forms.widgets import SelectMultiple
+from django.db import models
 
 class GrupoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'directorio')
@@ -14,7 +16,7 @@ class ServidorAdmin(admin.ModelAdmin):
 
 class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'usuario')
-   # list_filter = ('grupo')
+    formfield_overrides = { models.ManyToManyField: {'widget': SelectMultiple(attrs={'size':'20'})}, }
 
 admin.site.register(Grupo, GrupoAdmin)
 admin.site.register(Base, BaseAdmin)
