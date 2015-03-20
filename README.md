@@ -1,7 +1,4 @@
 # sdump
-App abm dumpserver
-
-# sdump
 backups administration
 
 ### Package Installation
