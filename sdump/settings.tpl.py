@@ -110,3 +110,53 @@ SUIT_CONFIG = {
 }
 
 LOCALE_PATHS = ( BASE_DIR + '/locale', )
+
+
+
+# LDAP Configuration ==============/
+
+# LDAP server
+LDAP_SERVER = 'ldap://host_ldap:port'
+
+# Dn for entry
+LDAP_DN = 'dc=domain,dc=edu,dc=ar'
+
+# LDAP authentication
+#LDAP_USER_NAME='username'
+#LDAP_USER_PASS='password'
+
+# Organizational Unit for Person
+LDAP_PEOPLE = 'People'
+
+# =================================/
+
+# =================================\
+# django ldap configuration
+
+import ldap
+from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
+
+import logging
+logger = logging.getLogger('django_auth_ldap')
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
+
+
+AUTH_LDAP_SERVER_URI = LDAP_SERVER
+
+#AUTH_LDAP_BIND_DN = "cn=%s,%s" % ( LDAP_USER_NAME, LDAP_DN )
+#AUTH_LDAP_BIND_PASSWORD = LDAP_USER_PASS
+
+AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=%s,%s" % (LDAP_PEOPLE,LDAP_DN),
+                                   ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
+AUTH_LDAP_USER_ATTR_MAP = {
+    "first_name": "givenName",
+    "last_name": "sn",
+    "email": "mail"
+}
+
+AUTHENTICATION_BACKENDS = (
+    'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+# =================================/
