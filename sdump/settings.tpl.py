@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 """
 Django settings for sdump project.
 
@@ -7,6 +8,8 @@ https://docs.djangoproject.com/en/1.7/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
+
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -66,10 +69,10 @@ WSGI_APPLICATION = 'sdump.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sdump',
+        'NAME': 'sdump_db',
         'USER': 'sdump_owner',
         'PASSWORD': 'owner',
-        'PORT': '5433',        
+        'PORT': '5432',
         'HOST': 'localhost',
     }
 }
@@ -77,7 +80,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'es-AR'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
@@ -94,3 +97,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+
+DEFAULT_CHARSET = 'utf-8'
+
+SUIT_CONFIG = {
+    'ADMIN_NAME': _('title')
+}
+
+LOCALE_PATHS = ( BASE_DIR + '/locale', )

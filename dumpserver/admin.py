@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from django.contrib import admin
 from dumpserver.models import Grupo, Servidor, Base, Usuario, Version
 from django.forms.widgets import SelectMultiple
