@@ -11,9 +11,10 @@ class Version(models.Model):
     class Meta:
         db_table = 'versiones'   
         verbose_name_plural = 'Versiones'
-        
-    def __str__(self):
+
+    def __unicode__(self):
         return self.nombre
+
 
 class Grupo(models.Model):
     id = models.AutoField(primary_key=True,null=False)
@@ -23,8 +24,8 @@ class Grupo(models.Model):
     class Meta:
         db_table = 'grupos'   
         verbose_name_plural = 'Grupos'
-        
-    def __str__(self):
+
+    def __unicode__(self):
         return self.nombre
 
     
@@ -40,10 +41,10 @@ class Servidor(models.Model):
     class Meta:
         db_table = 'servidores'
         verbose_name_plural = 'Servidores'
-        
-    def __str__(self):
-        return self.nombre
 
+    def __unicode__(self):
+        return self.nombre
+    
 
 class Base(models.Model):
     id = models.AutoField(primary_key=True, null=False)
@@ -58,7 +59,7 @@ class Base(models.Model):
         db_table = 'bases'
         verbose_name_plural = 'Bases'
 
-    def __str__(self):
+    def __unicode__(self):
         return self.nombre
 
 
@@ -72,9 +73,6 @@ class Usuario(models.Model):
         db_table = 'usuarios'
         verbose_name_plural = 'Usuarios'
 
-    def __str__(self):
-        return self.nombre
-
     def grupos_asignados(self):
         grupos = []
         for grupo in self.grupos.all():
@@ -82,3 +80,5 @@ class Usuario(models.Model):
           print grupo.nombre
         return ', '.join(grupos)
 
+    def __unicode__(self):
+        return self.nombre
