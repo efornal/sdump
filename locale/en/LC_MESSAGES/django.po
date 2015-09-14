@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-10 12:18-0300\n"
+"POT-Creation-Date: 2015-09-14 09:23-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,30 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: dumpserver/forms.py:9
+msgid "nombre"
+msgstr "Name"
+
+#: dumpserver/forms.py:10
+msgid "usuario"
+msgstr "Username"
+
+#: dumpserver/forms.py:11
+msgid "contrasenia"
+msgstr "Password"
+
+#: dumpserver/forms.py:13
+msgid "descripcion"
+msgstr "Description"
+
+#: dumpserver/forms.py:14
+msgid "servidor"
+msgstr "Server"
+
+#: dumpserver/forms.py:15
+msgid "grupo"
+msgstr "Group"
 
 #: sdump/settings.py:86 sdump/settings.tpl.py:86
 msgid "Spanish"
