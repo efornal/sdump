@@ -8,7 +8,6 @@ from django.forms import ModelForm, PasswordInput
 from .models import Base
 from django.utils.translation import ugettext as _
 from django.utils import translation
-from django.forms import widgets
     
 class GrupoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'directorio')
@@ -21,7 +20,6 @@ class BaseAdminForm(forms.ModelForm):
         widgets = {
             'contrasenia': PasswordInput(),
         }
-
         
 class BaseAdmin(admin.ModelAdmin):
     form = BaseAdminForm
