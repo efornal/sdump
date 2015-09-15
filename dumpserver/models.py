@@ -66,7 +66,7 @@ class Base(models.Model):
 class Usuario(models.Model):
     id = models.AutoField(primary_key=True,null=False)
     nombre  = models.CharField(max_length=100,null=False)
-    usuario = models.CharField(max_length=100,null=False)
+    usuario = models.CharField(max_length=100,null=False, unique=True)
     grupos = models.ManyToManyField(Grupo)
      
     class Meta:
