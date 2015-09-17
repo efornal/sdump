@@ -19,7 +19,7 @@ class Version(models.Model):
 class Grupo(models.Model):
     id = models.AutoField(primary_key=True,null=False)
     nombre = models.CharField(max_length=100,null=False)
-    directorio = models.TextField(null=True)
+    directorio = models.CharField(max_length=255,null=True)
     
     class Meta:
         db_table = 'grupos'   
