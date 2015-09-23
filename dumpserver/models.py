@@ -1,7 +1,9 @@
 # -*- encoding: utf-8 -*-
 from django.db import models
-
-# Create your models here.
+from django.dispatch import receiver
+import logging
+from django.db.models.signals import post_save
+from django.conf import settings
 
 class Version(models.Model):
     id = models.AutoField(primary_key=True,null=False)
@@ -27,6 +29,32 @@ class Grupo(models.Model):
 
     def __unicode__(self):
         return self.nombre
+
+    @classmethod
+    def make_dir(cls,path):
+        import os
+        import pwd
+        import grp
+        try:
+            os.umask(0);
+            os.mkdir(path, settings.PERMISSIONS_DUMPS_DIRECTORY)
+            gid = grp.getgrnam(settings.GROUP_DUMPS_DIRECTORY).gr_gid
+            uid = pwd.getpwnam(settings.USER_DUMPS_DIRECTORY).pw_uid
+            os.chown(path, uid, gid)
+        except OSError as e:
+            if e.errno == 17:
+                logging.warning("Directory '%s' already exists" % path )
+                pass
+            else:
+                logging.error(e)
+
+@receiver(post_save, sender=Grupo)
+def create_backup_directories (sender, instance, *args, **kwargs):
+    dirname = "%s/%s" % ( settings.DUMPS_DIRECTORY, instance.directorio.lower().replace(" ", "_") )
+    logging.info("Creando directorio de backup'%s'" % dirname )
+    Grupo.make_dir('%s' % dirname )
+    Grupo.make_dir('%s/%s' % (dirname, settings.SUFFIX_SPORADIC_DUMPS) )
+    Grupo.make_dir('%s/%s' % (dirname, settings.SUFFIX_PERIODICAL_DUMPS) )
 
     
 class Servidor(models.Model):
