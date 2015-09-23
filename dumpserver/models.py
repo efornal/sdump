@@ -5,6 +5,8 @@ import logging
 from django.db.models.signals import post_save
 from django.conf import settings
 
+
+
 class Version(models.Model):
     id = models.AutoField(primary_key=True,null=False)
     nombre = models.CharField(max_length=100,null=False)
@@ -30,6 +32,14 @@ class Grupo(models.Model):
     def __unicode__(self):
         return self.nombre
 
+    def dumps_directory_name(self):
+        return "%s/%s" % ( settings.DUMPS_DIRECTORY, self.directorio.lower().replace(" ", "_") )
+
+    def posee_directorio_dumps(self):
+        import os
+        return os.path.exists(self.dumps_directory_name())
+
+    
     @classmethod
     def make_dir(cls,path):
         import os
@@ -48,9 +58,10 @@ class Grupo(models.Model):
             else:
                 logging.error(e)
 
+                
 @receiver(post_save, sender=Grupo)
 def create_backup_directories (sender, instance, *args, **kwargs):
-    dirname = "%s/%s" % ( settings.DUMPS_DIRECTORY, instance.directorio.lower().replace(" ", "_") )
+    dirname = instance.dumps_directory_name()
     logging.info("Creando directorio de backup'%s'" % dirname )
     Grupo.make_dir('%s' % dirname )
     Grupo.make_dir('%s/%s' % (dirname, settings.SUFFIX_SPORADIC_DUMPS) )

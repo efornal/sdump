@@ -8,11 +8,21 @@ from django.forms import ModelForm, PasswordInput
 from .models import Base
 from django.utils.translation import ugettext as _
 from django.utils import translation
-    
+from django.contrib import messages
+
+
 class GrupoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'directorio')
     search_fields = ['nombre','directorio']
 
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        grupo = Grupo.objects.get(id = object_id)
+        if not grupo.posee_directorio_dumps():
+            messages.warning(request,
+                             "No pudo verificarse el directorio '%s'" % grupo.dumps_directory_name() )
+        return super(GrupoAdmin, self).change_view(request, object_id,'', extra_context)
+
+    
 class BaseAdminForm(forms.ModelForm):
     class Meta:
         model = Base
