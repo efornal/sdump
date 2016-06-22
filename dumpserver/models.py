@@ -10,7 +10,6 @@ from django.conf import settings
 class Version(models.Model):
     id = models.AutoField(primary_key=True,null=False)
     nombre = models.CharField(max_length=100,null=False)
-
     
     class Meta:
         db_table = 'versiones'   
@@ -38,7 +37,6 @@ class Grupo(models.Model):
     def posee_directorio_dumps(self):
         import os
         return os.path.exists(self.dumps_directory_name())
-
     
     @classmethod
     def make_dir(cls,path):
@@ -71,11 +69,11 @@ def create_backup_directories (sender, instance, *args, **kwargs):
 class Servidor(models.Model):
     id = models.AutoField(primary_key=True,null=False)
     nombre = models.CharField(max_length=100,null=False)
-    ip = models.CharField(max_length=100,null=True)
-    puerto = models.IntegerField(null=True)
-    motor = models.CharField(max_length=100,null=True)
-    descripcion = models.TextField(null=True)
-    version = models.ForeignKey(Version, null=True)
+    ip = models.CharField(max_length=100,null=True, blank=True)
+    puerto = models.IntegerField(null=True, blank=True)
+    motor = models.CharField(max_length=100,null=True, blank=True)
+    descripcion = models.TextField(null=True, blank=True)
+    version = models.ForeignKey(Version, null=True, blank=True)
         
     class Meta:
         db_table = 'servidores'
@@ -90,9 +88,9 @@ class Base(models.Model):
     nombre = models.CharField(max_length=100, null=False)
     usuario = models.CharField(max_length=100, null=False)
     contrasenia = models.CharField(max_length=100, null=False)
-    descripcion = models.TextField(null=True)
-    servidor = models.ForeignKey(Servidor, null=True)
-    grupo = models.ForeignKey(Grupo, null=True)
+    descripcion = models.TextField(null=True, blank=True)
+    servidor = models.ForeignKey(Servidor, null=True, blank=True)
+    grupo = models.ForeignKey(Grupo, null=True, blank=True)
     
     class Meta:
         db_table = 'bases'
