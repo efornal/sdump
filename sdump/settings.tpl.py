@@ -126,7 +126,6 @@ SUIT_CONFIG = {
 LOCALE_PATHS = ( BASE_DIR + '/locale', )
 
 
-
 # LDAP Configuration ==============/
 
 # LDAP server
@@ -143,6 +142,7 @@ LDAP_DN = 'dc=domain,dc=edu,dc=ar'
 LDAP_PEOPLE = 'People'
 
 # =================================/
+
 
 # =================================\
 # django ldap configuration
