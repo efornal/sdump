@@ -10,16 +10,13 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
 from django.utils.translation import ugettext_lazy as _
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
-TEMPLATE_CONTEXT_PROCESSORS = TCP + (
-    'django.core.context_processors.request',
-)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -28,12 +25,11 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 SECRET_KEY = 'clwt@lvpqw#f)&g*1f$2e+*!*pg($8jtpvmn5n&v8uds2l3-k='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -59,6 +55,24 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'sdump.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                ''
+                'django.core.context_processors.request',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 WSGI_APPLICATION = 'sdump.wsgi.application'
 
@@ -112,7 +126,6 @@ SUIT_CONFIG = {
 LOCALE_PATHS = ( BASE_DIR + '/locale', )
 
 
-
 # LDAP Configuration ==============/
 
 # LDAP server
@@ -129,6 +142,7 @@ LDAP_DN = 'dc=domain,dc=edu,dc=ar'
 LDAP_PEOPLE = 'People'
 
 # =================================/
+
 
 # =================================\
 # django ldap configuration
@@ -161,14 +175,9 @@ AUTHENTICATION_BACKENDS = (
 )
 # =================================/
 
-
-# =================================/
-# Dumps directory configurations
-#
 DUMPS_DIRECTORY = "/srv/dumps"
 GROUP_DUMPS_DIRECTORY = 'www-data'
 USER_DUMPS_DIRECTORY  = 'www-data'
 PERMISSIONS_DUMPS_DIRECTORY = 0765 # => drwxrw-r-x
 SUFFIX_PERIODICAL_DUMPS = "periodicos"
 SUFFIX_SPORADIC_DUMPS = "esporadicos"
-# =================================/
