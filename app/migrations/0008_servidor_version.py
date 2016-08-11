@@ -7,12 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dumpserver', '0004_auto_20150223_1209'),
+        ('app', '0007_add_version'),
     ]
 
     operations = [
-        migrations.AlterModelOptions(
-            name='servidor',
-            options={'verbose_name_plural': 'Servidores'},
+        migrations.AddField(
+            model_name='servidor',
+            name='version',
+            field=models.ForeignKey(to='app.Version', null=True),
         ),
     ]

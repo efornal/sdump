@@ -7,19 +7,22 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dumpserver', '0006_change_verbose_name_plural'),
+        ('app', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Version',
+            name='Base',
             fields=[
                 ('id', models.AutoField(serialize=False, primary_key=True)),
-                ('nombre', models.CharField(max_length=100)),
+                ('nombre', models.CharField(max_length=64)),
+                ('usuario', models.CharField(max_length=64)),
+                ('contrasenia', models.CharField(max_length=64)),
+                ('descripcion', models.TextField(null=True)),
             ],
             options={
-                'db_table': 'versiones',
-                'verbose_name_plural': 'Versiones',
+                'db_table': 'bases',
             },
+            bases=(models.Model,),
         ),
     ]

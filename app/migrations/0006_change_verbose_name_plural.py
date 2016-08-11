@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dumpserver', '0005_auto_20150225_1558'),
+        ('app', '0005_auto_20150225_1558'),
     ]
 
     operations = [

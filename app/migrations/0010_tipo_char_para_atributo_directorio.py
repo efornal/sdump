@@ -7,13 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dumpserver', '0007_add_version'),
+        ('app', '0009_agregar_unique_a_usuario'),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='servidor',
-            name='version',
-            field=models.ForeignKey(to='dumpserver.Version', null=True),
+        migrations.AlterField(
+            model_name='grupo',
+            name='directorio',
+            field=models.CharField(max_length=255, null=True),
         ),
     ]

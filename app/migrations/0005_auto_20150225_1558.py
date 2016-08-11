@@ -7,13 +7,12 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dumpserver', '0008_servidor_version'),
+        ('app', '0004_auto_20150223_1209'),
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='usuario',
-            name='usuario',
-            field=models.CharField(unique=True, max_length=100),
+        migrations.AlterModelOptions(
+            name='servidor',
+            options={'verbose_name_plural': 'Servidores'},
         ),
     ]

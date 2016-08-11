@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: dumpserver/forms.py:9
+#: app/forms.py:9
 msgid "nombre"
 msgstr "Nombre"
 
-#: dumpserver/forms.py:10
+#: app/forms.py:10
 msgid "usuario"
 msgstr "Usuario"
 
-#: dumpserver/forms.py:11
+#: app/forms.py:11
 msgid "contrasenia"
 msgstr "Contraseña"
 
-#: dumpserver/forms.py:12
+#: app/forms.py:12
 msgid "descripcion"
 msgstr "Descripción"
 
-#: dumpserver/forms.py:13
+#: app/forms.py:13
 msgid "servidor"
 msgstr "Servidor"
 
-#: dumpserver/forms.py:14
+#: app/forms.py:14
 msgid "grupo"
 msgstr "Grupo"
 
