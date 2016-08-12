@@ -1,0 +1,14 @@
+#logo-header{
+    background:url("images/logo.png") no-repeat;
+    width:915px;
+    font-size: 30px; 
+    line-height: 86px; 
+    text-align: right; 
+    margin-right: 10px;
+    height:50px;
+    position: absolute;
+}
+
+.titulo{
+    left: 80px;
+}
