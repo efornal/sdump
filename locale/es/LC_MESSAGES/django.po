@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-22 11:48-0300\n"
+"POT-Creation-Date: 2016-08-12 12:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,14 +42,120 @@ msgstr "Servidor"
 msgid "grupo"
 msgstr "Grupo"
 
-#: sdump/settings.py:101 sdump/settings.tpl.py:100
+#: app/models.py:13 app/models.py:28 app/models.py:78 app/models.py:102
+#: app/models.py:126
+msgid "name"
+msgstr "nombre"
+
+#: app/models.py:17
+msgid "Version"
+msgstr "Versión"
+
+#: app/models.py:18
+msgid "Versions"
+msgstr "Versiones"
+
+#: app/models.py:30
+msgid "directory"
+msgstr "Directorio"
+
+#: app/models.py:34
+msgid "Group"
+msgstr "Grupo"
+
+#: app/models.py:35
+msgid "Groups"
+msgstr "Grupos"
+
+#: app/models.py:80
+msgid "ip_address"
+msgstr "ip"
+
+#: app/models.py:82
+msgid "port"
+msgstr "puerto"
+
+#: app/models.py:84
+msgid "engine"
+msgstr "motor"
+
+#: app/models.py:86 app/models.py:108
+msgid "description"
+msgstr "Descripción"
+
+#: app/models.py:88
+msgid "version"
+msgstr "versión"
+
+#: app/models.py:92
+msgid "Server"
+msgstr "Servidor"
+
+#: app/models.py:93
+msgid "Servers"
+msgstr "Servidores"
+
+#: app/models.py:104 app/models.py:128
+msgid "username"
+msgstr "usuario"
+
+#: app/models.py:106 templates/login.html:29
+msgid "password"
+msgstr "contraseña"
+
+#: app/models.py:110
+msgid "server"
+msgstr "Servidor"
+
+#: app/models.py:112 app/models.py:130
+msgid "group"
+msgstr "grupo"
+
+#: app/models.py:116
+msgid "Database"
+msgstr "Base de Datos"
+
+#: app/models.py:117
+msgid "Databases"
+msgstr "Bases de datos"
+
+#: app/models.py:134
+msgid "User"
+msgstr "Usuario"
+
+#: app/models.py:135
+msgid "Users"
+msgstr "Usuarios"
+
+#: sdump/settings.py:103 sdump/settings.tpl.py:100
 msgid "Spanish"
 msgstr "Español"
 
-#: sdump/settings.py:102 sdump/settings.tpl.py:101
+#: sdump/settings.py:104 sdump/settings.tpl.py:101
 msgid "English"
 msgstr "Inglés"
 
-#: sdump/settings.py:124 sdump/settings.tpl.py:123
+#: sdump/settings.py:132 sdump/settings.tpl.py:129 templates/base.html:13
+#: templates/base.html:73
 msgid "title"
-msgstr "Dump Server"
+msgstr "Sargo"
+
+#: templates/base.html:62
+msgid "registered_user"
+msgstr "Usuario registrado"
+
+#: templates/base.html:66
+msgid "close_session"
+msgstr "Cerrar sesión"
+
+#: templates/login.html:18
+msgid "home_login"
+msgstr "Iniciar sesión"
+
+#: templates/login.html:23
+msgid "user"
+msgstr "usuario"
+
+#: templates/login.html:35
+msgid "log_in"
+msgstr "Iniciar sesión"

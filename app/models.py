@@ -4,17 +4,18 @@ from django.dispatch import receiver
 import logging
 from django.db.models.signals import post_save
 from django.conf import settings
-
+from django.utils.translation import ugettext as _
 
 
 class Version(models.Model):
     id = models.AutoField(primary_key=True,null=False)
-    nombre = models.CharField(max_length=100,null=False)
+    nombre = models.CharField(max_length=100,null=False,
+                             verbose_name=_('name'))
     
     class Meta:
         db_table = 'versiones'   
-        verbose_name = 'Version'
-        verbose_name_plural = 'Versiones'
+        verbose_name = _('Version')
+        verbose_name_plural = _('Versions')
 
 
     def __unicode__(self):
@@ -23,13 +24,15 @@ class Version(models.Model):
 
 class Grupo(models.Model):
     id = models.AutoField(primary_key=True,null=False)
-    nombre = models.CharField(max_length=100,null=False)
-    directorio = models.CharField(max_length=255,null=True)
+    nombre = models.CharField(max_length=100,null=False,
+                             verbose_name=_('name'))
+    directorio = models.CharField(max_length=255,null=True,
+                             verbose_name=_('directory'))
     
     class Meta:
         db_table = 'grupos'
-        verbose_name = 'Grupo'
-        verbose_name_plural = 'Grupos'
+        verbose_name = _('Group')
+        verbose_name_plural = _('Groups')
 
     def __unicode__(self):
         return self.nombre
@@ -71,17 +74,23 @@ def create_backup_directories (sender, instance, *args, **kwargs):
     
 class Servidor(models.Model):
     id = models.AutoField(primary_key=True,null=False)
-    nombre = models.CharField(max_length=100,null=False)
-    ip = models.CharField(max_length=100,null=True, blank=True)
-    puerto = models.IntegerField(null=True, blank=True)
-    motor = models.CharField(max_length=100,null=True, blank=True)
-    descripcion = models.TextField(null=True, blank=True)
-    version = models.ForeignKey(Version, null=True, blank=True)
+    nombre = models.CharField(max_length=100,null=False,
+                             verbose_name=_('name'))
+    ip = models.CharField(max_length=100,null=True, blank=True,
+                             verbose_name=_('ip_address'))
+    puerto = models.IntegerField(null=True, blank=True,
+                             verbose_name=_('port'))
+    motor = models.CharField(max_length=100,null=True, blank=True,
+                             verbose_name=_('engine'))
+    descripcion = models.TextField(null=True, blank=True,
+                             verbose_name=_('description'))
+    version = models.ForeignKey(Version, null=True, blank=True,
+                             verbose_name=_('version'))
         
     class Meta:
         db_table = 'servidores'
-        verbose_name = 'Servidor'
-        verbose_name_plural = 'Servidores'
+        verbose_name = _('Server')
+        verbose_name_plural = _('Servers')
 
     def __unicode__(self):
         return self.nombre
@@ -89,17 +98,23 @@ class Servidor(models.Model):
 
 class Base(models.Model):
     id = models.AutoField(primary_key=True, null=False)
-    nombre = models.CharField(max_length=100, null=False)
-    usuario = models.CharField(max_length=100, null=False)
-    contrasenia = models.CharField(max_length=100, null=False)
-    descripcion = models.TextField(null=True, blank=True)
-    servidor = models.ForeignKey(Servidor, null=True, blank=True)
-    grupo = models.ForeignKey(Grupo, null=True, blank=True)
+    nombre = models.CharField(max_length=100, null=False,
+                             verbose_name=_('name'))
+    usuario = models.CharField(max_length=100, null=False,
+                             verbose_name=_('username'))
+    contrasenia = models.CharField(max_length=100, null=False,
+                             verbose_name=_('password'))
+    descripcion = models.TextField(null=True, blank=True,
+                             verbose_name=_('description'))
+    servidor = models.ForeignKey(Servidor, null=True, blank=True,
+                             verbose_name=_('server'))
+    grupo = models.ForeignKey(Grupo, null=True, blank=True,
+                             verbose_name=_('group'))
     
     class Meta:
         db_table = 'bases'
-        verbose_name = 'Base'
-        verbose_name_plural = 'Bases'
+        verbose_name = _('Database')
+        verbose_name_plural = _('Databases')
 
     def __unicode__(self):
         return self.nombre
@@ -107,14 +122,17 @@ class Base(models.Model):
 
 class Usuario(models.Model):
     id = models.AutoField(primary_key=True,null=False)
-    nombre  = models.CharField(max_length=100,null=False)
-    usuario = models.CharField(max_length=100,null=False, unique=True)
-    grupos = models.ManyToManyField(Grupo)
+    nombre  = models.CharField(max_length=100,null=False,
+                             verbose_name=_('name'))
+    usuario = models.CharField(max_length=100,null=False, unique=True,
+                             verbose_name=_('username'))
+    grupos = models.ManyToManyField(Grupo,
+                             verbose_name=_('group'))
      
     class Meta:
         db_table = 'usuarios'
-        verbose_name = 'Usuario'
-        verbose_name_plural = 'Usuarios'
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
 
     def grupos_asignados(self):
         grupos = []
