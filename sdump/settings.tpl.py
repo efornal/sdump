@@ -27,8 +27,6 @@ SECRET_KEY = 'clwt@lvpqw#f)&g*1f$2e+*!*pg($8jtpvmn5n&v8uds2l3-k='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-TEMPLATE_DEBUG = False
-
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -41,6 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+    'bootstrap_themes',
     'app',
 )
 
@@ -59,11 +59,11 @@ ROOT_URLCONF = 'sdump.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': True,
             'context_processors': [
-                ''
                 'django.core.context_processors.request',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
