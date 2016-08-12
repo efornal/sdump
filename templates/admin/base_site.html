@@ -50,12 +50,12 @@
 {#{% endblock %}#}
 
 {% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">DumpServer</a></h1>
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ _('title') }}</a></h1>
 {% endblock %}
 
 {# Footer branding name (center) #}
 {% block footer_branding %}
-~ DumpServer ~
+~ {{ _('title') }} ~
 {% endblock %}
 
 
