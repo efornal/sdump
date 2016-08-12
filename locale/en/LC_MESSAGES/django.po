@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-12 12:29+0000\n"
+"POT-Creation-Date: 2016-08-12 13:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,7 +79,6 @@ msgid "engine"
 msgstr "Engine"
 
 #: app/models.py:86 app/models.py:108
-#, fuzzy
 msgid "description"
 msgstr "Description"
 
@@ -87,7 +86,8 @@ msgstr "Description"
 msgid "version"
 msgstr "Version"
 
-#: app/models.py:92
+#: app/models.py:92 templates/index.html:26 templates/index.html:100
+#: templates/index.html:128
 msgid "Server"
 msgstr "Server"
 
@@ -111,7 +111,8 @@ msgstr "Server"
 msgid "group"
 msgstr "Group"
 
-#: app/models.py:116
+#: app/models.py:116 templates/index.html:36 templates/index.html:98
+#: templates/index.html:126
 msgid "Database"
 msgstr "Database"
 
@@ -135,8 +136,9 @@ msgstr "Spanish"
 msgid "English"
 msgstr "English"
 
-#: sdump/settings.py:132 sdump/settings.tpl.py:129 templates/base.html:13
-#: templates/base.html:73
+#: sdump/settings.py:132 sdump/settings.tpl.py:129
+#: templates/admin/base_site.html:53 templates/admin/base_site.html:58
+#: templates/base.html:13 templates/base.html:73
 msgid "title"
 msgstr "Sargo"
 
@@ -147,6 +149,62 @@ msgstr "Registered user"
 #: templates/base.html:66
 msgid "close_session"
 msgstr "Close session"
+
+#: templates/index.html:12
+msgid "data_backup"
+msgstr "Data backup"
+
+#: templates/index.html:16
+msgid "Project"
+msgstr "Project"
+
+#: templates/index.html:44
+msgid "options"
+msgstr "Options"
+
+#: templates/index.html:52
+msgid "inserts"
+msgstr "Inserts"
+
+#: templates/index.html:57
+msgid "clean"
+msgstr "Clean"
+
+#: templates/index.html:61
+msgid "extra_options"
+msgstr "Extra Options"
+
+#: templates/index.html:71
+msgid "make_backup"
+msgstr "Make backup"
+
+#: templates/index.html:92
+msgid "sporadic_backups"
+msgstr "Sporadic backups"
+
+#: templates/index.html:99 templates/index.html:127
+msgid "Date_and_time"
+msgstr "Date and time"
+
+#: templates/index.html:101 templates/index.html:129
+msgid "Size"
+msgstr "Size"
+
+#: templates/index.html:102 templates/index.html:130
+msgid "Actions"
+msgstr "Actions"
+
+#: templates/index.html:120
+msgid "periodic_backups"
+msgstr "Periodic backups"
+
+#: templates/index.html:139
+msgid "download"
+msgstr "Download"
+
+#: templates/index.html:139
+msgid "remove"
+msgstr "Remove"
 
 #: templates/login.html:18
 msgid "home_login"

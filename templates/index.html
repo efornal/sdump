@@ -9,11 +9,11 @@
       <div class="well bs-component">
         <form class="form-horizontal">
           <fieldset>
-            <legend>Datos del dump</legend>
+            <legend>{{ _('data_backup') }}</legend>
 
             <div class="form-group">
               <div class="col-lg-12">
-                <label for="project_select" class="control-label">Proyecto</label>
+                <label for="project_select" class="control-label">{{ _('Project') }}</label>
                 <select class="form-control" id="project_select">
                   <option>1</option>
                   <option>2</option>
@@ -23,7 +23,7 @@
 
             <div class="form-group">
               <div class="col-lg-12">
-                <label for="server_select" class="control-label">Servidor</label>
+                <label for="server_select" class="control-label">{{ _('Server') }}</label>
                 <select class="form-control" id="server_select">
                   <option>1</option>
                   <option>2</option>
@@ -33,7 +33,7 @@
 
             <div class="form-group">
               <div class="col-lg-12">
-                <label for="db_select" class="control-label">Base de datos</label>
+                <label for="db_select" class="control-label">{{ _('Database') }}</label>
                 <select class="form-control" id="db_select">
                   <option>1</option>
                   <option>2</option>
@@ -41,7 +41,7 @@
               </div>
             </div>
             <div class="panel-body">
-             <strong> Opciones </strong>
+             <strong> {{ _('options') }} </strong>
             </div>
             
             <div class="form-group">
@@ -49,16 +49,16 @@
                 <div class="well">
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox"> &nbsp;  Inserts
+                      <input type="checkbox"> &nbsp;  {{ _('inserts') }}
                     </label>
                   </div>
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox"> &nbsp; Clean
+                      <input type="checkbox"> &nbsp; {{ _('clean') }}
                     </label>
                   </div>
                   <br>
-                  <label for="db_select" class="control-label">Opciones extras</label>
+                  <label for="db_select" class="control-label">{{ _('extra_options') }}</label>
                   <input class="form-control" id="inputText" type="text">
                 </div>
               </div>
@@ -68,7 +68,7 @@
             <br>
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-7">
-                <button type="submit" class="btn btn-primary">Hacer Dump</button>
+                <button type="submit" class="btn btn-primary">{{ _('make_backup') }}</button>
               </div>
             </div>
             
@@ -89,17 +89,17 @@
 
           <div class="panel panel-info">
             <div class="panel-heading">
-              <h3 class="panel-title">Dumps Esporádicos</h3>
+              <h3 class="panel-title">{{ _('sporadic_backups') }}</h3>
             </div>
             <div class="panel-body">
               <table class="table table-striped table-hover ">
                 <thead>
                   <tr>
-                    <th>Base</th>
-                    <th>Fecha y hora</th>
-                    <th>Servidor</th>
-                    <th>Tamaño</th>
-                    <th>Acciones</th>
+                    <th>{{ _('Database') }}</th>
+                    <th>{{ _('Date_and_time') }}</th>
+                    <th>{{ _('Server') }}</th>
+                    <th>{{ _('Size') }}</th>
+                    <th>{{ _('Actions') }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -117,17 +117,17 @@
 
                     <div class="panel panel-success">
             <div class="panel-heading">
-              <h3 class="panel-title">Dumps Periódicos</h3>
+              <h3 class="panel-title">{{ _('periodic_backups') }}</h3>
             </div>
             <div class="panel-body">
               <table class="table table-striped table-hover ">
                 <thead>
                   <tr>
-                    <th>Base</th>
-                    <th>Fecha y hora</th>
-                    <th>Servidor</th>
-                    <th>Tamaño</th>
-                    <th>Acciones</th>
+                    <th>{{ _('Database') }}</th>
+                    <th>{{ _('Date_and_time') }}</th>
+                    <th>{{ _('Server') }}</th>
+                    <th>{{ _('Size') }}</th>
+                    <th>{{ _('Actions') }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -136,7 +136,7 @@
                     <td>21/12/2015 14:15</td>
                     <td>joe</td>
                     <td>73.61 KB</td>
-                    <td>Descargar | Eliminar</td>
+                    <td>{{ _('download') }} | {{ _('remove') }}</td>
                   </tr>
                 </tbody>
               </table>
