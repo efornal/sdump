@@ -32,3 +32,12 @@ hostssl  sdump_db     sdump_owner        ::1/128                 password
 psql -h localhost -U sdump_owner -p 5432 -d sdump_db
 ```
 
+### Change the name of the application
+Requiere modificar la configuración de django
+
+migrations.RunSQL("update django_content_type set app_label='app' \
+ where app_label='dumpserver'"),
+
+migrations.RunSQL("update django_migrations set app='app' \
+ where app='dumpserver'")
+
