@@ -11,14 +11,41 @@ import logging
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils import translation
-
+from .models import Grupo, Servidor, Base
+from django.shortcuts import render_to_response
+from django.db.models import Count
 # Create your views here.
 
 @login_required
 def index(request):
-    return render(request, 'index.html')
+    request.session['group_id'] = None
+    username = request.user.username
+#    groups = Grupo.objects.values('id','nombre').filter(usuario__usuario=username)
+    groups = Grupo.objects.all().values('id','nombre')
+    context = {'groups': groups}
+    return render(request, 'index.html', context)
 
 
+@login_required
+def update_servers(request):
+    group_id = request.GET['group_id']
+    request.session['group_id'] = group_id
+    servers = Servidor.objects.values('id','nombre'). \
+              filter(base__grupo_id=group_id).annotate(cantidad=Count('nombre'))
+    context = {'servers': servers,}
+    return render_to_response('_select_servers.html', context)
+
+
+@login_required
+def update_databases(request):
+    group_id = request.session['group_id']
+    server_id = request.GET['server_id']
+    databases = Base.objects.filter(grupo_id=group_id).filter(servidor_id=server_id)
+    context = {'databases': databases,}
+    return render_to_response('_select_databases.html', context)
+
+
+    
 @login_required
 def logout_view(request):
     logout(request)

@@ -11,35 +11,16 @@
           <fieldset>
             <legend>{{ _('data_backup') }}</legend>
 
-            <div class="form-group">
-              <div class="col-lg-12">
-                <label for="project_select" class="control-label">{{ _('Project') }}</label>
-                <select class="form-control" id="project_select">
-                  <option>1</option>
-                  <option>2</option>
-                </select>
-              </div>
+            <div class="form-group" id="select_groups">
+              {% include "_select_groups.html" %}
+            </div>
+            <div class="form-group" id="select_servers">
+              {% include "_select_servers.html" %}
+            </div>
+            <div class="form-group" id="select_databases">
+              {% include "_select_databases.html" %}
             </div>
 
-            <div class="form-group">
-              <div class="col-lg-12">
-                <label for="server_select" class="control-label">{{ _('Server') }}</label>
-                <select class="form-control" id="server_select">
-                  <option>1</option>
-                  <option>2</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="col-lg-12">
-                <label for="db_select" class="control-label">{{ _('Database') }}</label>
-                <select class="form-control" id="db_select">
-                  <option>1</option>
-                  <option>2</option>
-                </select>
-              </div>
-            </div>
             <div class="panel-body">
              <strong> {{ _('options') }} </strong>
             </div>
@@ -152,4 +133,28 @@
 
 
 </div>
+<script>
+    
+
+
+$(document).ready(function(){
+
+  $('#group_select').change(function () {
+    $.ajax({
+        url: "{% url 'update_servers' %}",
+        data: {
+            group_id: $('#group_select').val()
+        },
+        type: "GET",
+        dataType: "html",
+        success: function (data) {
+            $('#select_servers').html(data);
+        },
+    }).done(function (data) {
+        $('#server_select').change();
+    })
+  });
+  
+});
+</script>    
 {% endblock %}

@@ -1,0 +1,10 @@
+<div class="col-lg-12">
+  <label for="db_select" class="control-label">{{ _('Database') }}</label>
+  <select class="form-control" name="database_select" id="database_select">
+    {% for database in databases %}
+    <option value='{{ database.id }}'
+            {% if database.id == database_id %} selected="selected" {% endif %}
+            >{{ database.nombre }}</option>
+    {% endfor %}
+  </select>
+</div>

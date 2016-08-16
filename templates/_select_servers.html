@@ -1,0 +1,29 @@
+  <div class="col-lg-12">
+    <label for="server_select" class="control-label">{{ _('Server') }}</label>
+    <select class="form-control" name="server_select" id="server_select">
+      {% for server in servers %}
+      <option value='{{ server.id }}'
+              {% if server.id == server_id %} selected="selected" {% endif %}
+              >{{ server.nombre }}</option>
+      {% endfor %}
+    </select>
+  </div>
+<script>
+$(document).ready(function(){
+
+  $('#server_select').change(function(){
+    $.ajax({
+        url: "{% url 'update_databases' %}",
+        data: {
+            server_id: $('#server_select').val()
+        },
+        type: "GET",
+        dataType: "html",
+        success: function (data) {
+            $('#select_databases').html(data);
+        },
+    });
+  });
+    
+});
+</script>    
