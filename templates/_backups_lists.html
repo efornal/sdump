@@ -20,7 +20,7 @@
           <td>{{ sporadic.date }} {{ sporadic.time }}</td>
           <td>{{ sporadic.server }}</td>
           <td>{{ sporadic.size }}</td>
-          <td>Descargar | Eliminar</td>
+          <td>{{ _('download') }} | {{ _('remove') }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -49,10 +49,14 @@
           <td>{{ periodic.date }} {{ periodic.time }}</td>
           <td>{{ periodic.server }}</td>
           <td>{{ periodic.size }}</td>
-          <td>Descargar | Eliminar</td>
+          <td>{{ _('download') }} | {{ _('remove') }}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
+</div>
+<br><br>
+<div class="well">
+    a user notification..., perhaps
 </div>

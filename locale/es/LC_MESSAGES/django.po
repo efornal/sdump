@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-12 13:37+0000\n"
+"POT-Creation-Date: 2016-08-17 14:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,8 +87,8 @@ msgstr "Descripción"
 msgid "version"
 msgstr "versión"
 
-#: app/models.py:92 templates/index.html:26 templates/index.html:100
-#: templates/index.html:128
+#: app/models.py:92 templates/_backups_lists.html:11
+#: templates/_backups_lists.html:40 templates/_select_servers.html:2
 msgid "Server"
 msgstr "Servidor"
 
@@ -112,8 +112,8 @@ msgstr "Servidor"
 msgid "group"
 msgstr "grupo"
 
-#: app/models.py:116 templates/index.html:36 templates/index.html:98
-#: templates/index.html:126
+#: app/models.py:116 templates/_backups_lists.html:9
+#: templates/_backups_lists.html:38 templates/_select_databases.html:2
 msgid "Database"
 msgstr "Base de Datos"
 
@@ -143,6 +143,38 @@ msgstr "Inglés"
 msgid "title"
 msgstr "Sargo"
 
+#: templates/_backups_lists.html:3
+msgid "sporadic_backups"
+msgstr "Backups esporádicos"
+
+#: templates/_backups_lists.html:10 templates/_backups_lists.html:39
+msgid "Date_and_time"
+msgstr "Fecha y hora"
+
+#: templates/_backups_lists.html:12 templates/_backups_lists.html:41
+msgid "Size"
+msgstr "Tamaño"
+
+#: templates/_backups_lists.html:13 templates/_backups_lists.html:42
+msgid "Actions"
+msgstr "Acciones"
+
+#: templates/_backups_lists.html:23 templates/_backups_lists.html:52
+msgid "download"
+msgstr "Descargar"
+
+#: templates/_backups_lists.html:23 templates/_backups_lists.html:52
+msgid "remove"
+msgstr "Eliminar"
+
+#: templates/_backups_lists.html:32
+msgid "periodic_backups"
+msgstr "Backups periódicos"
+
+#: templates/_select_groups.html:2
+msgid "Project"
+msgstr "Proyecto"
+
 #: templates/base.html:62
 msgid "registered_user"
 msgstr "Usuario registrado"
@@ -155,57 +187,25 @@ msgstr "Cerrar sesión"
 msgid "data_backup"
 msgstr "Datos del backup"
 
-#: templates/index.html:16
-msgid "Project"
-msgstr "Proyecto"
-
-#: templates/index.html:44
+#: templates/index.html:25
 msgid "options"
 msgstr "Opciones"
 
-#: templates/index.html:52
+#: templates/index.html:33
 msgid "inserts"
 msgstr "Inserts"
 
-#: templates/index.html:57
+#: templates/index.html:38
 msgid "clean"
 msgstr "Clean"
 
-#: templates/index.html:61
+#: templates/index.html:42
 msgid "extra_options"
 msgstr "Opciones Extras"
 
-#: templates/index.html:71
+#: templates/index.html:52
 msgid "make_backup"
 msgstr "Hacer backup"
-
-#: templates/index.html:92
-msgid "sporadic_backups"
-msgstr "Backups esporádicos"
-
-#: templates/index.html:99 templates/index.html:127
-msgid "Date_and_time"
-msgstr "Fecha y hora"
-
-#: templates/index.html:101 templates/index.html:129
-msgid "Size"
-msgstr "Tamaño"
-
-#: templates/index.html:102 templates/index.html:130
-msgid "Actions"
-msgstr "Acciones"
-
-#: templates/index.html:120
-msgid "periodic_backups"
-msgstr "Backups periódicos"
-
-#: templates/index.html:139
-msgid "download"
-msgstr "Descargar"
-
-#: templates/index.html:139
-msgid "remove"
-msgstr "Eliminar"
 
 #: templates/login.html:18
 msgid "home_login"
