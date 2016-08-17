@@ -25,7 +25,7 @@ def index(request):
     username = request.user.username
 #    groups = Grupo.objects.values('id','nombre').filter(usuario__usuario=username)
     groups = Grupo.objects.all().values('id','nombre') # FIXME ,no usar esta
-    context = {'groups': groups}
+    context = {'groups': groups, 'user_notification': settings.USER_NOTIFICATION}
     return render(request, 'index.html', context)
 
 

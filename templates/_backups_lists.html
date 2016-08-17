@@ -56,7 +56,11 @@
     </table>
   </div>
 </div>
-<br><br>
-<div class="well">
-    a user notification..., perhaps
-</div>
+
+<br>
+
+{% if user_notification %}
+  <div class="well">
+    {{ user_notification | safe }}
+  </div>
+{% endif %}
