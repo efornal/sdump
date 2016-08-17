@@ -47,7 +47,8 @@ def describe_files (files):
         [server,text] = name.split('_base-')
         [text,time] = text.partition('.')[0].rsplit('_',1)
         [database,date] = text.rsplit('_',1)
-        descrived_files.append( {'database': database,
+        descrived_files.append( {'filename': filename,
+                                 'database': database,
                                  'server': server,
                                  'size': file_size,
                                  'date': date,
@@ -82,7 +83,13 @@ def update_databases(request):
     return render_to_response('_select_databases.html', context)
 
 
+@login_required
+def make_backup(request):
+    return redirect('index')
     
+
+
+
 @login_required
 def logout_view(request):
     logout(request)
