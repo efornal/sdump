@@ -28,13 +28,14 @@ class BaseAdminForm(forms.ModelForm):
         model = Base
         fields = '__all__'
         widgets = {
-            'contrasenia': PasswordInput(),
+            'contrasenia': PasswordInput(render_value=True),
         }
         
 class BaseAdmin(admin.ModelAdmin):
     form = BaseAdminForm
     list_display = ('nombre', 'grupo', 'servidor')
     list_filter = ('servidor','grupo')
+
         
 class ServidorAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'ip', 'puerto', 'motor', 'version')
