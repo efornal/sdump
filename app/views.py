@@ -17,7 +17,8 @@ from django.db.models import Count
 import os
 import glob
 from django.template.defaultfilters import filesizeformat
-
+import subprocess
+from django.contrib import messages
 
 @login_required
 def index(request):
@@ -79,21 +80,77 @@ def update_databases(request):
     group_id = request.session['group_id']
     server_id = request.GET['server_id']
     databases = Base.objects.filter(grupo_id=group_id).filter(servidor_id=server_id)
-    context = {'databases': databases,}
+    extra_command_options= "ejemplo extra"
+    context = {'databases': databases,
+               'extra_command_options': extra_command_options}
     return render_to_response('_select_databases.html', context)
+
+
+def clean_extra_options(options):
+    cleaned = options
+    cleaned.replace('#','')
+    cleaned.replace('&','')
+    cleaned.replace(';','')
+    cleaned.replace('$','')
+    cleaned.replace('/','')
+    cleaned.replace('<','')
+    cleaned.replace('>','')
+    return cleaned
 
 
 @login_required
 def make_backup(request):
-    return redirect('index')
+    group_id = int(request.POST['group_select'])
+    server_id = int(request.POST['server_select'])
+    database_id = int(request.POST['database_select'])
+    database = Base.objects.get(pk=database_id)
+    server = database.servidor
+    server_ip = server.ip
+    extra_options = ""
     
+    logging.warning("haciendo backup,...")
+    
+    if server.version:
+        extra_options += " -m %s " % server.version
+    if 'opt_inserts' in request.POST:
+        extra_options += " --inserts "
+    if 'opt_clena' in request.POST:
+        extra_options += " --clean "
+    if 'extra_options' in request.POST:
+        extra_options += clean_extra_options(request.POST['extra_options'])
 
+        
+    params = " -H %s %s %s " % ( server_ip,
+                               extra_options,
+                               settings.DUMPS_DIRECTORY )
+    
+    p = subprocess.Popen([settings.DUMPS_SCRIPT,params],
+                         stdout=subprocess.PIPE, 
+                         stderr=subprocess.PIPE)
+    out, err =  p.communicate()
+
+    logging.warning("Ejecuntando: \n %s %s \n" % (settings.DUMPS_SCRIPT,params))
+    logging.error("ERROR: %s" % err)
+
+    messages.add_message(request, messages.SUCCESS, out)
+    
+    return redirect('index')
 
 
 @login_required
 def logout_view(request):
     logout(request)
     return redirect('index')
+
+
+@login_required
+def update_extra_options(request):
+    extra_options=""
+    if ('database_id' in request.GET) and (request.GET['database_id'] > 0):
+        database = Base.objects.get(pk=int(request.GET['database_id']))
+        if database.extra_command_options:
+            extra_options = database.extra_command_options
+    return HttpResponse(extra_options, content_type="text/plain")
 
 
 def login_view(request):

@@ -86,7 +86,7 @@ class Servidor(models.Model):
                              verbose_name=_('description'))
     version = models.ForeignKey(Version, null=True, blank=True,
                              verbose_name=_('version'))
-        
+
     class Meta:
         db_table = 'servidores'
         verbose_name = _('Server')
@@ -110,6 +110,9 @@ class Base(models.Model):
                              verbose_name=_('server'))
     grupo = models.ForeignKey(Grupo, null=True, blank=True,
                              verbose_name=_('group'))
+    extra_command_options = models.CharField( max_length=1024,
+                                              null=True, blank=True,
+                                              verbose_name=_('extra_command_options'))
     
     class Meta:
         db_table = 'bases'

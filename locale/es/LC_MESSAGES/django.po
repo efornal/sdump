@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-17 14:31+0000\n"
+"POT-Creation-Date: 2016-08-19 13:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,8 +42,8 @@ msgstr "Servidor"
 msgid "grupo"
 msgstr "Grupo"
 
-#: app/models.py:13 app/models.py:28 app/models.py:78 app/models.py:102
-#: app/models.py:126
+#: app/models.py:13 app/models.py:28 app/models.py:78 app/models.py:104
+#: app/models.py:128
 msgid "name"
 msgstr "nombre"
 
@@ -79,7 +79,7 @@ msgstr "puerto"
 msgid "engine"
 msgstr "motor"
 
-#: app/models.py:86 app/models.py:108
+#: app/models.py:86 app/models.py:110
 msgid "description"
 msgstr "Descripción"
 
@@ -87,45 +87,49 @@ msgstr "Descripción"
 msgid "version"
 msgstr "versión"
 
-#: app/models.py:92 templates/_backups_lists.html:11
+#: app/models.py:91
+msgid "extra_command_options"
+msgstr "Opciones extras del comando"
+
+#: app/models.py:94 templates/_backups_lists.html:11
 #: templates/_backups_lists.html:40 templates/_select_servers.html:2
 msgid "Server"
 msgstr "Servidor"
 
-#: app/models.py:93
+#: app/models.py:95
 msgid "Servers"
 msgstr "Servidores"
 
-#: app/models.py:104 app/models.py:128
+#: app/models.py:106 app/models.py:130
 msgid "username"
 msgstr "usuario"
 
-#: app/models.py:106 templates/login.html:29
+#: app/models.py:108 templates/login.html:29
 msgid "password"
 msgstr "contraseña"
 
-#: app/models.py:110
+#: app/models.py:112
 msgid "server"
 msgstr "Servidor"
 
-#: app/models.py:112 app/models.py:130
+#: app/models.py:114 app/models.py:132
 msgid "group"
 msgstr "grupo"
 
-#: app/models.py:116 templates/_backups_lists.html:9
+#: app/models.py:118 templates/_backups_lists.html:9
 #: templates/_backups_lists.html:38 templates/_select_databases.html:2
 msgid "Database"
 msgstr "Base de Datos"
 
-#: app/models.py:117
+#: app/models.py:119
 msgid "Databases"
 msgstr "Bases de datos"
 
-#: app/models.py:134
+#: app/models.py:136
 msgid "User"
 msgstr "Usuario"
 
-#: app/models.py:135
+#: app/models.py:137
 msgid "Users"
 msgstr "Usuarios"
 
@@ -183,29 +187,35 @@ msgstr "Usuario registrado"
 msgid "close_session"
 msgstr "Cerrar sesión"
 
-#: templates/index.html:12
+#: templates/index.html:13
 msgid "data_backup"
 msgstr "Datos del backup"
 
-#: templates/index.html:25
+#: templates/index.html:26
 msgid "options"
 msgstr "Opciones"
 
-#: templates/index.html:33
+#: templates/index.html:34
 msgid "inserts"
 msgstr "Inserts"
 
-#: templates/index.html:38
+#: templates/index.html:39
 msgid "clean"
 msgstr "Clean"
 
-#: templates/index.html:42
+#: templates/index.html:43
 msgid "extra_options"
 msgstr "Opciones Extras"
 
-#: templates/index.html:52
+#: templates/index.html:51
 msgid "make_backup"
 msgstr "Hacer backup"
+
+#: templates/index.html:89
+msgid "confirm_make_backup"
+msgstr ""
+"¿Confirma que desea realizar el backup? Esta acción afectará el servicio "
+"mientras dure el proceso de copia."
 
 #: templates/login.html:18
 msgid "home_login"

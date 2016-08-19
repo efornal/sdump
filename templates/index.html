@@ -2,12 +2,21 @@
 {% load i18n %}
 
 {% block content %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-dismissible alert-{{message.tags}}">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+  {{ message }}
+</div>
+{% endfor %}
+{% endif %}
 
 <div class="bs-docs-section">
   <div class="row">
     <div class="col-lg-4">
       <div class="well bs-component">
-        <form class="form-horizontal" action="{% url 'make_backup' %}">
+        <form class="form-horizontal" method="POST" action="{% url 'make_backup' %}">
+          {% csrf_token %}
           <fieldset>
             <legend>{{ _('data_backup') }}</legend>
 
@@ -30,24 +39,24 @@
                 <div class="well">
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox"> &nbsp;  {{ _('inserts') }}
+                      <input type="checkbox" name='opt_inserts'> &nbsp;  {{ _('inserts') }}
                     </label>
                   </div>
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox"> &nbsp; {{ _('clean') }}
+                      <input type="checkbox"  name='opt_clean'> &nbsp; {{ _('clean') }}
                     </label>
                   </div>
                   <br>
-                  <label for="db_select" class="control-label">{{ _('extra_options') }}</label>
-                  <input class="form-control" id="inputText" type="text">
+                    <label for="db_select" class="control-label">{{ _('extra_options') }}</label>
+                    <input class="form-control" name="extra_options" id="extra_options" type="text">
                 </div>
               </div>
             </div>
 
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-7">
-                <button type="submit" class="btn btn-primary">{{ _('make_backup') }}</button>
+                <button type="submit" id="make_backup" class="btn btn-primary">{{ _('make_backup') }}</button>
               </div>
             </div>
             
@@ -66,6 +75,12 @@
       <form class="bs-component">
         <div class="bs-component" id="backups_lists">
           {% include "_backups_lists.html" %}
+          <br>
+          {% if user_notification %}
+            <div class="well" id="user_notification">
+              {{ user_notification | safe }}
+            </div>
+          {% endif %}
         </div>
       </form>
       
@@ -75,10 +90,14 @@
 
 </div>
 <script>
-    
-
 
 $(document).ready(function(){
+
+  $("#make_backup").click(function() {
+    if ( !confirm("{{ _('confirm_make_backup') }}") ) {
+      return false;
+    }
+  });
 
   $('#group_select').change(function () {
     $.ajax({
@@ -106,7 +125,9 @@ $(document).ready(function(){
         },
     })
   });
-  
+
+
+   
 });
 </script>    
 {% endblock %}
