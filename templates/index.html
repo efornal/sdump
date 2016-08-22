@@ -107,6 +107,7 @@ $(document).ready(function(){
     if ( !confirm("{{ _('confirm_make_backup') }}") ) {
       return false;
     }
+    $("body").addClass("wait");
     $('#user_notification').show();
     $('#user_notification').html("{{ _('making_backup') }}");
     $.ajax({
@@ -124,6 +125,7 @@ $(document).ready(function(){
 
         },
       }).done(function (data) {
+          $("body").removeClass("wait");
           $('#user_notification').show();
           $('#user_notification').append(data);
           update_backups_lists()
