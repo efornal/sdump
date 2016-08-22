@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
@@ -19,25 +19,19 @@ import glob
 from django.template.defaultfilters import filesizeformat
 import subprocess
 from django.contrib import messages
-
-@login_required
-def index(request):
-    request.session['group_id'] = None
-    username = request.user.username
-#    groups = Grupo.objects.values('id','nombre').filter(usuario__usuario=username)
-    groups = Grupo.objects.all().values('id','nombre') # FIXME ,no usar esta
-    context = {'groups': groups, 'user_notification': settings.USER_NOTIFICATION}
-    return render(request, 'index.html', context)
+from django.core.urlresolvers import reverse
 
 
-@login_required
-def update_servers(request):
-    group_id = request.GET['group_id']
-    request.session['group_id'] = group_id
-    servers = Servidor.objects.values('id','nombre'). \
-              filter(base__grupo_id=group_id).annotate(cantidad=Count('nombre'))
-    context = {'servers': servers,}
-    return render_to_response('_select_servers.html', context)
+def clean_extra_options(options):
+    cleaned = options
+    cleaned.replace('#','')
+    cleaned.replace('&','')
+    cleaned.replace(';','')
+    cleaned.replace('$','')
+    cleaned.replace('/','')
+    cleaned.replace('<','')
+    cleaned.replace('>','')
+    return cleaned
 
 
 def describe_files (files):
@@ -57,9 +51,12 @@ def describe_files (files):
     return descrived_files
 
 
-@login_required
-def update_list_backups(request):
-    group = Grupo.objects.get( id=request.GET['group_id'] )
+def make_backups_lists(group_id=None):
+    if group_id is None or not (group_id > 0):
+        return [[],[]]
+
+    group = Grupo.objects.get( id=group_id )
+    
     sporadics_path = os.path.join( settings.DUMPS_DIRECTORY,
                                    group.directorio,
                                    settings.SUFFIX_SPORADIC_DUMPS )
@@ -69,7 +66,50 @@ def update_list_backups(request):
 
     sporadics =  describe_files( glob.glob("%s%s" % (sporadics_path,'/*')) )
     periodics =  describe_files( glob.glob("%s%s" % (periodics_path,'/*')) )
+    return [sporadics,periodics]
+
+
+@login_required
+def index(request):
+    username = request.user.username
+    group_id = None
+     
+    if 'group_id' in request.GET and request.GET['group_id']:
+        group_id = request.GET['group_id']
+        
+        
+    [sporadics,periodics] = make_backups_lists(group_id)
+#    groups = Grupo.objects.values('id','nombre').filter(usuario__usuario=username)
+    groups = Grupo.objects.all().values('id','nombre') # FIXME ,no usar esta
+
     
+    context = {'groups': groups,
+               'backup_notification': settings.USER_NOTIFICATION,
+               'sporadics': sporadics,
+               'periodics': periodics, }
+    return render(request, 'index.html', context)
+
+    
+@login_required
+def update_servers(request):
+    group_id = request.GET['group_id']
+    request.session['group_id'] = group_id
+    servers = Servidor.objects.values('id','nombre'). \
+              filter(base__grupo_id=group_id).annotate(cantidad=Count('nombre'))
+    context = {'servers': servers,}
+    return render_to_response('_select_servers.html', context)
+
+
+
+@login_required
+def update_list_backups(request):
+    group_id = None
+     
+    if 'group_id' in request.GET and request.GET['group_id']:
+        group_id = request.GET['group_id']
+        
+    [sporadics,periodics] = make_backups_lists(group_id)
+
     context = {'sporadics': sporadics,
                'periodics': periodics, }
     return render_to_response('_backups_lists.html', context)
@@ -80,41 +120,27 @@ def update_databases(request):
     group_id = request.session['group_id']
     server_id = request.GET['server_id']
     databases = Base.objects.filter(grupo_id=group_id).filter(servidor_id=server_id)
-    extra_command_options= "ejemplo extra"
+    extra_command_options=None
     context = {'databases': databases,
                'extra_command_options': extra_command_options}
     return render_to_response('_select_databases.html', context)
 
 
-def clean_extra_options(options):
-    cleaned = options
-    cleaned.replace('#','')
-    cleaned.replace('&','')
-    cleaned.replace(';','')
-    cleaned.replace('$','')
-    cleaned.replace('/','')
-    cleaned.replace('<','')
-    cleaned.replace('>','')
-    return cleaned
-
-
 @login_required
 def make_backup(request):
-    group_id = int(request.POST['group_select'])
-    server_id = int(request.POST['server_select'])
-    database_id = int(request.POST['database_select'])
+    database_id = int(request.POST['database_id'])
     database = Base.objects.get(pk=database_id)
     server = database.servidor
     server_ip = server.ip
     extra_options = ""
-    
-    logging.warning("haciendo backup,...")
-    
+    import time
+    logging.warning("Making backup ,...")
+    time.sleep(5)
     if server.version:
         extra_options += " -m %s " % server.version
     if 'opt_inserts' in request.POST:
         extra_options += " --inserts "
-    if 'opt_clena' in request.POST:
+    if 'opt_clean' in request.POST:
         extra_options += " --clean "
     if 'extra_options' in request.POST:
         extra_options += clean_extra_options(request.POST['extra_options'])
@@ -129,12 +155,12 @@ def make_backup(request):
                          stderr=subprocess.PIPE)
     out, err =  p.communicate()
 
-    logging.warning("Ejecuntando: \n %s %s \n" % (settings.DUMPS_SCRIPT,params))
-    logging.error("ERROR: %s" % err)
-
-    messages.add_message(request, messages.SUCCESS, out)
+    logging.warning("Running: \n %s %s \n" % (settings.DUMPS_SCRIPT,params))
+    if err:
+        logging.error("ERROR: \n%s\n" % err)
+    logging.warning("Backup output: \n%s\n" % out)
     
-    return redirect('index')
+    return HttpResponse(out, content_type="text/plain")
 
 
 @login_required

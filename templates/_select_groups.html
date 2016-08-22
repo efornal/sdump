@@ -3,7 +3,9 @@
   <select class="form-control" name="group_select" id="group_select">
     <option value='0'>Seleccione el proyecto</option>
     {% for group in groups %}
-    <option value='{{ group.id }}'>{{ group.nombre }}</option>
+    <option value='{{ group.id }}'
+            {% if group.id == group_id %} selected="selected" {% endif %}>
+    {{ group.nombre }}</option>
     {% endfor %}
   </select>
 </div>
