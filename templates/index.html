@@ -108,7 +108,7 @@ $(document).ready(function(){
       return false;
     }
     $('#user_notification').show();
-    $('#user_notification').html("Making backup ,...<br>");
+    $('#user_notification').html("{{ _('making_backup') }}");
     $.ajax({
         url: "{% url 'make_backup' %}",
         data: {

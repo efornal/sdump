@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 13:52+0000\n"
+"POT-Creation-Date: 2016-08-22 16:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,8 +41,8 @@ msgstr "Server"
 msgid "grupo"
 msgstr "Group"
 
-#: app/models.py:13 app/models.py:28 app/models.py:78 app/models.py:104
-#: app/models.py:128
+#: app/models.py:13 app/models.py:28 app/models.py:78 app/models.py:102
+#: app/models.py:129
 msgid "name"
 msgstr "name"
 
@@ -78,7 +78,7 @@ msgstr "Port"
 msgid "engine"
 msgstr "Engine"
 
-#: app/models.py:86 app/models.py:110
+#: app/models.py:86 app/models.py:108
 msgid "description"
 msgstr "Description"
 
@@ -86,51 +86,59 @@ msgstr "Description"
 msgid "version"
 msgstr "Version"
 
-#: app/models.py:91
-msgid "extra_command_options"
-msgstr "Extra command options"
-
-#: app/models.py:94 templates/_backups_lists.html:11
-#: templates/_backups_lists.html:40 templates/_select_servers.html:2
+#: app/models.py:92 templates/_backups_lists.html:11
+#: templates/_backups_lists.html:41 templates/_select_servers.html:2
 msgid "Server"
 msgstr "Server"
 
-#: app/models.py:95
+#: app/models.py:93
 msgid "Servers"
 msgstr "Servers"
 
-#: app/models.py:106 app/models.py:130
+#: app/models.py:104 app/models.py:131
 msgid "username"
 msgstr "Username"
 
-#: app/models.py:108 templates/login.html:29
+#: app/models.py:106 templates/login.html:29
 msgid "password"
 msgstr "Password"
 
-#: app/models.py:112
+#: app/models.py:110
 msgid "server"
 msgstr "Server"
 
-#: app/models.py:114 app/models.py:132
+#: app/models.py:112 app/models.py:133
 msgid "group"
 msgstr "Group"
 
-#: app/models.py:118 templates/_backups_lists.html:9
-#: templates/_backups_lists.html:38 templates/_select_databases.html:2
+#: app/models.py:115
+msgid "extra_command_options"
+msgstr "Extra command options"
+
+#: app/models.py:119 templates/_backups_lists.html:9
+#: templates/_backups_lists.html:39 templates/_select_databases.html:2
 msgid "Database"
 msgstr "Database"
 
-#: app/models.py:119
+#: app/models.py:120
 msgid "Databases"
 msgstr "Databases"
 
-#: app/models.py:136
+#: app/models.py:137
 msgid "User"
 msgstr "User"
 
-#: app/models.py:137
+#: app/models.py:138
 msgid "Users"
 msgstr "Users"
+
+#: app/views.py:161
+msgid "backup_with_mistakes"
+msgstr "Backup with mistakes !"
+
+#: app/views.py:164
+msgid "backup_finished"
+msgstr "Backup finished!"
 
 #: sdump/settings.py:103 sdump/settings.tpl.py:100
 msgid "Spanish"
@@ -150,27 +158,27 @@ msgstr "Sargo"
 msgid "sporadic_backups"
 msgstr "Sporadic backups"
 
-#: templates/_backups_lists.html:10 templates/_backups_lists.html:39
+#: templates/_backups_lists.html:10 templates/_backups_lists.html:40
 msgid "Date_and_time"
 msgstr "Date and time"
 
-#: templates/_backups_lists.html:12 templates/_backups_lists.html:41
+#: templates/_backups_lists.html:12 templates/_backups_lists.html:42
 msgid "Size"
 msgstr "Size"
 
-#: templates/_backups_lists.html:13 templates/_backups_lists.html:42
+#: templates/_backups_lists.html:13 templates/_backups_lists.html:43
 msgid "Actions"
 msgstr "Actions"
 
-#: templates/_backups_lists.html:23 templates/_backups_lists.html:52
+#: templates/_backups_lists.html:23 templates/_backups_lists.html:53
 msgid "download"
 msgstr "Download"
 
-#: templates/_backups_lists.html:23 templates/_backups_lists.html:52
+#: templates/_backups_lists.html:23 templates/_backups_lists.html:53
 msgid "remove"
 msgstr "Remove"
 
-#: templates/_backups_lists.html:32
+#: templates/_backups_lists.html:33
 msgid "periodic_backups"
 msgstr "Periodic backups"
 
@@ -186,35 +194,39 @@ msgstr "Registered user"
 msgid "close_session"
 msgstr "Close session"
 
-#: templates/index.html:13
+#: templates/index.html:19
 msgid "data_backup"
 msgstr "Data backup"
 
-#: templates/index.html:26
+#: templates/index.html:32
 msgid "options"
 msgstr "Options"
 
-#: templates/index.html:34
+#: templates/index.html:41
 msgid "inserts"
 msgstr "Inserts"
 
-#: templates/index.html:39
+#: templates/index.html:47
 msgid "clean"
 msgstr "Clean"
 
-#: templates/index.html:43
+#: templates/index.html:51
 msgid "extra_options"
 msgstr "Extra Options"
 
-#: templates/index.html:51
+#: templates/index.html:59
 msgid "make_backup"
 msgstr "Make backup"
 
-#: templates/index.html:89
+#: templates/index.html:107
 msgid "confirm_make_backup"
 msgstr ""
 "Confirm you want to perform the backup? This action affects the service for "
 "the duration of the copy process."
+
+#: templates/index.html:111
+msgid "making_backup"
+msgstr "Making backup.. "
 
 #: templates/login.html:18
 msgid "home_login"

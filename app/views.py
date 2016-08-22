@@ -133,9 +133,9 @@ def make_backup(request):
     server = database.servidor
     server_ip = server.ip
     extra_options = ""
-    import time
+
     logging.warning("Making backup ,...")
-    time.sleep(5)
+
     if server.version:
         extra_options += " -m %s " % server.version
     if 'opt_inserts' in request.POST:
@@ -149,18 +149,23 @@ def make_backup(request):
     params = " -H %s %s %s " % ( server_ip,
                                extra_options,
                                settings.DUMPS_DIRECTORY )
+
+    logging.warning("Running: \n %s %s \n" % (settings.DUMPS_SCRIPT,params))
     
     p = subprocess.Popen([settings.DUMPS_SCRIPT,params],
                          stdout=subprocess.PIPE, 
                          stderr=subprocess.PIPE)
-    out, err =  p.communicate()
-
-    logging.warning("Running: \n %s %s \n" % (settings.DUMPS_SCRIPT,params))
-    if err:
-        logging.error("ERROR: \n%s\n" % err)
-    logging.warning("Backup output: \n%s\n" % out)
+    out, err = p.communicate()
+    returned_code = p.returncode
     
-    return HttpResponse(out, content_type="text/plain")
+    if returned_code:
+        logging.error("ERROR (%s): %s" % (returned_code,err))
+        message_user = _('backup_with_mistakes')
+    else:
+        logging.warning("Backup output (%s): %s" % (returned_code,out))
+        message_user = _('backup_finished')
+
+    return HttpResponse(message_user, content_type="text/plain")
 
 
 @login_required
