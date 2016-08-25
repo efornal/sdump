@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-25 13:21+0000\n"
+"POT-Creation-Date: 2016-08-25 15:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,25 +133,29 @@ msgstr "Usuario"
 msgid "Users"
 msgstr "Usuarios"
 
-#: app/views.py:164
+#: app/views.py:170
 msgid "backup_with_mistakes"
 msgstr "Backup realizado con errores!.."
 
-#: app/views.py:167
+#: app/views.py:173
 msgid "backup_finished"
 msgstr "Backup finalizado!"
 
-#: app/views.py:214
+#: app/views.py:220
 msgid "deleted_file"
 msgstr "El archivo se eliminó correctamente"
 
-#: app/views.py:218
+#: app/views.py:224
 msgid "error_deleting"
 msgstr "Se produjo un error al eliminar el archivo"
 
-#: app/views.py:221
+#: app/views.py:227 app/views.py:244
 msgid "file_not_indicated"
-msgstr "No se especificó el archivo a eliminar"
+msgstr "No se especificó el archivo sobre el cual realizar la acción"
+
+#: app/views.py:259
+msgid "without_permission"
+msgstr "No tiene permisos para realizar esta acción"
 
 #: sdump/settings.py:103 sdump/settings.tpl.py:100
 msgid "Spanish"

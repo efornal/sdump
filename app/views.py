@@ -33,22 +33,28 @@ def clean_extra_options(options):
     cleaned.replace('>','')
     return cleaned
 
+def describe_file (file_path):
+    descrived_file = {}
+    file_size = filesizeformat(os.path.getsize(file_path))
+    file_name = os.path.basename(file_path)
+    [server,text] = file_name.split('_base-')
+    [text,time] = text.partition('.')[0].rsplit('_',1)
+    [database,date] = text.rsplit('_',1)
+    descrived_file = {'file_path': file_path,
+                      'file_name': file_name,
+                      'database': database,
+                      'server': server,
+                      'size': file_size,
+                      'date': date,
+                      'time': time.replace('-',':'), }
+    return descrived_file
+
 
 def describe_files (files):
     descrived_files = []
     for file_path in files:
-        file_size = filesizeformat(os.path.getsize(file_path))
-        file_name = os.path.basename(file_path)
-        [server,text] = file_name.split('_base-')
-        [text,time] = text.partition('.')[0].rsplit('_',1)
-        [database,date] = text.rsplit('_',1)
-        descrived_files.append( {'file_path': file_path,
-                                 'file_name': file_name,
-                                 'database': database,
-                                 'server': server,
-                                 'size': file_size,
-                                 'date': date,
-                                 'time': time.replace('-',':'), })
+        descrived_files.append( describe_file(file_path) )
+        
     return descrived_files
 
 
@@ -222,11 +228,39 @@ def remove(request):
 
     return HttpResponse(message, content_type="text/plain")    
 
-
+# {'database': 
+# argos_db', 'file_name': 
+# larry.intranet_base-argos_db_28-03-2016_16-10.sql.gz', 'server': 
+# larry.intranet', 'time': 
+# 16:10', 'date': 
+# 28-03-2016', 'file_path': 
+# /srv/dumps/argos/esporadicos/larry.intranet_base-argos_db_28-03-2016_16-10.sql.gz', 'size': 
+# 40,1\xa0MB'}
 @login_required
 def download(request):
-    filename = request.GET['filename']
-    logging.warning("filename: %s" % filename)
+    if 'filename' in request.GET and request.GET['filename']:
+        filename = request.GET['filename']
+    else:
+        messages.warning(request, _('file_not_indicated'))
+        return redirect('index')
+
+    databases_allowed = Base.objects.values('nombre') \
+                                    .filter(grupo__usuario__usuario=request.user.username) \
+                                    .distinct()
+    permitted = []
+    for db in databases_allowed:
+        permitted.append(db['nombre'])
+        
+    file_descriptor = describe_file (filename)
+
+    if file_descriptor['database'] not in permitted:
+        logging.error("El usuario %s no tiene permisos para descargar el archivo %s" \
+                      %(request.user.username, filename) )
+        messages.warning(request, _('without_permission'))
+        return redirect('index')
+        
+    logging.warning("Downloading file: %s" % filename)
+        
     response = HttpResponse(open(filename, 'rb'), content_type='application/gzip')
     response['Content-Disposition'] = 'attachment; filename="ejemplo.gz"'
     return response
