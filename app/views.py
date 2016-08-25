@@ -228,14 +228,7 @@ def remove(request):
 
     return HttpResponse(message, content_type="text/plain")    
 
-# {'database': 
-# argos_db', 'file_name': 
-# larry.intranet_base-argos_db_28-03-2016_16-10.sql.gz', 'server': 
-# larry.intranet', 'time': 
-# 16:10', 'date': 
-# 28-03-2016', 'file_path': 
-# /srv/dumps/argos/esporadicos/larry.intranet_base-argos_db_28-03-2016_16-10.sql.gz', 'size': 
-# 40,1\xa0MB'}
+
 @login_required
 def download(request):
     if 'filename' in request.GET and request.GET['filename']:
