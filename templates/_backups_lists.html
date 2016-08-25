@@ -10,7 +10,7 @@
           <th>{{ _('Date_and_time') }}</th>
           <th>{{ _('Server') }}</th>
           <th>{{ _('Size') }}</th>
-          <th>{{ _('Actions') }}</th>
+          <th colspan="2" style="text-align: center;">{{ _('Actions') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -20,13 +20,25 @@
           <td>{{ sporadic.date }} {{ sporadic.time }}</td>
           <td>{{ sporadic.server }}</td>
           <td>{{ sporadic.size }}</td>
-          <td>{{ _('download') }} | {{ _('remove') }}</td>
+          <td>
+            <a href="{% url 'download' %}?filename={{sporadic.file_path}}">
+              {{ _('download') }}
+            </a>
+          </td>
+          <td id="removing_backups">
+            <a href="#" data-filename="{{sporadic.file_path}}">
+              {{ _('remove') }}
+            </a>
+          </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
 </div>
+
+
+
 
 <div class="panel panel-success">
   <div class="panel-heading">
@@ -40,7 +52,7 @@
           <th>{{ _('Date_and_time') }}</th>
           <th>{{ _('Server') }}</th>
           <th>{{ _('Size') }}</th>
-          <th>{{ _('Actions') }}</th>
+          <th colspan="2" style="text-align: center;">{{ _('Actions') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -50,7 +62,16 @@
           <td>{{ periodic.date }} {{ periodic.time }}</td>
           <td>{{ periodic.server }}</td>
           <td>{{ periodic.size }}</td>
-          <td>{{ _('download') }} | {{ _('remove') }}</td>
+          <td>
+            <a href="{% url 'download' %}?filename={{periodic.file_path}}">
+              {{ _('download') }}
+            </a>
+          </td>
+          <td id="removing_backups">
+            <a href="#" data-filename="{{ periodic.file_path}}">
+              {{ _('remove') }}
+            </a>
+          </td>
         </tr>
         {% endfor %}
       </tbody>
@@ -58,3 +79,46 @@
   </div>
 </div>
 
+<script>
+$(document).ready(function(){
+
+  function update_backups_lists() {
+    $.ajax({
+        url: "{% url 'update_list_backups' %}",
+        data: {
+            group_id: $('#group_select').val()
+        },
+        type: "GET",
+        dataType: "html",
+        success: function (data) {
+            $('#backups_lists').html(data);
+        },
+    })
+  };
+
+  $('#removing_backups a').click(function(){
+    if ( !confirm('{{ _('confirm_remove_file')}}') ) {
+      return false;
+    }
+    file_name = $(this).attr('data-filename');
+    $("body").addClass("wait");
+    $.ajax({
+        url: "{% url 'remove' %}",
+        data: {
+            filename: file_name
+        },
+        type: "GET",
+        dataType: "html",
+        success: function (data) {
+        },
+    }).done(function (data) {
+      $("body").removeClass("wait");
+      $('#user_notification').show();
+      $('#user_notification').append(data);
+      window.history.replaceState({}, '', {% url 'index' %});
+      update_backups_lists();
+    })
+  });
+    
+});
+</script>    

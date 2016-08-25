@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-22 16:02+0000\n"
+"POT-Creation-Date: 2016-08-25 13:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -88,7 +88,7 @@ msgid "version"
 msgstr "versión"
 
 #: app/models.py:92 templates/_backups_lists.html:11
-#: templates/_backups_lists.html:41 templates/_select_servers.html:2
+#: templates/_backups_lists.html:53 templates/_select_servers.html:2
 msgid "Server"
 msgstr "Servidor"
 
@@ -117,7 +117,7 @@ msgid "extra_command_options"
 msgstr "Opciones extras del comando"
 
 #: app/models.py:119 templates/_backups_lists.html:9
-#: templates/_backups_lists.html:39 templates/_select_databases.html:2
+#: templates/_backups_lists.html:51 templates/_select_databases.html:2
 msgid "Database"
 msgstr "Base de Datos"
 
@@ -133,13 +133,25 @@ msgstr "Usuario"
 msgid "Users"
 msgstr "Usuarios"
 
-#: app/views.py:161
+#: app/views.py:164
 msgid "backup_with_mistakes"
 msgstr "Backup realizado con errores!.."
 
-#: app/views.py:164
+#: app/views.py:167
 msgid "backup_finished"
 msgstr "Backup finalizado!"
+
+#: app/views.py:214
+msgid "deleted_file"
+msgstr "El archivo se eliminó correctamente"
+
+#: app/views.py:218
+msgid "error_deleting"
+msgstr "Se produjo un error al eliminar el archivo"
+
+#: app/views.py:221
+msgid "file_not_indicated"
+msgstr "No se especificó el archivo a eliminar"
 
 #: sdump/settings.py:103 sdump/settings.tpl.py:100
 msgid "Spanish"
@@ -149,7 +161,7 @@ msgstr "Español"
 msgid "English"
 msgstr "Inglés"
 
-#: sdump/settings.py:132 sdump/settings.tpl.py:129
+#: sdump/settings.py:133 sdump/settings.tpl.py:129
 #: templates/admin/base_site.html:53 templates/admin/base_site.html:58
 #: templates/base.html:13 templates/base.html:73
 msgid "title"
@@ -159,29 +171,33 @@ msgstr "Sargo"
 msgid "sporadic_backups"
 msgstr "Backups esporádicos"
 
-#: templates/_backups_lists.html:10 templates/_backups_lists.html:40
+#: templates/_backups_lists.html:10 templates/_backups_lists.html:52
 msgid "Date_and_time"
 msgstr "Fecha y hora"
 
-#: templates/_backups_lists.html:12 templates/_backups_lists.html:42
+#: templates/_backups_lists.html:12 templates/_backups_lists.html:54
 msgid "Size"
 msgstr "Tamaño"
 
-#: templates/_backups_lists.html:13 templates/_backups_lists.html:43
+#: templates/_backups_lists.html:13 templates/_backups_lists.html:55
 msgid "Actions"
 msgstr "Acciones"
 
-#: templates/_backups_lists.html:23 templates/_backups_lists.html:53
+#: templates/_backups_lists.html:25 templates/_backups_lists.html:67
 msgid "download"
 msgstr "Descargar"
 
-#: templates/_backups_lists.html:23 templates/_backups_lists.html:53
+#: templates/_backups_lists.html:30 templates/_backups_lists.html:72
 msgid "remove"
 msgstr "Eliminar"
 
-#: templates/_backups_lists.html:33
+#: templates/_backups_lists.html:45
 msgid "periodic_backups"
 msgstr "Backups periódicos"
+
+#: templates/_backups_lists.html:100
+msgid "confirm_remove_file"
+msgstr "¿Confirma que desea eliminar el archivo?"
 
 #: templates/_select_groups.html:2
 msgid "Project"
@@ -225,7 +241,7 @@ msgstr ""
 "¿Confirma que desea realizar el backup? Esta acción afectará el servicio "
 "mientras dure el proceso de copia."
 
-#: templates/index.html:111
+#: templates/index.html:112
 msgid "making_backup"
 msgstr "Haciendo backup..  "
 

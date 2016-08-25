@@ -36,13 +36,14 @@ def clean_extra_options(options):
 
 def describe_files (files):
     descrived_files = []
-    for filename in files:
-        file_size = filesizeformat(os.path.getsize(filename))
-        name = os.path.basename(filename)
-        [server,text] = name.split('_base-')
+    for file_path in files:
+        file_size = filesizeformat(os.path.getsize(file_path))
+        file_name = os.path.basename(file_path)
+        [server,text] = file_name.split('_base-')
         [text,time] = text.partition('.')[0].rsplit('_',1)
         [database,date] = text.rsplit('_',1)
-        descrived_files.append( {'filename': filename,
+        descrived_files.append( {'file_path': file_path,
+                                 'file_name': file_name,
                                  'database': database,
                                  'server': server,
                                  'size': file_size,
@@ -199,3 +200,33 @@ def login_view(request):
             return render(request, 'login.html')
     else:
         return render(request, 'login.html')
+
+
+@login_required
+def remove(request):
+    message = ""
+    if 'filename' in request.GET and request.GET['filename']:
+        filename = request.GET['filename']
+        logging.warning("Removing file: %s" % filename)
+        try:
+            os.remove(filename)
+            logging.warning("Se elimino el archivo: %s" % filename)
+            message = _('deleted_file')
+        except OSError as e:
+            logging.warning("Error removing file: %s" % filename)
+            logging.warning("Error: %s" % e)
+            message = _('error_deleting')
+            pass
+    else:
+        message = _('file_not_indicated')
+
+    return HttpResponse(message, content_type="text/plain")    
+
+
+@login_required
+def download(request):
+    filename = request.GET['filename']
+    logging.warning("filename: %s" % filename)
+    response = HttpResponse(open(filename, 'rb'), content_type='application/gzip')
+    response['Content-Disposition'] = 'attachment; filename="ejemplo.gz"'
+    return response
