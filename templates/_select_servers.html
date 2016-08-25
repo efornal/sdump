@@ -11,7 +11,7 @@
 <script>
 $(document).ready(function(){
 
-  $('#server_select').change(function(){
+$('#server_select').change(function(){
     $.ajax({
         url: "{% url 'update_databases' %}",
         data: {
@@ -22,7 +22,9 @@ $(document).ready(function(){
         success: function (data) {
           $('#select_databases').html(data);
         },
-    });
+    }).done(function (data) {
+        $('#database_select').change();
+    })
   });
     
 });

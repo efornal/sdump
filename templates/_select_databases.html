@@ -31,6 +31,11 @@ $(document).ready(function(){
     
   $('#database_select').ready(function(){
     update_extra_options();
+    if ( parseInt($('#database_select').val()) > 0 ) {
+      $('#make_backup').attr("disabled", false);
+    }else{
+      $('#make_backup').attr("disabled", true);
+    }
   });
     
   $('#database_select').change(function () {
