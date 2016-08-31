@@ -115,7 +115,6 @@ $(document).ready(function(){
     $('#make_backup').attr("disabled", true);
     opt_inserts = $("#opt_inserts").is(':checked');
     opt_clean = $("#opt_clean").is(':checked');
-    }
     $.ajax({
         url: "{% url 'make_backup' %}",
         data: {
