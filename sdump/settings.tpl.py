@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
 from django.utils.translation import ugettext_lazy as _
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -64,7 +64,6 @@ TEMPLATES = [
         'OPTIONS': {
             'debug': True,
             'context_processors': [
-                'django.core.context_processors.request',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
