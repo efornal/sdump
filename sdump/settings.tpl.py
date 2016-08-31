@@ -120,8 +120,6 @@ STATICFILES_DIRS = (
 
 LOGIN_URL='/login/'
 
-TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
-
 DEFAULT_CHARSET = 'utf-8'
 
 SUIT_CONFIG = {
