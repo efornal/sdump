@@ -114,8 +114,8 @@ $(document).ready(function(){
     }).done(function (data) {
       $("body").removeClass("wait");
       $('#user_notification').show();
-      $('#user_notification').append(data);
-      window.history.replaceState({}, '', {% url 'index' %});
+      $('#user_notification').html(data);
+      window.history.replaceState({}, '', '{% url 'index' %}');
       update_backups_lists();
     })
   });

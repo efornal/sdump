@@ -238,25 +238,48 @@ def login_view(request):
         return render(request, 'login.html')
 
 
+def have_file_permissions( username, filename ):
+    databases_allowed = Base.objects.values('nombre') \
+                                    .filter(grupo__usuario__usuario=username) \
+                                    .distinct()
+    permitted = []
+    for db in databases_allowed:
+        permitted.append(db['nombre'])
+        
+    file_descriptor = describe_file (filename)
+
+    return (file_descriptor['database'] in permitted)
+
+
 @login_required
 def remove(request):
     message = ""
+
     if 'filename' in request.GET and request.GET['filename']:
         filename = request.GET['filename']
-        logging.warning("Removing file: %s" % filename)
-        try:
-            os.remove(filename)
-            logging.warning("Se elimino el archivo: %s" % filename)
-            message = _('deleted_file')
-        except OSError as e:
-            logging.warning("Error removing file: %s" % filename)
-            logging.warning("Error: %s" % e)
-            message = _('error_deleting')
-            pass
     else:
-        message = _('file_not_indicated')
+        messages.warning(request, _('file_not_indicated'))
+        return redirect('index')
+
+    if not have_file_permissions(request.user.username,filename):
+        logging.error("El usuario %s no tiene permisos para descargar el archivo %s" \
+                      %(request.user.username, filename) )
+        messages.warning(request, _('without_permission'))
+        return redirect('index')
+
+    logging.warning("Removing file: %s" % filename)
+    try:
+        os.remove(filename)
+        logging.warning("Se elimino el archivo: %s" % filename)
+        message = _('deleted_file')
+    except OSError as e:
+        logging.warning("Error removing file: %s" % filename)
+        logging.warning("Error: %s" % e)
+        message = _('error_deleting')
+        pass
 
     return HttpResponse(message, content_type="text/plain")    
+
 
 
 @login_required
@@ -267,16 +290,7 @@ def download(request):
         messages.warning(request, _('file_not_indicated'))
         return redirect('index')
 
-    databases_allowed = Base.objects.values('nombre') \
-                                    .filter(grupo__usuario__usuario=request.user.username) \
-                                    .distinct()
-    permitted = []
-    for db in databases_allowed:
-        permitted.append(db['nombre'])
-        
-    file_descriptor = describe_file (filename)
-
-    if file_descriptor['database'] not in permitted:
+    if not have_file_permissions(request.user.username,filename):
         logging.error("El usuario %s no tiene permisos para descargar el archivo %s" \
                       %(request.user.username, filename) )
         messages.warning(request, _('without_permission'))
