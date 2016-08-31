@@ -111,16 +111,19 @@ $(document).ready(function(){
     }
     $("body").addClass("wait");
     $('#user_notification').show();
-    $('#user_notification').html("{{ _('making_backup') }}");
+    $('#user_notification').html("{{ _('making_backup') }}<br>");
     $('#make_backup').attr("disabled", true);
+    opt_inserts = $("#opt_inserts").is(':checked');
+    opt_clean = $("#opt_clean").is(':checked');
+    }
     $.ajax({
         url: "{% url 'make_backup' %}",
         data: {
           csrfmiddlewaretoken: '{{ csrf_token }}',
           database_id: $('#database_select').val(),
           extra_options: $('#extra_options').val(),
-          opt_inserts: $('#opt_inserts').val(),
-          opt_clean: $('#opt_clean').val(),
+          opt_inserts: opt_inserts,
+          opt_clean: opt_clean,
         },
         type: "POST",
         dataType: "html",

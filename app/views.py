@@ -140,34 +140,64 @@ def make_backup(request):
     server = database.servidor
     server_ip = server.ip
     extra_options = ""
+    args = []
+    backup_directory = os.path.join( database.grupo.directorio,
+                                     settings.SUFFIX_SPORADIC_DUMPS)
 
     logging.warning("Making backup ,...")
 
+    args.append('sudo')
+    args.append(settings.DUMPS_SCRIPT)
+
     if server.version:
-        extra_options += " -m %s " % server.version
-    if 'opt_inserts' in request.POST:
-        extra_options += " --inserts "
-    if 'opt_clean' in request.POST:
-        extra_options += " --clean "
+        args.append('-m')
+        args.append(server.version.nombre)
+        
+    if 'opt_inserts' in request.POST and request.POST['opt_inserts']=='true':
+        args.append('-i')
+        
+    if 'opt_clean' in request.POST and request.POST['opt_clean']=='true':
+        extra_options += ' --clean '
+        
     if 'extra_options' in request.POST:
         extra_options += clean_extra_options(request.POST['extra_options'])
 
-        
-    params = " -H %s %s %s " % ( server_ip,
-                               extra_options,
-                               settings.DUMPS_DIRECTORY )
+    if extra_options:
+        args.append('-o')
+        args.append(extra_options)
 
-    logging.warning("Running: \n %s %s \n" % (settings.DUMPS_SCRIPT,params))
+    args.append('-H')
+    args.append(server_ip)
+
+    args.append('-d')
+    args.append(database.nombre)
+
+    args.append('-U')
+    args.append(database.usuario)
+
+    args.append('-D')
+    args.append(backup_directory)
+
+    args_debug = list(args)
+    args_debug.append('-P')
+    args_debug.append('**********')
     
-    p = subprocess.Popen([settings.DUMPS_SCRIPT,params],
-                         stdout=subprocess.PIPE, 
-                         stderr=subprocess.PIPE)
-    out, err = p.communicate()
-    returned_code = p.returncode
-    
-    if returned_code:
+    args.append('-P')
+    args.append(database.contrasenia)
+
+
+    logging.warning("Running with params: \n %s \n" % (args_debug))
+    try:
+        p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        returned_code = p.returncode
+    except Exception as e:
+        logging.error('ERROR Exception: %s' % e)
+        
+    if returned_code :
         logging.error("ERROR (%s): %s" % (returned_code,err))
-        message_user = _('backup_with_mistakes')
+        logging.error("Output: %s" % out)
+        message_user = "%s\n %s\n" % (_('backup_with_mistakes'),out)
     else:
         logging.warning("Backup output (%s): %s" % (returned_code,out))
         message_user = _('backup_finished')
