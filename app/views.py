@@ -90,11 +90,8 @@ def index(request):
     if 'group_id' in request.GET and request.GET['group_id']:
         group_id = request.GET['group_id']
         
-        
     [sporadics,periodics] = make_backups_lists(group_id)
-#    groups = Grupo.objects.values('id','nombre').filter(usuario__usuario=username)
-    groups = Grupo.objects.all().values('id','nombre') # FIXME ,no usar esta
-
+    groups = Grupo.objects.values('id','nombre').filter(usuario__usuario=username)
     
     context = {'groups': groups,
                'backup_notification': settings.USER_NOTIFICATION,
@@ -131,8 +128,11 @@ def update_list_backups(request):
 @login_required
 def update_databases(request):
     group_id = request.session['group_id']
-    server_id = request.GET['server_id']
-    databases = Base.objects.filter(grupo_id=group_id).filter(servidor_id=server_id)
+    databases = None
+    if 'server_id' in request.GET and request.GET['server_id']:
+        server_id = request.GET['server_id']
+        databases = Base.objects.filter(grupo_id=group_id).filter(servidor_id=server_id)
+
     extra_command_options=None
     context = {'databases': databases,
                'extra_command_options': extra_command_options}
