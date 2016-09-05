@@ -65,11 +65,12 @@ def describe_files (files):
 
 
 def make_backups_lists(group_id=None):
-    if group_id is None or not (group_id > 0):
+
+    if group_id is None or not (int(group_id) > 0):
         return [[],[]]
 
     group = Grupo.objects.get( id=group_id )
-    
+        
     sporadics_path = os.path.join( settings.DUMPS_DIRECTORY,
                                    group.directorio,
                                    settings.SUFFIX_SPORADIC_DUMPS )
