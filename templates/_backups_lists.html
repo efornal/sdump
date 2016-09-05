@@ -82,19 +82,6 @@
 <script>
 $(document).ready(function(){
 
-  function update_backups_lists() {
-    $.ajax({
-        url: "{% url 'update_list_backups' %}",
-        data: {
-            group_id: $('#group_select').val()
-        },
-        type: "GET",
-        dataType: "html",
-        success: function (data) {
-            $('#backups_lists').html(data);
-        },
-    })
-  };
 
   $('#removing_backups a').click(function(){
     if ( !confirm('{{ _('confirm_remove_file')}}') ) {

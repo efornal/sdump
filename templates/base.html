@@ -14,15 +14,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <!-- <link rel="stylesheet" href="./bootstrap.css" media="screen"> -->
-    <!-- <link rel="stylesheet" href="../assets/css/bootswatch.min.css"> -->
     <link rel="stylesheet" href="{% static 'style.css' %}">
-    <script type="text/javascript" src="{% static 'application.js' %}"></script>
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="../bower_components/html5shiv/dist/html5shiv.js"></script>
-      <script src="../bower_components/respond/dest/respond.min.js"></script>
-      <![endif]-->
+ <script>
+ function update_backups_lists() {
+   console.log("update list backup");
+   $.ajax({
+        url: "{% url 'update_list_backups' %}",
+        data: {
+            group_id: $('#group_select').val()
+        },
+        type: "GET",
+        dataType: "html",
+        success: function (data) {
+            $('#backups_lists').html(data);
+        },
+    })
+  };
+</script>
     <script>
      var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-23019901-1']);
