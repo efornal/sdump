@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-25 15:42+0000\n"
+"POT-Creation-Date: 2016-09-05 15:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -132,41 +132,41 @@ msgstr "User"
 msgid "Users"
 msgstr "Users"
 
-#: app/views.py:170
+#: app/views.py:213
 msgid "backup_with_mistakes"
 msgstr "Backup with mistakes !"
 
-#: app/views.py:173
+#: app/views.py:216
 msgid "backup_finished"
 msgstr "Backup finished!"
 
-#: app/views.py:220
-msgid "deleted_file"
-msgstr "The file was deleted successfully"
-
-#: app/views.py:224
-msgid "error_deleting"
-msgstr "There was an error deleting the file"
-
-#: app/views.py:227 app/views.py:244
+#: app/views.py:274 app/views.py:303
 msgid "file_not_indicated"
 msgstr "The file was not specified on which to perform the action"
 
-#: app/views.py:259
+#: app/views.py:280 app/views.py:309
 msgid "without_permission"
 msgstr "You do not have permission to perform this action"
 
-#: sdump/settings.py:103 sdump/settings.tpl.py:100
+#: app/views.py:287
+msgid "deleted_file"
+msgstr "The file was deleted successfully"
+
+#: app/views.py:291
+msgid "error_deleting"
+msgstr "There was an error deleting the file"
+
+#: sdump/settings.py:99 sdump/settings.tpl.py:99
 msgid "Spanish"
 msgstr "Spanish"
 
-#: sdump/settings.py:104 sdump/settings.tpl.py:101
+#: sdump/settings.py:100 sdump/settings.tpl.py:100
 msgid "English"
 msgstr "English"
 
-#: sdump/settings.py:133 sdump/settings.tpl.py:129
+#: sdump/settings.py:127 sdump/settings.tpl.py:126
 #: templates/admin/base_site.html:53 templates/admin/base_site.html:58
-#: templates/base.html:13 templates/base.html:73
+#: templates/base.html:13 templates/base.html:79
 msgid "title"
 msgstr "Sargo"
 
@@ -198,7 +198,7 @@ msgstr "Remove"
 msgid "periodic_backups"
 msgstr "Periodic backups"
 
-#: templates/_backups_lists.html:100
+#: templates/_backups_lists.html:87
 msgid "confirm_remove_file"
 msgstr "Are you sure you want to delete the file?"
 
@@ -206,11 +206,11 @@ msgstr "Are you sure you want to delete the file?"
 msgid "Project"
 msgstr "Project"
 
-#: templates/base.html:62
+#: templates/base.html:68
 msgid "registered_user"
 msgstr "Registered user"
 
-#: templates/base.html:66
+#: templates/base.html:72
 msgid "close_session"
 msgstr "Close session"
 
@@ -234,17 +234,17 @@ msgstr "Clean"
 msgid "extra_options"
 msgstr "Extra Options"
 
-#: templates/index.html:59
+#: templates/index.html:60
 msgid "make_backup"
 msgstr "Make backup"
 
-#: templates/index.html:107
+#: templates/index.html:96
 msgid "confirm_make_backup"
 msgstr ""
 "Confirm you want to perform the backup? This action affects the service for "
 "the duration of the copy process."
 
-#: templates/index.html:112
+#: templates/index.html:101
 msgid "making_backup"
 msgstr "Making backup.. "
 

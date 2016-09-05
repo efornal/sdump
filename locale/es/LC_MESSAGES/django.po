@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-25 15:42+0000\n"
+"POT-Creation-Date: 2016-09-05 15:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -119,7 +119,7 @@ msgstr "Opciones extras del comando"
 #: app/models.py:119 templates/_backups_lists.html:9
 #: templates/_backups_lists.html:51 templates/_select_databases.html:2
 msgid "Database"
-msgstr "Base de Datos"
+msgstr "Base de datos"
 
 #: app/models.py:120
 msgid "Databases"
@@ -133,41 +133,41 @@ msgstr "Usuario"
 msgid "Users"
 msgstr "Usuarios"
 
-#: app/views.py:170
+#: app/views.py:213
 msgid "backup_with_mistakes"
 msgstr "Backup realizado con errores!.."
 
-#: app/views.py:173
+#: app/views.py:216
 msgid "backup_finished"
 msgstr "Backup finalizado!"
 
-#: app/views.py:220
-msgid "deleted_file"
-msgstr "El archivo se eliminó correctamente"
-
-#: app/views.py:224
-msgid "error_deleting"
-msgstr "Se produjo un error al eliminar el archivo"
-
-#: app/views.py:227 app/views.py:244
+#: app/views.py:274 app/views.py:303
 msgid "file_not_indicated"
 msgstr "No se especificó el archivo sobre el cual realizar la acción"
 
-#: app/views.py:259
+#: app/views.py:280 app/views.py:309
 msgid "without_permission"
 msgstr "No tiene permisos para realizar esta acción"
 
-#: sdump/settings.py:103 sdump/settings.tpl.py:100
+#: app/views.py:287
+msgid "deleted_file"
+msgstr "El archivo se eliminó correctamente"
+
+#: app/views.py:291
+msgid "error_deleting"
+msgstr "Se produjo un error al eliminar el archivo"
+
+#: sdump/settings.py:99 sdump/settings.tpl.py:99
 msgid "Spanish"
 msgstr "Español"
 
-#: sdump/settings.py:104 sdump/settings.tpl.py:101
+#: sdump/settings.py:100 sdump/settings.tpl.py:100
 msgid "English"
 msgstr "Inglés"
 
-#: sdump/settings.py:133 sdump/settings.tpl.py:129
+#: sdump/settings.py:127 sdump/settings.tpl.py:126
 #: templates/admin/base_site.html:53 templates/admin/base_site.html:58
-#: templates/base.html:13 templates/base.html:73
+#: templates/base.html:13 templates/base.html:79
 msgid "title"
 msgstr "Sargo"
 
@@ -199,7 +199,7 @@ msgstr "Eliminar"
 msgid "periodic_backups"
 msgstr "Backups periódicos"
 
-#: templates/_backups_lists.html:100
+#: templates/_backups_lists.html:87
 msgid "confirm_remove_file"
 msgstr "¿Confirma que desea eliminar el archivo?"
 
@@ -207,11 +207,11 @@ msgstr "¿Confirma que desea eliminar el archivo?"
 msgid "Project"
 msgstr "Proyecto"
 
-#: templates/base.html:62
+#: templates/base.html:68
 msgid "registered_user"
 msgstr "Usuario registrado"
 
-#: templates/base.html:66
+#: templates/base.html:72
 msgid "close_session"
 msgstr "Cerrar sesión"
 
@@ -235,19 +235,19 @@ msgstr "Clean"
 msgid "extra_options"
 msgstr "Opciones Extras"
 
-#: templates/index.html:59
+#: templates/index.html:60
 msgid "make_backup"
-msgstr "Hacer backup"
+msgstr "Hacer dump"
 
-#: templates/index.html:107
+#: templates/index.html:96
 msgid "confirm_make_backup"
 msgstr ""
 "¿Confirma que desea realizar el backup? Esta acción afectará el servicio "
 "mientras dure el proceso de copia."
 
-#: templates/index.html:112
+#: templates/index.html:101
 msgid "making_backup"
-msgstr "Haciendo backup..  "
+msgstr "Haciendo dump..  "
 
 #: templates/login.html:18
 msgid "home_login"
