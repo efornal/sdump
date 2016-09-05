@@ -65,22 +65,28 @@ def describe_files (files):
 
 
 def make_backups_lists(group_id=None):
+    backups_lists = [[],[]]
 
     if group_id is None or not (int(group_id) > 0):
-        return [[],[]]
+        return backups_lists
 
-    group = Grupo.objects.get( id=group_id )
+    try:
+        group = Grupo.objects.get( id=group_id )
         
-    sporadics_path = os.path.join( settings.DUMPS_DIRECTORY,
-                                   group.directorio,
-                                   settings.SUFFIX_SPORADIC_DUMPS )
-    periodics_path = os.path.join( settings.DUMPS_DIRECTORY,
-                                   group.directorio,
-                                   settings.SUFFIX_PERIODICAL_DUMPS )
+        sporadics_path = os.path.join( settings.DUMPS_DIRECTORY,
+                                       group.directorio,
+                                       settings.SUFFIX_SPORADIC_DUMPS )
+        periodics_path = os.path.join( settings.DUMPS_DIRECTORY,
+                                       group.directorio,
+                                       settings.SUFFIX_PERIODICAL_DUMPS )
 
-    sporadics =  describe_files( glob.glob("%s%s" % (sporadics_path,'/*')) )
-    periodics =  describe_files( glob.glob("%s%s" % (periodics_path,'/*')) )
-    return [sporadics,periodics]
+        sporadics =  describe_files( glob.glob("%s%s" % (sporadics_path,'/*')) )
+        periodics =  describe_files( glob.glob("%s%s" % (periodics_path,'/*')) )
+        backups_lists = [sporadics,periodics]
+    except Exception as e:
+        logging.error('ERROR Exception: with group_id %s, %s' % (group_id,e))
+
+    return backups_lists
 
 
 @login_required
