@@ -310,7 +310,7 @@ def download(request):
         return redirect('index')
         
     logging.warning("Downloading file: %s" % filename)
-        
+    attachment_name = os.path.basename(filename)
     response = HttpResponse(open(filename, 'rb'), content_type='application/gzip')
-    response['Content-Disposition'] = 'attachment; filename="ejemplo.gz"'
+    response['Content-Disposition'] = 'attachment; filename="%s"' % attachment_name
     return response
