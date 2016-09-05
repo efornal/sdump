@@ -33,20 +33,26 @@ def clean_extra_options(options):
     cleaned.replace('>','')
     return cleaned
 
+        
 def describe_file (file_path):
     descrived_file = {}
-    file_size = filesizeformat(os.path.getsize(file_path))
-    file_name = os.path.basename(file_path)
-    [server,text] = file_name.split('_base-')
-    [text,time] = text.partition('.')[0].rsplit('_',1)
-    [database,date] = text.rsplit('_',1)
-    descrived_file = {'file_path': file_path,
-                      'file_name': file_name,
-                      'database': database,
-                      'server': server,
-                      'size': file_size,
-                      'date': date,
-                      'time': time.replace('-',':'), }
+    try:
+        file_size = filesizeformat(os.path.getsize(file_path))
+        file_name = os.path.basename(file_path)
+        [server,text] = file_name.split('_',1)
+        text = text.split('-',1)[1]
+        [text,time] = text.partition('.')[0].rsplit('_',1)
+        [database,date] = text.rsplit('_',1)
+        descrived_file = {'file_path': file_path,
+                          'file_name': file_name,
+                          'database': database,
+                          'server': server,
+                          'size': file_size,
+                          'date': date,
+                          'time': time.replace('-',':'), }
+    except Exception as e:
+        logging.error('ERROR Exception: with file %s, %s' % (file_path,e))
+        
     return descrived_file
 
 
