@@ -56,10 +56,8 @@ def describe_file (file_path):
         text = text.split('-',1)[1]
         [text,time] = text.partition('.')[0].rsplit('_',1)
         [database,date] = text.rsplit('_',1)
-        logging.error("DATE: %s" % date)
         fdate = to_date_according_to_text(date)
         date = fdate.strftime("%d-%m-%Y")
-        logging.error("DATE: %s" % fdate)
         descrived_file = {'file_path': file_path,
                           'file_name': file_name,
                           'database': database,
