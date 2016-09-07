@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import logging
+import datetime
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils import translation
@@ -33,7 +34,19 @@ def clean_extra_options(options):
     cleaned.replace('>','')
     return cleaned
 
-        
+
+def to_date_according_to_text(s_date):
+    date_patterns = ["%d-%m-%Y", "%Y-%m-%d"]
+
+    for pattern in date_patterns:
+        try:
+            return datetime.datetime.strptime(s_date, pattern).date()
+        except:
+            pass
+
+    return None
+
+
 def describe_file (file_path):
     descrived_file = {}
     try:
@@ -43,6 +56,10 @@ def describe_file (file_path):
         text = text.split('-',1)[1]
         [text,time] = text.partition('.')[0].rsplit('_',1)
         [database,date] = text.rsplit('_',1)
+        logging.error("DATE: %s" % date)
+        fdate = to_date_according_to_text(date)
+        date = fdate.strftime("%d-%m-%Y")
+        logging.error("DATE: %s" % fdate)
         descrived_file = {'file_path': file_path,
                           'file_name': file_name,
                           'database': database,
