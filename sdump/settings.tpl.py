@@ -90,6 +90,22 @@ DATABASES = {
     }
 }
 
+# =================================/
+# APP configuration
+#
+# backups
+APPLICATION_NAME = "Sargo"
+DUMPS_DIRECTORY = "/srv/dumps"
+GROUP_DUMPS_DIRECTORY = 'www-data'
+USER_DUMPS_DIRECTORY  = 'www-data'
+PERMISSIONS_DUMPS_DIRECTORY = 0765 # => drwxrw-r-x
+SUFFIX_PERIODICAL_DUMPS = "periodicos"
+SUFFIX_SPORADIC_DUMPS = "esporadicos"
+DUMPS_SCRIPT = "/srv/scripts/hacer_dump"
+#
+# views
+USER_NOTIFICATION = "a user notification..., perhaps "
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -123,7 +139,7 @@ LOGIN_URL='/login/'
 DEFAULT_CHARSET = 'utf-8'
 
 SUIT_CONFIG = {
-    'ADMIN_NAME': _('title')
+    'ADMIN_NAME': APPLICATION_NAME
 }
 
 LOCALE_PATHS = ( BASE_DIR + '/locale', )
@@ -176,17 +192,3 @@ AUTHENTICATION_BACKENDS = (
     'django_auth_ldap.backend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-# =================================/
-# APP configuration
-#
-# backups
-DUMPS_DIRECTORY = "/srv/dumps"
-GROUP_DUMPS_DIRECTORY = 'www-data'
-USER_DUMPS_DIRECTORY  = 'www-data'
-PERMISSIONS_DUMPS_DIRECTORY = 0765 # => drwxrw-r-x
-SUFFIX_PERIODICAL_DUMPS = "periodicos"
-SUFFIX_SPORADIC_DUMPS = "esporadicos"
-DUMPS_SCRIPT = "/srv/scripts/hacer_dump"
-#
-# views
-USER_NOTIFICATION = "a user notification..., perhaps "
