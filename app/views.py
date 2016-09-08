@@ -21,7 +21,7 @@ from django.template.defaultfilters import filesizeformat
 import subprocess
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-
+import re
 
 def clean_extra_options(options):
     cleaned = options
@@ -47,15 +47,20 @@ def to_date_according_to_text(s_date):
     return None
 
 
+
+# backup format:
+#${SERVER}_base-${DATABASE}_${DATE}-${TIME}.sql.gz
+# pampadb.intranet_base_sin_hist-mapuche_db_2016-09-06-22_00.sql.gz
 def describe_file (file_path):
+
     descrived_file = {}
     try:
         file_size = filesizeformat(os.path.getsize(file_path))
         file_name = os.path.basename(file_path)
-        [server,text] = file_name.split('_',1)
-        text = text.split('-',1)[1]
-        [text,time] = text.partition('.')[0].rsplit('_',1)
-        [database,date] = text.rsplit('_',1)
+        [server,text] = re.split("_base-|_base_sin_hist-",file_name)
+        [database,date,time,text] = re.split("_([0-9]{2,4}-[0-9]{2}-[0-9]{2,4})[_|-]([0-9]{2}[-|_][0-9]{2})",text)
+#        [database,date,time,text] = re.split("_([0-9]{4}-[0-9]{2}-[0-9]{2})-([0-9]{2}_[0-9]{2})",text)
+        time = time.replace('_',':').replace('-',':')
         fdate = to_date_according_to_text(date)
         date = fdate.strftime("%d-%m-%Y")
         descrived_file = {'file_path': file_path,
@@ -64,7 +69,7 @@ def describe_file (file_path):
                           'server': server,
                           'size': file_size,
                           'date': date,
-                          'time': time.replace('-',':'), }
+                          'time': time, }
     except Exception as e:
         logging.error('ERROR Exception: with file %s, %s' % (file_path,e))
         
