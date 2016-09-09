@@ -47,10 +47,6 @@ def to_date_according_to_text(s_date):
     return None
 
 
-
-# backup format:
-#${SERVER}_base-${DATABASE}_${DATE}-${TIME}.sql.gz
-# pampadb.intranet_base_sin_hist-mapuche_db_2016-09-06-22_00.sql.gz
 def describe_file (file_path):
 
     descrived_file = {}
@@ -59,7 +55,6 @@ def describe_file (file_path):
         file_name = os.path.basename(file_path)
         [server,text] = re.split("_base-|_base_sin_hist-",file_name)
         [database,date,time,text] = re.split("_([0-9]{2,4}-[0-9]{2}-[0-9]{2,4})[_|-]([0-9]{2}[-|_][0-9]{2})",text)
-#        [database,date,time,text] = re.split("_([0-9]{4}-[0-9]{2}-[0-9]{2})-([0-9]{2}_[0-9]{2})",text)
         time = time.replace('_',':').replace('-',':')
         fdate = to_date_according_to_text(date)
         date = fdate.strftime("%d-%m-%Y")
