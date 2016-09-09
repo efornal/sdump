@@ -101,6 +101,7 @@ USER_DUMPS_DIRECTORY  = 'www-data'
 PERMISSIONS_DUMPS_DIRECTORY = 0765 # => drwxrw-r-x
 SUFFIX_PERIODICAL_DUMPS = "periodicos"
 SUFFIX_SPORADIC_DUMPS = "esporadicos"
+MAX_SPORADICS_BACKUPS = 5
 DUMPS_SCRIPT = "/srv/scripts/hacer_dump"
 #
 # views

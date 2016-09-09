@@ -35,6 +35,15 @@ def clean_extra_options(options):
     return cleaned
 
 
+def number_of_backups(path):
+    try:
+        return len( glob.glob("%s" % path) )
+    except Exception as e:
+        logging.error ("ERROR Exception: Number of backups for '%s'. %s" % (path,e))
+        pass
+    return None
+
+
 def to_date_according_to_text(s_date):
     date_patterns = ["%d-%m-%Y", "%Y-%m-%d"]
 
@@ -172,6 +181,23 @@ def make_backup(request):
     backup_directory = os.path.join( database.grupo.directorio,
                                      settings.SUFFIX_SPORADIC_DUMPS)
 
+    # check for maximum sporadick backups
+    max_sporadic = 5
+    project_backup_dir = os.path.join(settings.DUMPS_DIRECTORY,
+                                      backup_directory,
+                                      '*%s_*' % database.nombre )
+    if hasattr(settings, 'MAX_SPORADICS_BACKUPS'):
+        max_sporadic = settings.MAX_SPORADICS_BACKUPS
+
+    number_backups = number_of_backups(project_backup_dir)
+
+    if not (number_backups is None) and (number_backups > max_sporadic):
+        logging.warning("Number of backups (%s) exceeded, the current limit is: %s." % \
+                        (number_backups,max_sporadic) )
+        message_user = _('number_backups_exceeded')
+        return HttpResponse(message_user, content_type="text/plain")
+
+    
     logging.warning("Making backup ,...")
 
     args.append('sudo')

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 15:22+0000\n"
+"POT-Creation-Date: 2016-09-09 16:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,43 +133,41 @@ msgstr "Usuario"
 msgid "Users"
 msgstr "Usuarios"
 
-#: app/views.py:213
+#: app/views.py:197
+msgid "number_backups_exceeded"
+msgstr "Se ha exedido la cantidad de copias realizables. Por favor, elimine copias anteriores para poder realizar una nueva"
+
+#: app/views.py:254
 msgid "backup_with_mistakes"
 msgstr "Backup realizado con errores!.."
 
-#: app/views.py:216
+#: app/views.py:257
 msgid "backup_finished"
 msgstr "Backup finalizado!"
 
-#: app/views.py:274 app/views.py:303
+#: app/views.py:315 app/views.py:344
 msgid "file_not_indicated"
 msgstr "No se especificó el archivo sobre el cual realizar la acción"
 
-#: app/views.py:280 app/views.py:309
+#: app/views.py:321 app/views.py:350
 msgid "without_permission"
 msgstr "No tiene permisos para realizar esta acción"
 
-#: app/views.py:287
+#: app/views.py:328
 msgid "deleted_file"
 msgstr "El archivo se eliminó correctamente"
 
-#: app/views.py:291
+#: app/views.py:332
 msgid "error_deleting"
 msgstr "Se produjo un error al eliminar el archivo"
 
-#: sdump/settings.py:99 sdump/settings.tpl.py:99
+#: sdump/settings.py:125 sdump/settings.tpl.py:116
 msgid "Spanish"
 msgstr "Español"
 
-#: sdump/settings.py:100 sdump/settings.tpl.py:100
+#: sdump/settings.py:126 sdump/settings.tpl.py:117
 msgid "English"
 msgstr "Inglés"
-
-#: sdump/settings.py:127 sdump/settings.tpl.py:126
-#: templates/admin/base_site.html:53 templates/admin/base_site.html:58
-#: templates/base.html:13 templates/base.html:79
-msgid "title"
-msgstr "Sargo"
 
 #: templates/_backups_lists.html:3
 msgid "sporadic_backups"
@@ -207,11 +205,15 @@ msgstr "¿Confirma que desea eliminar el archivo?"
 msgid "Project"
 msgstr "Proyecto"
 
-#: templates/base.html:68
+#: templates/admin/base_site.html:53 templates/admin/base_site.html:58
+msgid "title"
+msgstr "Sargo"
+
+#: templates/base.html:69
 msgid "registered_user"
 msgstr "Usuario registrado"
 
-#: templates/base.html:72
+#: templates/base.html:73
 msgid "close_session"
 msgstr "Cerrar sesión"
 
