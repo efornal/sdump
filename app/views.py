@@ -191,7 +191,7 @@ def make_backup(request):
 
     number_backups = number_of_backups(project_backup_dir)
 
-    if not (number_backups is None) and (number_backups > max_sporadic):
+    if not (number_backups is None) and (number_backups >= max_sporadic):
         logging.warning("Number of backups (%s) exceeded, the current limit is: %s." % \
                         (number_backups,max_sporadic) )
         message_user = _('number_backups_exceeded')
