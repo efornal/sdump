@@ -104,8 +104,10 @@ def make_backups_lists(group_id=None):
                                        group.directorio,
                                        settings.SUFFIX_PERIODICAL_DUMPS )
 
-        sporadics =  describe_files( glob.glob("%s%s" % (sporadics_path,'/*')) )
-        periodics =  describe_files( glob.glob("%s%s" % (periodics_path,'/*')) )
+        sporadics =  describe_files( sorted(glob.glob("%s%s" % (sporadics_path,'/*')),
+                                            reverse=True) )
+        periodics =  describe_files( sorted(glob.glob("%s%s" % (periodics_path,'/*')),
+                                            reverse=True) )
         backups_lists = [sporadics,periodics]
     except Exception as e:
         logging.error('ERROR Exception: with group_id %s, %s' % (group_id,e))
