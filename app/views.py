@@ -22,6 +22,9 @@ import subprocess
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 import re
+import os
+from wsgiref.util import FileWrapper
+from django.http import FileResponse
 
 def clean_extra_options(options):
     cleaned = options
@@ -337,7 +340,6 @@ def remove(request):
     return HttpResponse(message, content_type="text/plain")    
 
 
-
 @login_required
 def download(request):
     if 'filename' in request.GET and request.GET['filename']:
@@ -354,6 +356,7 @@ def download(request):
         
     logging.warning("Downloading file: %s" % filename)
     attachment_name = os.path.basename(filename)
-    response = HttpResponse(open(filename, 'rb'), content_type='application/gzip')
+    response = FileResponse(FileWrapper(file(filename, 'rb')),
+                            content_type='application/application/gzip')
     response['Content-Disposition'] = 'attachment; filename="%s"' % attachment_name
     return response
