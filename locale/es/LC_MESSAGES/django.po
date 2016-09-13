@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-09 16:13+0000\n"
+"POT-Creation-Date: 2016-09-13 16:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: app/admin.py:73
+msgid "msg_backup_config_file_error"
+msgstr ""
+"Se produjo un error al crear el archivo de configuración de backup "
+"permanente %(filename)s"
+
+#: app/admin.py:78
+msgid "msg_incomplete_parameters"
+msgstr "Parámetros incompletos para crear archivo de configuración de dumps"
 
 #: app/forms.py:9
 msgid "nombre"
@@ -42,130 +52,140 @@ msgstr "Servidor"
 msgid "grupo"
 msgstr "Grupo"
 
-#: app/models.py:13 app/models.py:28 app/models.py:78 app/models.py:102
-#: app/models.py:129
+#: app/models.py:16 app/models.py:31 app/models.py:79 app/models.py:103
+#: app/models.py:134
 msgid "name"
 msgstr "nombre"
 
-#: app/models.py:17
+#: app/models.py:20
 msgid "Version"
 msgstr "Versión"
 
-#: app/models.py:18
+#: app/models.py:21
 msgid "Versions"
 msgstr "Versiones"
 
-#: app/models.py:30
+#: app/models.py:33
 msgid "directory"
 msgstr "Directorio"
 
-#: app/models.py:34
+#: app/models.py:37
 msgid "Group"
 msgstr "Grupo"
 
-#: app/models.py:35
+#: app/models.py:38
 msgid "Groups"
 msgstr "Grupos"
 
-#: app/models.py:80
+#: app/models.py:81
 msgid "ip_address"
 msgstr "ip"
 
-#: app/models.py:82
+#: app/models.py:83
 msgid "port"
 msgstr "puerto"
 
-#: app/models.py:84
+#: app/models.py:85
 msgid "engine"
 msgstr "motor"
 
-#: app/models.py:86 app/models.py:108
+#: app/models.py:87 app/models.py:109
 msgid "description"
 msgstr "Descripción"
 
-#: app/models.py:88
+#: app/models.py:89
 msgid "version"
 msgstr "versión"
 
-#: app/models.py:92 templates/_backups_lists.html:11
+#: app/models.py:93 templates/_backups_lists.html:11
 #: templates/_backups_lists.html:53 templates/_select_servers.html:2
 msgid "Server"
 msgstr "Servidor"
 
-#: app/models.py:93
+#: app/models.py:94
 msgid "Servers"
 msgstr "Servidores"
 
-#: app/models.py:104 app/models.py:131
+#: app/models.py:105 app/models.py:136
 msgid "username"
 msgstr "usuario"
 
-#: app/models.py:106 templates/login.html:29
+#: app/models.py:107 templates/login.html:29
 msgid "password"
 msgstr "contraseña"
 
-#: app/models.py:110
+#: app/models.py:111
 msgid "server"
 msgstr "Servidor"
 
-#: app/models.py:112 app/models.py:133
+#: app/models.py:113 app/models.py:138
 msgid "group"
 msgstr "grupo"
 
-#: app/models.py:115
+#: app/models.py:116
 msgid "extra_command_options"
 msgstr "Opciones extras del comando"
 
-#: app/models.py:119 templates/_backups_lists.html:9
+#: app/models.py:118
+msgid "password_id"
+msgstr "Id contraseña (rattic)"
+
+#: app/models.py:120
+msgid "periodic_dump"
+msgstr "Dumps periódicos"
+
+#: app/models.py:124 templates/_backups_lists.html:9
 #: templates/_backups_lists.html:51 templates/_select_databases.html:2
 msgid "Database"
 msgstr "Base de datos"
 
-#: app/models.py:120
+#: app/models.py:125
 msgid "Databases"
 msgstr "Bases de datos"
 
-#: app/models.py:137
+#: app/models.py:142
 msgid "User"
 msgstr "Usuario"
 
-#: app/models.py:138
+#: app/models.py:143
 msgid "Users"
 msgstr "Usuarios"
 
-#: app/views.py:197
+#: app/views.py:202
 msgid "number_backups_exceeded"
-msgstr "Se ha exedido la cantidad de copias realizables. Por favor, elimine copias anteriores para poder realizar una nueva"
+msgstr ""
+"Se ha exedido la cantidad de copias realizables. Por favor, elimine copias "
+"anteriores para poder realizar una nueva"
 
-#: app/views.py:254
+#: app/views.py:259
 msgid "backup_with_mistakes"
 msgstr "Backup realizado con errores!.."
 
-#: app/views.py:257
+#: app/views.py:262
 msgid "backup_finished"
 msgstr "Backup finalizado!"
 
-#: app/views.py:315 app/views.py:344
+#: app/views.py:320 app/views.py:348
 msgid "file_not_indicated"
 msgstr "No se especificó el archivo sobre el cual realizar la acción"
 
-#: app/views.py:321 app/views.py:350
+#: app/views.py:326 app/views.py:354
 msgid "without_permission"
 msgstr "No tiene permisos para realizar esta acción"
 
-#: app/views.py:328
+#: app/views.py:333
 msgid "deleted_file"
 msgstr "El archivo se eliminó correctamente"
 
-#: app/views.py:332
+#: app/views.py:337
 msgid "error_deleting"
 msgstr "Se produjo un error al eliminar el archivo"
 
-#: sdump/settings.py:125 sdump/settings.tpl.py:116
+#: sdump/settings.py:128 sdump/settings.tpl.py:121
 msgid "Spanish"
 msgstr "Español"
 
-#: sdump/settings.py:126 sdump/settings.tpl.py:117
+#: sdump/settings.py:129 sdump/settings.tpl.py:122
 msgid "English"
 msgstr "Inglés"
 

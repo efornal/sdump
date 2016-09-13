@@ -5,6 +5,9 @@ import logging
 from django.db.models.signals import post_save
 from django.conf import settings
 from django.utils.translation import ugettext as _
+import os
+import pwd
+import grp
 
 
 class Version(models.Model):
@@ -43,12 +46,10 @@ class Grupo(models.Model):
     def posee_directorio_dumps(self):
         import os
         return os.path.exists(self.dumps_directory_name())
+        
     
     @classmethod
     def make_dir(cls,path):
-        import os
-        import pwd
-        import grp
         try:
             os.umask(0);
             os.mkdir(path, settings.PERMISSIONS_DUMPS_DIRECTORY)
@@ -113,6 +114,10 @@ class Base(models.Model):
     extra_command_options = models.CharField( max_length=1024,
                                               null=True, blank=True,
                                               verbose_name=_('extra_command_options'))
+    password_id = models.CharField(max_length=100, null=True, blank=True,
+                             verbose_name=_('password_id'))
+    periodic_dump = models.BooleanField(default=False,
+                                              verbose_name=_('periodic_dump'))
     
     class Meta:
         db_table = 'bases'

@@ -98,11 +98,16 @@ APPLICATION_NAME = "Sargo"
 DUMPS_DIRECTORY = "/srv/dumps"
 GROUP_DUMPS_DIRECTORY = 'www-data'
 USER_DUMPS_DIRECTORY  = 'www-data'
-PERMISSIONS_DUMPS_DIRECTORY = 0765 # => drwxrw-r-x
+PERMISSIONS_DUMPS_DIRECTORY = '0765' # => drwxrw-r-x
 SUFFIX_PERIODICAL_DUMPS = "periodicos"
 SUFFIX_SPORADIC_DUMPS = "esporadicos"
 MAX_SPORADICS_BACKUPS = 5
+# for configurations dumps
+DUMPS_CONFIG_DIRECTORY = "/srv/dumps/dumps.conf.d"
+PERMISSIONS_CONFIG_DUMP_FILE = '0600'
+# bash script to make dump
 DUMPS_SCRIPT = "/srv/scripts/hacer_dump"
+#
 #
 # views
 USER_NOTIFICATION = "a user notification..., perhaps "

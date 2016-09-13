@@ -9,7 +9,14 @@ from .models import Base
 from django.utils.translation import ugettext as _
 from django.utils import translation
 from django.contrib import messages
-
+import logging
+import sys
+import os
+from django.conf import settings
+import os
+import pwd
+import grp
+import subprocess
 
 class GrupoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'directorio')
@@ -30,12 +37,52 @@ class BaseAdminForm(forms.ModelForm):
         widgets = {
             'contrasenia': PasswordInput(render_value=True),
         }
+
         
 class BaseAdmin(admin.ModelAdmin):
     form = BaseAdminForm
     list_display = ('nombre', 'grupo', 'servidor')
     list_filter = ('servidor','grupo')
 
+    def save_model(self, request, obj, form, change):
+        if obj.periodic_dump:
+            if obj.servidor.nombre and obj.nombre and \
+               obj.usuario and obj.grupo.directorio and obj.password_id:
+                
+                try:
+                    file_content = ""
+                    file_content += "SERVER='%s'\n" % obj.servidor.nombre
+                    file_content += "BASE='%s'\n" % obj.nombre
+                    file_content += "DIR_DUMPS='%s'\n" \
+                                    % os.path.join( settings.DUMPS_DIRECTORY,
+                                                    settings.SUFFIX_PERIODICAL_DUMPS,
+                                                    obj.grupo.directorio)
+                    file_content += "USUARIO='%s'\n" % obj.usuario
+                    file_content += "PASSWORD_ID='%s'\n" % obj.password_id
+
+                    file_name = "%s_%s" % (obj.servidor,obj.nombre)
+                    file_path = os.path.join(settings.DUMPS_CONFIG_DIRECTORY,file_name)
+
+                    logging.error("Creating configuration file: %s" % file_path)
+                    file_hand = open(file_path,'w')
+                    file_hand.write(file_content)
+                    file_hand.close()
+                    subprocess.call("chmod %s %s" % (settings.PERMISSIONS_CONFIG_DUMP_FILE,
+                                                     file_path),
+                                    shell=True)
+                except Exception as e:
+                    logging.error("ERROR Exception: %s" % e)
+                    messages.error( request, _('msg_backup_config_file_error') % \
+                                    {'filename':file_path} )
+
+            else:
+                logging.error("Incomplete parameters to create configuration file dump.")
+                obj.periodic_dump = False
+                messages.warning( request, _('msg_incomplete_parameters') )
+                
+        super(BaseAdmin, self).save_model(request, obj, form, change)
+
+    
         
 class ServidorAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'ip', 'puerto', 'motor', 'version')
