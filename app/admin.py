@@ -59,8 +59,8 @@ class BaseAdmin(admin.ModelAdmin):
                     file_content += "DB_HOST='%s'\n" % obj.servidor.nombre
                     file_content += "DB_NAME='%s'\n" % obj.nombre
                     file_content += "DUMPS_PATH='%s'\n" \
-                                    % os.path.join( settings.SUFFIX_PERIODICAL_DUMPS,
-                                                    obj.grupo.directorio)
+                                    % os.path.join( obj.grupo.directorio,
+                                                    settings.SUFFIX_PERIODICAL_DUMPS)
                     file_content += "ID_RATTIC='%s'\n" % obj.password_id
 
                     logging.error("Creating configuration file: %s" % file_path)
