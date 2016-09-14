@@ -91,25 +91,33 @@ DATABASES = {
 }
 
 # =================================/
-# APP configuration
+# APPLICATION configuration
 #
 # backups
 APPLICATION_NAME = "Sargo"
-DUMPS_DIRECTORY = "/srv/dumps"
+#
+# directory dumps performed by the cron defined in DUMPS_SCRIPT
+DUMPS_DIRECTORY = "/srv/dumps" 
 GROUP_DUMPS_DIRECTORY = 'www-data'
 USER_DUMPS_DIRECTORY  = 'www-data'
 PERMISSIONS_DUMPS_DIRECTORY = '0765' # => drwxrw-r-x
 SUFFIX_PERIODICAL_DUMPS = "periodicos"
 SUFFIX_SPORADIC_DUMPS = "esporadicos"
+#
+# Maximum number of dump that the system can contain.
+# A message to the user is given if Exed that amount
 MAX_SPORADICS_BACKUPS = 5
-# for configurations dumps
+#
+# directory configuration files each dump to be performed by the cron
+# defined in DUMPS_SCRIPT
 DUMPS_CONFIG_DIRECTORY = "/srv/dumps/dumps.conf.d"
 PERMISSIONS_CONFIG_DUMP_FILE = '0600'
+#
 # bash script to make dump
 DUMPS_SCRIPT = "/srv/scripts/hacer_dump"
 #
 #
-# views
+# Message to the user on the home page
 USER_NOTIFICATION = "a user notification..., perhaps "
 
 # Internationalization
