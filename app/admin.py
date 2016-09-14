@@ -59,8 +59,7 @@ class BaseAdmin(admin.ModelAdmin):
                     file_content += "DB_HOST='%s'\n" % obj.servidor.nombre
                     file_content += "DB_NAME='%s'\n" % obj.nombre
                     file_content += "DUMPS_PATH='%s'\n" \
-                                    % os.path.join( settings.DUMPS_DIRECTORY,
-                                                    settings.SUFFIX_PERIODICAL_DUMPS,
+                                    % os.path.join( settings.SUFFIX_PERIODICAL_DUMPS,
                                                     obj.grupo.directorio)
                     file_content += "ID_RATTIC='%s'\n" % obj.password_id
 
