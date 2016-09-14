@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-13 16:05+0000\n"
+"POT-Creation-Date: 2016-09-14 14:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/admin.py:73
+#: app/admin.py:76
 msgid "msg_backup_config_file_error"
 msgstr ""
 "Se produjo un error al crear el archivo de configuración de backup "
 "permanente %(filename)s"
 
-#: app/admin.py:78
+#: app/admin.py:82
 msgid "msg_incomplete_parameters"
 msgstr "Parámetros incompletos para crear archivo de configuración de dumps"
 
@@ -181,11 +181,11 @@ msgstr "El archivo se eliminó correctamente"
 msgid "error_deleting"
 msgstr "Se produjo un error al eliminar el archivo"
 
-#: sdump/settings.py:128 sdump/settings.tpl.py:121
+#: sdump/settings.py:128 sdump/settings.tpl.py:129
 msgid "Spanish"
 msgstr "Español"
 
-#: sdump/settings.py:129 sdump/settings.tpl.py:122
+#: sdump/settings.py:129 sdump/settings.tpl.py:130
 msgid "English"
 msgstr "Inglés"
 
