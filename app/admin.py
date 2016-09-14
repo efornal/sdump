@@ -46,24 +46,23 @@ class BaseAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
 
-        file_name = "%s_%s" % (obj.servidor,obj.nombre)
+        file_name = "%s_%s.conf" % (obj.servidor,obj.nombre)
         file_path = os.path.join(settings.DUMPS_CONFIG_DIRECTORY,file_name)
 
         if obj.periodic_dump:
 
             if obj.servidor.nombre and obj.nombre and \
                obj.usuario and obj.grupo.directorio and obj.password_id:
-                
+
                 try:
                     file_content = ""
-                    file_content += "SERVER='%s'\n" % obj.servidor.nombre
-                    file_content += "BASE='%s'\n" % obj.nombre
-                    file_content += "DIR_DUMPS='%s'\n" \
+                    file_content += "DB_HOST='%s'\n" % obj.servidor.nombre
+                    file_content += "DB_NAME='%s'\n" % obj.nombre
+                    file_content += "DUMPS_PATH='%s'\n" \
                                     % os.path.join( settings.DUMPS_DIRECTORY,
                                                     settings.SUFFIX_PERIODICAL_DUMPS,
                                                     obj.grupo.directorio)
-                    file_content += "USUARIO='%s'\n" % obj.usuario
-                    file_content += "PASSWORD_ID='%s'\n" % obj.password_id
+                    file_content += "ID_RATTIC='%s'\n" % obj.password_id
 
                     logging.error("Creating configuration file: %s" % file_path)
                     file_hand = open(file_path,'w')
