@@ -45,7 +45,12 @@ class BaseAdmin(admin.ModelAdmin):
     list_filter = ('servidor','grupo')
 
     def save_model(self, request, obj, form, change):
+
+        file_name = "%s_%s" % (obj.servidor,obj.nombre)
+        file_path = os.path.join(settings.DUMPS_CONFIG_DIRECTORY,file_name)
+
         if obj.periodic_dump:
+
             if obj.servidor.nombre and obj.nombre and \
                obj.usuario and obj.grupo.directorio and obj.password_id:
                 
@@ -59,9 +64,6 @@ class BaseAdmin(admin.ModelAdmin):
                                                     obj.grupo.directorio)
                     file_content += "USUARIO='%s'\n" % obj.usuario
                     file_content += "PASSWORD_ID='%s'\n" % obj.password_id
-
-                    file_name = "%s_%s" % (obj.servidor,obj.nombre)
-                    file_path = os.path.join(settings.DUMPS_CONFIG_DIRECTORY,file_name)
 
                     logging.error("Creating configuration file: %s" % file_path)
                     file_hand = open(file_path,'w')
@@ -79,7 +81,16 @@ class BaseAdmin(admin.ModelAdmin):
                 logging.error("Incomplete parameters to create configuration file dump.")
                 obj.periodic_dump = False
                 messages.warning( request, _('msg_incomplete_parameters') )
-                
+
+        else:
+            try:
+                logging.warning("Eliminating file if it exists: '%s'" % file_path)
+                os.remove(file_path)
+            except OSError:
+                pass
+            except Exception as e:
+                logging.error("ERROR Exception: %s" % e)
+                    
         super(BaseAdmin, self).save_model(request, obj, form, change)
 
     
