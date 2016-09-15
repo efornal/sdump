@@ -39,21 +39,39 @@ class BaseAdminForm(forms.ModelForm):
         }
 
         
+def delete_config_file(file_path):
+    try:
+        logging.warning("Eliminating file if it exists: '%s'" % file_path)
+        os.remove(file_path)
+        return True
+    except OSError:
+        pass
+    except Exception as e:
+        logging.error("ERROR Exception: %s" % e)
+    return False
+
+
 class BaseAdmin(admin.ModelAdmin):
     form = BaseAdminForm
     list_display = ('nombre', 'grupo', 'servidor')
     list_filter = ('servidor','grupo')
 
+    
     def save_model(self, request, obj, form, change):
 
         file_name = "%s_%s.conf" % (obj.servidor,obj.nombre)
         file_path = os.path.join(settings.DUMPS_CONFIG_DIRECTORY,file_name)
 
-        if obj.periodic_dump:
+        database = Base.objects.get(pk=obj.pk)
+        old_file_name = "%s_%s.conf" % (database.servidor,database.nombre)
+        old_file_path = os.path.join(settings.DUMPS_CONFIG_DIRECTORY,old_file_name)
 
+        delete_config_file(old_file_path)
+        delete_config_file(file_path)
+
+        if obj.periodic_dump:
             if obj.servidor.nombre and obj.nombre and \
                obj.usuario and obj.grupo.directorio and obj.password_id:
-
                 try:
                     file_content = ""
                     file_content += "DB_HOST='%s'\n" % obj.servidor.nombre
@@ -74,20 +92,10 @@ class BaseAdmin(admin.ModelAdmin):
                     logging.error("ERROR Exception: %s" % e)
                     messages.error( request, _('msg_backup_config_file_error') % \
                                     {'filename':file_path} )
-
             else:
                 logging.error("Incomplete parameters to create configuration file dump.")
                 obj.periodic_dump = False
                 messages.warning( request, _('msg_incomplete_parameters') )
-
-        else:
-            try:
-                logging.warning("Eliminating file if it exists: '%s'" % file_path)
-                os.remove(file_path)
-            except OSError:
-                pass
-            except Exception as e:
-                logging.error("ERROR Exception: %s" % e)
                     
         super(BaseAdmin, self).save_model(request, obj, form, change)
 
