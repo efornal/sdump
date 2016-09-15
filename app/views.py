@@ -40,6 +40,7 @@ def clean_extra_options(options):
 
 def number_of_backups(path):
     try:
+        logging.error("dir count backup: %s" % path)
         return len( glob.glob("%s" % path) )
     except Exception as e:
         logging.error ("ERROR Exception: Number of backups for '%s'. %s" % (path,e))
@@ -189,8 +190,9 @@ def make_backup(request):
     # check for maximum sporadick backups
     max_sporadic = 5
     project_backup_dir = os.path.join(settings.DUMPS_DIRECTORY,
-                                      backup_directory,
-                                      '*%s_*' % database.nombre )
+                                      backup_directory,                                      
+                                      '%s*_base-%s_*' % (database.servidor.nombre,
+                                                        database.nombre) )
     if hasattr(settings, 'MAX_SPORADICS_BACKUPS'):
         max_sporadic = settings.MAX_SPORADICS_BACKUPS
 
@@ -199,7 +201,7 @@ def make_backup(request):
     if not (number_backups is None) and (number_backups >= max_sporadic):
         logging.warning("Number of backups (%s) exceeded, the current limit is: %s." % \
                         (number_backups,max_sporadic) )
-        message_user = _('number_backups_exceeded')
+        message_user = _('number_backups_exceeded') % {'max_copies':max_sporadic}
         return HttpResponse(message_user, content_type="text/plain")
 
     

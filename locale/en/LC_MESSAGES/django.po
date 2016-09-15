@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-14 14:28+0000\n"
+"POT-Creation-Date: 2016-09-15 13:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: app/admin.py:76
+#: app/admin.py:93
 msgid "msg_backup_config_file_error"
 msgstr ""
 "It failed to create the permanent configuration file backup %(filename)s"
 
-#: app/admin.py:82
+#: app/admin.py:98
 msgid "msg_incomplete_parameters"
 msgstr "Incomplete parameters to create configuration file dumps"
 
@@ -153,7 +153,7 @@ msgstr "Users"
 msgid "number_backups_exceeded"
 msgstr ""
 "It has exceeded the amount of realizable copies. Please remove previous "
-"copies to make a new"
+"copies to make a new. The current limit is %(max_copies)s."
 
 #: app/views.py:259
 msgid "backup_with_mistakes"
