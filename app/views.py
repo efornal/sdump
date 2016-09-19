@@ -355,7 +355,19 @@ def download(request):
                       %(request.user.username, filename) )
         messages.warning(request, _('without_permission'))
         return redirect('index')
-        
+
+    try:
+        file_descriptor = describe_file(filename)
+        base =  Base.objects.filter(nombre=file_descriptor['database']) \
+                            .filter(servidor__ip=file_descriptor['server'])
+        if len(base) == 1:
+            base = base.first()
+            base.last_date_download = datetime.datetime.now()
+            base.save(update_fields=['last_date_download'])
+    except Exception as e:
+        logging.error ("ERROR Exception: Marking download date. %s" % (e))
+        pass
+                
     logging.warning("Downloading file: %s" % filename)
     attachment_name = os.path.basename(filename)
     response = FileResponse(FileWrapper(file(filename, 'rb')),

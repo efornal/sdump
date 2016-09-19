@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-15 13:13+0000\n"
+"POT-Creation-Date: 2016-09-19 15:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,7 +51,7 @@ msgid "grupo"
 msgstr "Group"
 
 #: app/models.py:16 app/models.py:31 app/models.py:79 app/models.py:103
-#: app/models.py:134
+#: app/models.py:137
 msgid "name"
 msgstr "name"
 
@@ -104,7 +104,7 @@ msgstr "Server"
 msgid "Servers"
 msgstr "Servers"
 
-#: app/models.py:105 app/models.py:136
+#: app/models.py:105 app/models.py:139
 msgid "username"
 msgstr "Username"
 
@@ -116,7 +116,7 @@ msgstr "Password"
 msgid "server"
 msgstr "Server"
 
-#: app/models.py:113 app/models.py:138
+#: app/models.py:113 app/models.py:141
 msgid "group"
 msgstr "Group"
 
@@ -132,50 +132,54 @@ msgstr "Password Id"
 msgid "periodic_dump"
 msgstr "Periodic dump"
 
-#: app/models.py:124 templates/_backups_lists.html:9
+#: app/models.py:122
+msgid "last_date_download"
+msgstr "Last date download"
+
+#: app/models.py:127 templates/_backups_lists.html:9
 #: templates/_backups_lists.html:51 templates/_select_databases.html:2
 msgid "Database"
 msgstr "Database"
 
-#: app/models.py:125
+#: app/models.py:128
 msgid "Databases"
 msgstr "Databases"
 
-#: app/models.py:142
+#: app/models.py:145
 msgid "User"
 msgstr "User"
 
-#: app/models.py:143
+#: app/models.py:146
 msgid "Users"
 msgstr "Users"
 
-#: app/views.py:202
+#: app/views.py:204
 msgid "number_backups_exceeded"
 msgstr ""
 "It has exceeded the amount of realizable copies. Please remove previous "
 "copies to make a new. The current limit is %(max_copies)s."
 
-#: app/views.py:259
+#: app/views.py:261
 msgid "backup_with_mistakes"
 msgstr "Backup with mistakes !"
 
-#: app/views.py:262
+#: app/views.py:264
 msgid "backup_finished"
 msgstr "Backup finished!"
 
-#: app/views.py:320 app/views.py:348
+#: app/views.py:322 app/views.py:350
 msgid "file_not_indicated"
 msgstr "The file was not specified on which to perform the action"
 
-#: app/views.py:326 app/views.py:354
+#: app/views.py:328 app/views.py:356
 msgid "without_permission"
 msgstr "You do not have permission to perform this action"
 
-#: app/views.py:333
+#: app/views.py:335
 msgid "deleted_file"
 msgstr "The file was deleted successfully"
 
-#: app/views.py:337
+#: app/views.py:339
 msgid "error_deleting"
 msgstr "There was an error deleting the file"
 

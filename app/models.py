@@ -118,6 +118,9 @@ class Base(models.Model):
                              verbose_name=_('password_id'))
     periodic_dump = models.BooleanField(default=False,
                                               verbose_name=_('periodic_dump'))
+    last_date_download = models.DateTimeField( null=True, blank=True,
+                                               verbose_name=_('last_date_download') )
+
     
     class Meta:
         db_table = 'bases'

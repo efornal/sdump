@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-15 13:13+0000\n"
+"POT-Creation-Date: 2016-09-19 15:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,7 +53,7 @@ msgid "grupo"
 msgstr "Grupo"
 
 #: app/models.py:16 app/models.py:31 app/models.py:79 app/models.py:103
-#: app/models.py:134
+#: app/models.py:137
 msgid "name"
 msgstr "nombre"
 
@@ -106,7 +106,7 @@ msgstr "Servidor"
 msgid "Servers"
 msgstr "Servidores"
 
-#: app/models.py:105 app/models.py:136
+#: app/models.py:105 app/models.py:139
 msgid "username"
 msgstr "usuario"
 
@@ -118,7 +118,7 @@ msgstr "contraseña"
 msgid "server"
 msgstr "Servidor"
 
-#: app/models.py:113 app/models.py:138
+#: app/models.py:113 app/models.py:141
 msgid "group"
 msgstr "grupo"
 
@@ -134,50 +134,54 @@ msgstr "Id contraseña (rattic)"
 msgid "periodic_dump"
 msgstr "Dumps periódicos"
 
-#: app/models.py:124 templates/_backups_lists.html:9
+#: app/models.py:122
+msgid "last_date_download"
+msgstr "Fecha última descarga"
+
+#: app/models.py:127 templates/_backups_lists.html:9
 #: templates/_backups_lists.html:51 templates/_select_databases.html:2
 msgid "Database"
 msgstr "Base de datos"
 
-#: app/models.py:125
+#: app/models.py:128
 msgid "Databases"
 msgstr "Bases de datos"
 
-#: app/models.py:142
+#: app/models.py:145
 msgid "User"
 msgstr "Usuario"
 
-#: app/models.py:143
+#: app/models.py:146
 msgid "Users"
 msgstr "Usuarios"
 
-#: app/views.py:202
+#: app/views.py:204
 msgid "number_backups_exceeded"
 msgstr ""
 "Se ha exedido la cantidad de copias realizables. Por favor, elimine copias "
 "anteriores para poder realizar una nueva. El límite actual es %(max_copies)s."
 
-#: app/views.py:259
+#: app/views.py:261
 msgid "backup_with_mistakes"
 msgstr "Backup realizado con errores!.."
 
-#: app/views.py:262
+#: app/views.py:264
 msgid "backup_finished"
 msgstr "Backup finalizado!"
 
-#: app/views.py:320 app/views.py:348
+#: app/views.py:322 app/views.py:350
 msgid "file_not_indicated"
 msgstr "No se especificó el archivo sobre el cual realizar la acción"
 
-#: app/views.py:326 app/views.py:354
+#: app/views.py:328 app/views.py:356
 msgid "without_permission"
 msgstr "No tiene permisos para realizar esta acción"
 
-#: app/views.py:333
+#: app/views.py:335
 msgid "deleted_file"
 msgstr "El archivo se eliminó correctamente"
 
-#: app/views.py:337
+#: app/views.py:339
 msgid "error_deleting"
 msgstr "Se produjo un error al eliminar el archivo"
 
