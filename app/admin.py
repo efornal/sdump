@@ -74,7 +74,7 @@ class BaseAdmin(admin.ModelAdmin):
                obj.usuario and obj.grupo.directorio and obj.password_id:
                 try:
                     file_content = ""
-                    file_content += "DB_HOST='%s'\n" % obj.servidor.nombre
+                    file_content += "DB_HOST='%s'\n" % obj.servidor.ip
                     file_content += "DB_NAME='%s'\n" % obj.nombre
                     file_content += "DUMPS_PATH='%s'\n" \
                                     % os.path.join( obj.grupo.directorio,
