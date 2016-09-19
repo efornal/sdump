@@ -54,7 +54,7 @@ def delete_config_file(file_path):
 class BaseAdmin(admin.ModelAdmin):
     form = BaseAdminForm
     list_display = ('nombre', 'servidor', 'grupo', 'periodic_dump')
-    list_filter = ('nombre','servidor','grupo')
+    list_filter = ('servidor','grupo')
     ordering = ('nombre','servidor','grupo')
     
     def save_model(self, request, obj, form, change):
