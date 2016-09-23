@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-19 15:06+0000\n"
+"POT-Creation-Date: 2016-09-23 15:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: app/admin.py:93
+#: app/admin.py:98
 msgid "msg_backup_config_file_error"
 msgstr ""
 "It failed to create the permanent configuration file backup %(filename)s"
 
-#: app/admin.py:98
+#: app/admin.py:103
 msgid "msg_incomplete_parameters"
 msgstr "Incomplete parameters to create configuration file dumps"
 
@@ -153,33 +153,33 @@ msgstr "User"
 msgid "Users"
 msgstr "Users"
 
-#: app/views.py:204
+#: app/views.py:212
 msgid "number_backups_exceeded"
 msgstr ""
 "It has exceeded the amount of realizable copies. Please remove previous "
 "copies to make a new. The current limit is %(max_copies)s."
 
-#: app/views.py:261
+#: app/views.py:269
 msgid "backup_with_mistakes"
 msgstr "Backup with mistakes !"
 
-#: app/views.py:264
+#: app/views.py:272
 msgid "backup_finished"
 msgstr "Backup finished!"
 
-#: app/views.py:322 app/views.py:350
+#: app/views.py:330 app/views.py:358
 msgid "file_not_indicated"
 msgstr "The file was not specified on which to perform the action"
 
-#: app/views.py:328 app/views.py:356
+#: app/views.py:336 app/views.py:364
 msgid "without_permission"
 msgstr "You do not have permission to perform this action"
 
-#: app/views.py:335
+#: app/views.py:343
 msgid "deleted_file"
 msgstr "The file was deleted successfully"
 
-#: app/views.py:339
+#: app/views.py:347
 msgid "error_deleting"
 msgstr "There was an error deleting the file"
 
