@@ -18,6 +18,7 @@ import pwd
 import grp
 import subprocess
 
+
 class GrupoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'directorio')
     search_fields = ['nombre','directorio']
@@ -54,8 +55,10 @@ def delete_config_file(file_path):
 
 class BaseAdmin(admin.ModelAdmin):
     form = BaseAdminForm
-    list_display = ('nombre', 'servidor', 'grupo', 'periodic_dump')
-    list_filter = ('servidor','grupo')
+    list_display = ('nombre', 'servidor', 'grupo', 'password_id', 'periodic_dump')
+    list_filter = ('servidor','grupo',)
+    search_fields = ['nombre','password_id','usuario']
+
     ordering = ('nombre','servidor','grupo')
     
     def save_model(self, request, obj, form, change):
@@ -105,10 +108,12 @@ class BaseAdmin(admin.ModelAdmin):
         
 class ServidorAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'ip', 'puerto', 'motor', 'version')
+    search_fields = ['nombre','ip']
     ordering = ('nombre',)
 
 class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'usuario')
+    search_fields = ['nombre','usuario']
     formfield_overrides = { models.ManyToManyField: {'widget': SelectMultiple(attrs={'size':'20'})}, }
     ordering = ('nombre',)
 
