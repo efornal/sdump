@@ -128,7 +128,9 @@ def index(request):
         group_id = request.GET['group_id']
         
     [sporadics,periodics] = make_backups_lists(group_id)
-    groups = Grupo.objects.values('id','nombre').filter(usuario__usuario=username)
+    groups = Grupo.objects.values('id','nombre') \
+                          .filter(usuario__usuario=username) \
+                          .order_by('nombre')
     
     context = {'groups': groups,
                'backup_notification': settings.USER_NOTIFICATION,
@@ -141,8 +143,11 @@ def index(request):
 def update_servers(request):
     group_id = request.GET['group_id']
     request.session['group_id'] = group_id
-    servers = Servidor.objects.values('id','nombre'). \
-              filter(base__grupo_id=group_id).annotate(cantidad=Count('nombre'))
+    servers = Servidor.objects.values('id','nombre') \
+                              .filter(base__grupo_id=group_id) \
+                              .annotate(cantidad=Count('nombre')) \
+                              .order_by('nombre')
+
     context = {'servers': servers,}
     return render_to_response('_select_servers.html', context)
 
@@ -168,7 +173,10 @@ def update_databases(request):
     databases = None
     if 'server_id' in request.GET and request.GET['server_id']:
         server_id = request.GET['server_id']
-        databases = Base.objects.filter(grupo_id=group_id).filter(servidor_id=server_id)
+        databases = Base.objects.values('id','nombre') \
+                                .filter(grupo_id=group_id) \
+                                .filter(servidor_id=server_id) \
+                                .order_by('nombre')
 
     extra_command_options=None
     context = {'databases': databases,

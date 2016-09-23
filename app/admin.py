@@ -21,7 +21,8 @@ import subprocess
 class GrupoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'directorio')
     search_fields = ['nombre','directorio']
-
+    ordering = ('nombre',)
+    
     def change_view(self, request, object_id, form_url='', extra_context=None):
         grupo = Grupo.objects.get(id = object_id)
         if not grupo.posee_directorio_dumps():
@@ -104,10 +105,12 @@ class BaseAdmin(admin.ModelAdmin):
         
 class ServidorAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'ip', 'puerto', 'motor', 'version')
+    ordering = ('nombre',)
 
 class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'usuario')
     formfield_overrides = { models.ManyToManyField: {'widget': SelectMultiple(attrs={'size':'20'})}, }
+    ordering = ('nombre',)
 
 admin.site.register(Grupo, GrupoAdmin)
 admin.site.register(Base, BaseAdmin)
