@@ -62,11 +62,12 @@ class BaseAdmin(admin.ModelAdmin):
         file_name = "%s_%s.conf" % (obj.servidor,obj.nombre)
         file_path = os.path.join(settings.DUMPS_CONFIG_DIRECTORY,file_name)
 
-        database = Base.objects.get(pk=obj.pk)
-        old_file_name = "%s_%s.conf" % (database.servidor,database.nombre)
-        old_file_path = os.path.join(settings.DUMPS_CONFIG_DIRECTORY,old_file_name)
-
-        delete_config_file(old_file_path)
+        if obj.pk:
+            database = Base.objects.get(pk=obj.pk)
+            old_file_name = "%s_%s.conf" % (database.servidor,database.nombre)
+            old_file_path = os.path.join(settings.DUMPS_CONFIG_DIRECTORY,old_file_name)
+            delete_config_file(old_file_path)
+            
         delete_config_file(file_path)
 
         if obj.periodic_dump:
