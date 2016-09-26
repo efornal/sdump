@@ -1,5 +1,5 @@
 # sdump
-backups administration
+Dumps administration. To manage information databases and dumps to make each of them. To this generates a configuration file which is used by a cron script to perform the dumps using the configuration specified in those files.
 
 ### Package Installation
 ```bash
@@ -7,13 +7,16 @@ sudo apt-get install python2.7
 sudo apt-get install postgresql-9.3
 sudo apt-get install python-psycopg2
 sudo apt-get install python-pip
-sudo pip install Django==1.9.7
-sudo pip install django-auth-ldap==1.2.8
-sudo pip install django-suit==0.2.18
 
+pip install -r app/requirements.txt
 ```
 
-### App configuration
+### Application configuration
+```bash
+cp sdump/settings.tpl.py sdump/settings.py
+```
+
+### Util commands
 ```bash
 python manage.py migrate
 
