@@ -85,6 +85,8 @@ class BaseAdmin(admin.ModelAdmin):
                                     % os.path.join( obj.grupo.directorio,
                                                     settings.SUFFIX_PERIODICAL_DUMPS)
                     file_content += "ID_RATTIC='%s'\n" % obj.password_id
+                    if obj.extra_command_options:
+                        file_content += "EXTRA_OPTIONS='%s'\n" % obj.extra_command_options
 
                     logging.error("Creating configuration file: %s" % file_path)
                     file_hand = open(file_path,'w')
