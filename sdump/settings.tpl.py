@@ -149,6 +149,7 @@ STATICFILES_DIRS = (
 )
 
 LOGIN_URL='/login/'
+LOGIN_REDIRECT_URL = '/'
 
 DEFAULT_CHARSET = 'utf-8'
 

@@ -16,3 +16,4 @@ class BaseForm(forms.ModelForm):
     class Meta:
         model = Base
         fields = ('nombre', 'usuario', 'contrasenia', 'descripcion', 'servidor', 'grupo_id')
+

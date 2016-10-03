@@ -2,10 +2,12 @@ from django.conf.urls import url
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
-    url(r'^logout/$', views.logout_view, name='logout'),
-    url(r'^login/',views.login_view, name='login'),
+    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^make_backup/',views.make_backup, name='make_backup'),
     url(r'^download/$', views.download, name='download'),
     url(r'^remove/$', views.remove, name='remove'),

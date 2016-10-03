@@ -25,6 +25,8 @@ import re
 import os
 from wsgiref.util import FileWrapper
 from django.http import FileResponse
+from django import forms
+
 
 def clean_extra_options(options):
     cleaned = options
@@ -275,12 +277,6 @@ def make_backup(request):
 
 
 @login_required
-def logout_view(request):
-    logout(request)
-    return redirect('index')
-
-
-@login_required
 def update_extra_options(request):
     extra_options=""
     if ('database_id' in request.GET) and (request.GET['database_id'] > 0):
@@ -290,21 +286,6 @@ def update_extra_options(request):
     return HttpResponse(extra_options, content_type="text/plain")
 
 
-def login_view(request):
-    if request.POST.get('username') and request.POST.get('password'):
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                return redirect('index')
-            else:
-                return render(request, 'login.html')
-        else:
-            return render(request, 'login.html')
-    else:
-        return render(request, 'login.html')
 
 
 def have_file_permissions( username, filename ):
