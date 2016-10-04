@@ -15,7 +15,7 @@
       </thead>
       <tbody>
         {% for sporadic in sporadics %}
-        <tr>
+        <tr title="{{sporadic.file_name}}">
           <td>{{ sporadic.database }}</td>
           <td>{{ sporadic.date }} {{ sporadic.time }}</td>
           <td>{{ sporadic.server }}</td>
@@ -57,7 +57,7 @@
       </thead>
       <tbody>
        {% for periodic in periodics %}
-        <tr>
+        <tr title="{{periodic.file_name}}">
           <td>{{ periodic.database }}</td>
           <td>{{ periodic.date }} {{ periodic.time }}</td>
           <td>{{ periodic.server }}</td>
