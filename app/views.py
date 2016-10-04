@@ -68,7 +68,7 @@ def describe_file (file_path):
     try:
         file_size = filesizeformat(os.path.getsize(file_path))
         file_name = os.path.basename(file_path)
-        [server,text] = re.split("_base-|_base_sin_hist-",file_name)
+        [server,text] = re.split("_base-|_base_con_historico-|_base_sin_hist-",file_name)
         [database,date,time,text] = re.split("_([0-9]{2,4}-[0-9]{2}-[0-9]{2,4})[_|-]([0-9]{2}[-|_][0-9]{2})",text)
         time = time.replace('_',':').replace('-',':')
         fdate = to_date_according_to_text(date)
