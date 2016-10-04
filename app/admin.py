@@ -78,13 +78,25 @@ class BaseAdmin(admin.ModelAdmin):
             if obj.servidor.nombre and obj.nombre and \
                obj.usuario and obj.grupo.directorio and obj.password_id:
                 try:
+                    if not hasattr(settings, 'DUMPS_CONFIG_AUTHENTICATION'):
+                        logging.error("Undefined variable DUMPS_CONFIG_AUTHENTICATION, " \
+                                      "no configuration file is created")
+                        super(BaseAdmin, self).save_model(request, obj, form, change)
+                    
                     file_content = ""
                     file_content += "DB_HOST='%s'\n" % obj.servidor.ip
                     file_content += "DB_NAME='%s'\n" % obj.nombre
                     file_content += "DUMPS_PATH='%s'\n" \
                                     % os.path.join( obj.grupo.directorio,
                                                     settings.SUFFIX_PERIODICAL_DUMPS)
-                    file_content += "ID_RATTIC='%s'\n" % obj.password_id
+                        
+                    if 'id' in settings.DUMPS_CONFIG_AUTHENTICATION:
+                        file_content += "ID_RATTIC='%s'\n" % obj.password_id
+
+                    if 'username' in settings.DUMPS_CONFIG_AUTHENTICATION:
+                        file_content += "DB_USER='%s'\n" % obj.usuario
+                        file_content += "DB_PASS='%s'\n" % obj.contrasenia
+                        
                     if obj.extra_command_options:
                         file_content += "EXTRA_OPTIONS='%s'\n" % obj.extra_command_options
 
