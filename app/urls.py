@@ -16,6 +16,9 @@ urlpatterns = [
     url(r'^update_databases/',views.update_databases, name='update_databases'),
     url(r'^update_list_backups/',views.update_list_backups, name='update_list_backups'),
     url(r'^update_extra_options/',views.update_extra_options, name='update_extra_options'),
+    url(r'^group/(\d+)/?$', views.index, name='index'),
+    url(r'^group/(\d+)/server/(\d+)/?$', views.index, name='index'),
+    url(r'^group/(\d+)/server/(\d+)/database/(\d+)/?$', views.index, name='index'),
     url(r'^$', views.index, name='index'),
 ]
 

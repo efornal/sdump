@@ -1,6 +1,6 @@
   <div class="col-lg-12">
     <label for="server_select" class="control-label">{{ _('Server') }}</label>
-    <select class="form-control" name="server_select" id="server_select">
+    <select class="form-control" name="server_id" id="server_select">
       {% for server in servers %}
       <option value='{{ server.id }}'
               {% if server.id == server_id %} selected="selected" {% endif %}
@@ -24,7 +24,13 @@ $('#server_select').change(function(){
         },
     }).done(function (data) {
         $('#database_select').change();
-    })
+    });
+    if ( $('#server_select').val() > 0 && $('#group_select').val() > 0 ) {
+        new_url = '/group/' + $('#group_select').val() + '/server/' + $('#server_select').val();
+        window.history.pushState('', '', new_url);
+    } else {
+        window.history.pushState('', '', '/');
+    }
   });
     
 });

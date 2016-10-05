@@ -17,7 +17,6 @@
       <div class="well bs-component">
           <fieldset>
             <legend>{{ _('data_backup') }}</legend>
-
             <div class="form-group" id="select_groups">
               {% include "_select_groups.html" %}
             </div>
@@ -61,7 +60,6 @@
                 </button>
               </div>
             </div>
-            
           </fieldset>
         <div style="display: none;" id="source-button"
              class="btn btn-primary btn-xs">&lt; &gt;
@@ -76,9 +74,11 @@
         {{ user_notification | safe }}
       </div>
       <div class="bs-component" id="backups_lists">
+        {% if backup_notification %}
         <div class="well" id="backup_notification">
           {{ backup_notification | safe }}
         </div>
+        {% endif %}
         {% include "_backups_lists.html" %}
         <br>
       </div>
@@ -142,6 +142,11 @@ $(document).ready(function(){
     }).done(function (data) {
         $('#server_select').change();
     });
+    if ( parseInt($('#group_select').val()) > 0) {
+        window.history.pushState('', '', '/group/'+ $('#group_select').val());
+    } else {
+        window.history.pushState('', '', '/');
+    }
     update_backups_lists()
   });
 

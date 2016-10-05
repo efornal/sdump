@@ -122,22 +122,42 @@ def make_backups_lists(group_id=None):
 
 
 @login_required
-def index(request):
+def index(request, group_id=None, server_id=None, database_id=None):
     username = request.user.username
-    group_id = None
-     
-    if 'group_id' in request.GET and request.GET['group_id']:
-        group_id = request.GET['group_id']
+    context={}
+    
+    logging.warning("POST: \n%s" % request.POST)
+    logging.warning("GET: \n%s" % request.GET)
+    logging.warning("VARS: %s %s %s" % (group_id, server_id, database_id))
+        
+#    if 'group_id' in request.GET and request.GET['group_id']:
+#        group_id = request.GET['group_id']
         
     [sporadics,periodics] = make_backups_lists(group_id)
     groups = Grupo.objects.values('id','nombre') \
                           .filter(usuario__usuario=username) \
                           .order_by('nombre')
+    if group_id:
+        servers = Servidor.objects.values('id','nombre') \
+                                  .filter(base__grupo_id=group_id) \
+                                  .annotate(cantidad=Count('nombre')) \
+                                  .order_by('nombre')
+        context.update({'servers': servers})
+
+    if group_id and server_id:
+        databases = Base.objects.values('id','nombre') \
+                                .filter(grupo_id=group_id) \
+                                .filter(servidor_id=server_id) \
+                                .order_by('nombre')
+        context.update({'databases': databases})
+
+    context.update({'group_id': group_id, 'server_id': server_id, 'database_id': database_id})
+    context.update({'groups': groups})
+    context.update({'sporadics': sporadics })
+    context.update({'periodics': periodics })
     
-    context = {'groups': groups,
-               'backup_notification': settings.USER_NOTIFICATION,
-               'sporadics': sporadics,
-               'periodics': periodics, }
+    if not group_id:
+        context.update({'backup_notification': settings.USER_NOTIFICATION})
     return render(request, 'index.html', context)
 
     

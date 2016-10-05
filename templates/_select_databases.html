@@ -1,6 +1,6 @@
 <div class="col-lg-12">
   <label for="db_select" class="control-label">{{ _('Database') }}</label>
-  <select class="form-control" name="database_select" id="database_select">
+  <select class="form-control" name="database_id" id="database_select">
     {% for database in databases %}
     <option value='{{ database.id }}'
             {% if database.id == database_id %} selected="selected" {% endif %}
@@ -26,7 +26,14 @@ $(document).ready(function(){
             $('#extra_options').val(data);
         },
       })
+      }
+      if ( $('#server_select').val() > 0 && $('#group_select').val() > 0 && $('#database_select').val() > 0 ) {
+        new_url = '/group/' + $('#group_select').val() + '/server/' + $('#server_select').val() + '/database/' + $('#database_select').val();
+        window.history.pushState('', '', new_url);
+    } else {
+        window.history.pushState('', '', '/');
     }
+      
   }
     
   $('#database_select').ready(function(){
