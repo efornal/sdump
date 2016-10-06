@@ -122,16 +122,19 @@ def make_backups_lists(group_id=None):
 
 
 @login_required
-def index(request, group_id=None, server_id=None, database_id=None):
+#, group_id=0, server_id=0, database_id=0
+def index(request):
     username = request.user.username
     context={}
-    
+    group_id=0
+    server_id=0
+    database_id=0
     logging.warning("POST: \n%s" % request.POST)
     logging.warning("GET: \n%s" % request.GET)
-    logging.warning("VARS: %s %s %s" % (group_id, server_id, database_id))
+#    logging.warning("VARS: %s %s %s" % (group_id, server_id, database_id))
         
-#    if 'group_id' in request.GET and request.GET['group_id']:
-#        group_id = request.GET['group_id']
+    if 'group_id' in request.GET and request.GET['group_id']:
+        group_id = request.GET['group_id']
         
     [sporadics,periodics] = make_backups_lists(group_id)
     groups = Grupo.objects.values('id','nombre') \
@@ -151,7 +154,9 @@ def index(request, group_id=None, server_id=None, database_id=None):
                                 .order_by('nombre')
         context.update({'databases': databases})
 
-    context.update({'group_id': group_id, 'server_id': server_id, 'database_id': database_id})
+    context.update({'group_id': int(group_id),
+                    'server_id': int(server_id),
+                    'database_id': int(database_id)})
     context.update({'groups': groups})
     context.update({'sporadics': sporadics })
     context.update({'periodics': periodics })
