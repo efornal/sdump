@@ -19,9 +19,9 @@ urlpatterns = [
     # url(r'^group/(\d+)/?$', views.index, name='index'),
     # url(r'^group/(\d+)/server/(\d+)/?$', views.index, name='index'),
     # url(r'^group/(\d+)/server/(\d+)/database/(\d+)/?$', views.index, name='index'),
-    url(r'^group/(?P<group>[0-9]{4})/$', views.index, name='index'),
-    url(r'^group/(?P<group>[0-9]{4})/server/(?P<server>[0-9]{4})/$', views.index, name='index'),
-    url(r'^group/(?P<group>[0-9]{4})/server/(?P<server>[0-9]{4})/database/(?P<database>[0-9]{4})/$', views.index, name='index'),
+    url(r'^group/(?P<group_id>\d+)/$', views.index, name='index'),
+    url(r'^group/(?P<group_id>\d+)/server/(?P<server_id>\d+)/$', views.index, name='index'),
+    url(r'^group/(?P<group_id>\d+)/server/(?P<server_id>\d+)/database/(?P<database_id>\d+)/$', views.index, name='index'),
     url(r'^$', views.index, name='index'),
 ]
 
