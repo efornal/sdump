@@ -123,11 +123,9 @@ def make_backups_lists(group_id=None):
 
 @login_required
 def index(request,group_id=0, server_id=0, database_id=0):
+ 
     username = request.user.username
     context={}
-    logging.warning("POST: \n%s" % request.POST)
-    logging.warning("GET: \n%s" % request.GET)
-    logging.warning("VARS: %s %s %s" % (group_id, server_id, database_id))
         
     if 'group_id' in request.GET and request.GET['group_id']:
         group_id = request.GET['group_id']
