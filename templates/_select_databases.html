@@ -28,10 +28,10 @@ $(document).ready(function(){
       })
       }
       if ( $('#server_select').val() > 0 && $('#group_select').val() > 0 && $('#database_select').val() > 0 ) {
-        new_url = '/group/' + $('#group_select').val() + '/server/' + $('#server_select').val() + '/database/' + $('#database_select').val();
+        new_url = '{% url 'index' %}group/' + $('#group_select').val() + '/server/' + $('#server_select').val() + '/database/' + $('#database_select').val();
         window.history.pushState('', '', new_url);
     } else {
-        window.history.pushState('', '', '/');
+        window.history.pushState('', '', '{% url 'index' %}');
     }
       
   }

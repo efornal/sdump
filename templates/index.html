@@ -143,9 +143,9 @@ $(document).ready(function(){
         $('#server_select').change();
     });
     if ( parseInt($('#group_select').val()) > 0) {
-        window.history.pushState('', '', '/group/'+ $('#group_select').val());
+        window.history.pushState('', '', '{% url 'index' %}group/'+ $('#group_select').val());
     } else {
-        window.history.pushState('', '', '/');
+        window.history.pushState('', '', '{% url 'index' %}');
     }
     update_backups_lists()
   });
