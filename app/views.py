@@ -26,6 +26,7 @@ import os
 from wsgiref.util import FileWrapper
 from django.http import FileResponse
 from django import forms
+import json
 
 
 def clean_extra_options(options):
@@ -119,6 +120,34 @@ def make_backups_lists(group_id=None):
         logging.error('ERROR Exception: with group_id %s, %s' % (group_id,e))
 
     return backups_lists
+
+
+def ip_from_vm_name( vm_name='' ):
+    args = ['host',"{}".format(vm_name)]
+    try:
+        p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        ip_reg = re.search('[0-9]+.[0-9]+.[0-9]+.[0-9]+', out)
+        if ip_reg:
+            return ip_reg.group(0)
+        else:
+            return ''
+        
+    except Exception as e:
+        logging.error('ERROR Exception: %s' % e)
+        return ''
+
+    
+@login_required    
+def check_server(request):
+    result = {}
+    if 'vm_name' in request.POST and request.POST['vm_name']:
+        vm_name = request.POST['vm_name']
+        logging.info("searching vm name: {}".format(vm_name))
+
+        result.update({'vm_ip': ip_from_vm_name(vm_name)})
+    result_list = json.dumps(result)
+    return HttpResponse(result_list)
 
 
 @login_required
