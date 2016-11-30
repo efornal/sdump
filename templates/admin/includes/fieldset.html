@@ -14,7 +14,7 @@
                 <span class="description">{{ fieldset.description|safe }}</span>
             {% endif %}
         </h2>{% endif %}
-  {% for line in fieldset %}
+    {% for line in fieldset %}
     {% with singlefield=line.fields|length_is:'1' %}
       <div class="control-group form-row{% if line.errors %} {{ singlefield|yesno:'error,first-error' }} errors{% endif %}{% for field in line %}{% if field.field.name %} field-{{ field.field.name }}{% endif %} {{ field.field.field.widget.attrs.rowclass }}{% endfor %}{{ singlefield|yesno:',multi-field-row' }}">
         {% for field in line %}
@@ -57,8 +57,7 @@
         <p id="tx_{{field.field.name}}" class="tx_message"></p>
         {% endif %}
 
-        
-        {% if field.field.name == 'nombre' %}
+        {% if 'Servidor' in fieldset.model_admin|safe and field.field.name == 'nombre' %}
         &nbsp;&nbsp;&nbsp;
         <button type="button" id="check_server" class="btn btn-high btn-info">Completar</button>
         <script type="text/javascript">
