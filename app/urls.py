@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'next_page': settings.LOGIN_REDIRECT_URL},
         name='logout'),
     url('^check_server',views.check_server, name='check_server'),
+    url('^check_pass',views.check_pass, name='check_pass'),
     url(r'^make_backup/',views.make_backup, name='make_backup'),
     url(r'^download/$', views.download, name='download'),
     url(r'^remove/$', views.remove, name='remove'),

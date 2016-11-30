@@ -121,7 +121,6 @@ def make_backups_lists(group_id=None):
 
     return backups_lists
 
-
 def ip_from_vm_name( vm_name='' ):
     args = ['host',"{}".format(vm_name)]
     try:
@@ -137,6 +136,28 @@ def ip_from_vm_name( vm_name='' ):
         logging.error('ERROR Exception: %s' % e)
         return ''
 
+def pg_check( args={} ):
+    pg_env = os.environ.copy()
+    pg_env["PGPASSWORD"] = args["db_pass"]
+    params = ['psql',"-U",args["db_user"],
+              "-d",args["db_name"],
+              "-h",args["db_server"],
+              "-p",args["db_port"],
+              "-c","select 'test_for_connection'"]
+    logging.info("Checking with params: {}".format(params))
+    try:
+        p = subprocess.Popen(params, env=pg_env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        found = re.search('test_for_connection', out)
+        if found:
+            return 1
+        else:
+            return 0
+        
+    except Exception as e:
+        logging.error('ERROR Exception: %s' % e)
+        return 0
+
     
 @login_required    
 def check_server(request):
@@ -146,6 +167,36 @@ def check_server(request):
         logging.info("searching vm name: {}".format(vm_name))
 
         result.update({'vm_ip': ip_from_vm_name(vm_name)})
+    result_list = json.dumps(result)
+    return HttpResponse(result_list)
+
+
+@login_required    
+def check_pass(request):
+    result = {}
+    args={}
+
+    if 'db_pass' in request.POST and \
+       'db_user' in request.POST and \
+       'db_name' in request.POST and \
+       'db_server' in request.POST:
+
+        server = Servidor.objects.get(nombre=request.POST['db_server'])
+        if server:
+            args.update({'db_port': unicode(server.puerto)})
+        else:
+            args.update({'db_port': '5432'})
+
+        args.update({'db_pass': request.POST['db_pass']})
+        args.update({'db_user': request.POST['db_user']})
+        args.update({'db_name': request.POST['db_name']})
+        args.update({'db_server': request.POST['db_server']})
+
+        res = pg_check(args)
+        result.update({'result': res})
+    else:
+        result.update({'result': 0})
+        
     result_list = json.dumps(result)
     return HttpResponse(result_list)
 

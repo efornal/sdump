@@ -53,7 +53,7 @@
         {% else %}
             {{ field.field }}
         {% endif %}
-        {% if field.field.name in 'ip' %}
+        {% if field.field.name in 'ip,contrasenia' %}
         <p id="tx_{{field.field.name}}" class="tx_message"></p>
         {% endif %}
 
@@ -85,6 +85,36 @@ $("#check_server").click(function(){
         </script>
         {% endif %}
 
+        {% if 'Base' in fieldset.model_admin|safe and field.field.name == 'contrasenia' %}
+        &nbsp;&nbsp;&nbsp;
+        <button type="button" id="check_pass" class="btn btn-high btn-info">Verificar Conexión</button>
+        <script type="text/javascript">
+$("#check_pass").click(function(){
+    $.ajax({
+        type: "POST",
+        url: "{% url 'check_pass' %}",
+          data: {'db_pass': $('#id_contrasenia').attr('value'),
+          'db_user': $('#id_usuario').attr('value'),
+          'db_name': $('#id_nombre').attr('value'),
+          'db_server': $('#id_servidor option:selected').text(),
+          'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        dataType: "json",
+        success: function(response) {
+        var $p = $("#id_contrasenia");
+        if (response.result) {
+          $p.css("background-color","#BEF781")
+        }else{
+          $p.css("background-color","#F78181");
+        }
+        },
+        error: function(rs, e) {
+            alert("No se pudo realizar el completado.");
+        }
+    }); 
+});
+        </script>
+        {% endif %}
+        
           
         {# For single field errors#}
         {% if singlefield and line.errors %}
