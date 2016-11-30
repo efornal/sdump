@@ -101,9 +101,9 @@ class Base(models.Model):
     id = models.AutoField(primary_key=True, null=False)
     nombre = models.CharField(max_length=100, null=False,
                              verbose_name=_('name'))
-    usuario = models.CharField(max_length=100, null=False,
+    usuario = models.CharField(max_length=100, null=True, blank=True,
                              verbose_name=_('username'))
-    contrasenia = models.CharField(max_length=100, null=False,
+    contrasenia = models.CharField(max_length=100, null=True, blank=True,
                              verbose_name=_('password'))
     descripcion = models.TextField(null=True, blank=True,
                              verbose_name=_('description'))

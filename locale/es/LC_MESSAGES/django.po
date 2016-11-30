@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-03 13:17-0300\n"
+"POT-Creation-Date: 2016-11-30 09:20-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/admin.py:100
+#: app/admin.py:45
+msgid "password_or_id_required"
+msgstr "La contraseña o identificador de password (rattic) son requeridos"
+
+#: app/admin.py:116
 msgid "msg_backup_config_file_error"
 msgstr ""
 "Se produjo un error al crear el archivo de configuración de backup "
 "permanente %(filename)s"
 
-#: app/admin.py:105
+#: app/admin.py:121
 msgid "msg_incomplete_parameters"
 msgstr "Parámetros incompletos para crear archivo de configuración de dumps"
 
@@ -110,8 +114,7 @@ msgstr "Servidores"
 msgid "username"
 msgstr "usuario"
 
-#: app/models.py:107 templates/login.html:29
-#: templates/registration/login.html:29
+#: app/models.py:107 templates/registration/login.html:29
 msgid "password"
 msgstr "contraseña"
 
@@ -156,41 +159,41 @@ msgstr "Usuario"
 msgid "Users"
 msgstr "Usuarios"
 
-#: app/views.py:214
+#: app/views.py:262
 msgid "number_backups_exceeded"
 msgstr ""
 "Se ha exedido la cantidad de copias realizables. Por favor, elimine copias "
 "anteriores para poder realizar una nueva. El límite actual es %(max_copies)s."
 
-#: app/views.py:271
+#: app/views.py:319
 msgid "backup_with_mistakes"
 msgstr "Backup realizado con errores!.."
 
-#: app/views.py:274
+#: app/views.py:322
 msgid "backup_finished"
 msgstr "Backup finalizado!"
 
-#: app/views.py:335 app/views.py:363
+#: app/views.py:359 app/views.py:387
 msgid "file_not_indicated"
 msgstr "No se especificó el archivo sobre el cual realizar la acción"
 
-#: app/views.py:341 app/views.py:369
+#: app/views.py:365 app/views.py:393
 msgid "without_permission"
 msgstr "No tiene permisos para realizar esta acción"
 
-#: app/views.py:348
+#: app/views.py:372
 msgid "deleted_file"
 msgstr "El archivo se eliminó correctamente"
 
-#: app/views.py:352
+#: app/views.py:376
 msgid "error_deleting"
 msgstr "Se produjo un error al eliminar el archivo"
 
-#: sdump/settings.py:128 sdump/settings.tpl.py:129
+#: sdump/settings.py:129 sdump/settings.tpl.py:138
 msgid "Spanish"
 msgstr "Español"
 
-#: sdump/settings.py:129 sdump/settings.tpl.py:130
+#: sdump/settings.py:130 sdump/settings.tpl.py:139
 msgid "English"
 msgstr "Inglés"
 
@@ -234,6 +237,41 @@ msgstr "Proyecto"
 msgid "title"
 msgstr "Sargo"
 
+#: templates/admin/change_form.html:21
+msgid "You have unsaved changes"
+msgstr "Tiene cambios no guardados"
+
+#: templates/admin/change_form.html:50 templates/admin/change_form.html:76
+msgid "Add"
+msgstr "Agregar"
+
+#: templates/admin/change_form.html:61
+msgid "Home"
+msgstr "Inicio"
+
+#: templates/admin/change_form.html:99
+msgid "tools"
+msgstr "Herramientas"
+
+#: templates/admin/change_form.html:109
+msgid "History"
+msgstr "Historial"
+
+#: templates/admin/change_form.html:113
+msgid "View on site"
+msgstr "Ver en el sitio"
+
+#: templates/admin/change_form.html:124
+#, python-format
+msgid "Add %(name)s"
+msgstr "Agregar %(name)s"
+
+#: templates/admin/change_form.html:153
+msgid "Please correct the error below."
+msgid_plural " Please correct the errors below."
+msgstr[0] "Por favor corrija el error indicado"
+msgstr[1] "Por favor corrija los errores indicados"
+
 #: templates/base.html:69
 msgid "registered_user"
 msgstr "Usuario registrado"
@@ -246,23 +284,23 @@ msgstr "Cerrar sesión"
 msgid "data_backup"
 msgstr "Datos del backup"
 
-#: templates/index.html:32
+#: templates/index.html:31
 msgid "options"
 msgstr "Opciones"
 
-#: templates/index.html:41
+#: templates/index.html:40
 msgid "inserts"
 msgstr "Inserts"
 
-#: templates/index.html:47
+#: templates/index.html:46
 msgid "clean"
 msgstr "Clean"
 
-#: templates/index.html:51
+#: templates/index.html:50
 msgid "extra_options"
 msgstr "Opciones Extras"
 
-#: templates/index.html:60
+#: templates/index.html:59
 msgid "make_backup"
 msgstr "Hacer dump"
 
@@ -276,18 +314,19 @@ msgstr ""
 msgid "making_backup"
 msgstr "Haciendo dump..  "
 
-#: templates/login.html:18 templates/registration/login.html:18
+#: templates/registration/login.html:6
+msgid "invalid_username_or_password"
+msgstr ""
+"Nombre de usuario o contraseña incorrectos. Por favor, inténtelo de nuevo."
+
+#: templates/registration/login.html:18
 msgid "home_login"
 msgstr "Iniciar sesión"
 
-#: templates/login.html:23 templates/registration/login.html:23
+#: templates/registration/login.html:23
 msgid "user"
 msgstr "usuario"
 
-#: templates/login.html:35 templates/registration/login.html:35
+#: templates/registration/login.html:35
 msgid "log_in"
 msgstr "Iniciar sesión"
-
-#: templates/registration/login.html:6
-msgid "invalid_username_or_password"
-msgstr "Nombre de usuario o contraseña incorrectos. Por favor, inténtelo de nuevo."

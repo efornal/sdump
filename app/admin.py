@@ -40,6 +40,10 @@ class BaseAdminForm(forms.ModelForm):
             'contrasenia': PasswordInput(render_value=True),
         }
 
+    def clean(self):
+        if not self.cleaned_data["contrasenia"] and not self.cleaned_data["password_id"]:
+            self.add_error('contrasenia',_('password_or_id_required') )
+
         
 def delete_config_file(file_path):
     try:
