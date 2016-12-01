@@ -64,6 +64,15 @@ class BaseAdmin(admin.ModelAdmin):
     search_fields = ['nombre','password_id','usuario']
 
     ordering = ('nombre','servidor','grupo')
+
+    
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['db_connection_verification'] = settings.DATABASE_CONNECTION_VERIFICATION
+        return super(BaseAdmin, self).change_view(
+            request, object_id, form_url, extra_context=extra_context,
+        )
+
     
     def save_model(self, request, obj, form, change):
 

@@ -169,7 +169,19 @@ SUIT_CONFIG = {
 LOCALE_PATHS = ( BASE_DIR + '/locale', )
 
 
-# LDAP Configuration ==============/
+# CUSTOM CONFIGURATION OF APPLICATION ==============/
+
+# Enable admin form button to verify connection
+DATABASE_CONNECTION_VERIFICATION=True
+
+# Contains the script that gets the key from RATTIC if the
+# DATABASE_CONNECTION_VERIFICATION option is enabled  
+RATTIC_KEY_RETRIEVAL_SCRIPT='/usr/local/sbin/get_rattic_user_pass'
+
+# ==================================================/
+
+
+# LDAP Configuration ===============================/
 
 # LDAP server
 LDAP_SERVER = 'ldap://host_ldap:port'
@@ -183,8 +195,7 @@ LDAP_DN = 'dc=domain,dc=edu,dc=ar'
 
 # Organizational Unit for Person
 LDAP_PEOPLE = 'People'
-
-# =================================/
+# ==================================================/
 
 
 # =================================\

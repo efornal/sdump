@@ -121,6 +121,7 @@ def make_backups_lists(group_id=None):
 
     return backups_lists
 
+
 def ip_from_vm_name( vm_name='' ):
     args = ['host',"{}".format(vm_name)]
     try:
@@ -136,6 +137,25 @@ def ip_from_vm_name( vm_name='' ):
         logging.error('ERROR Exception: %s' % e)
         return ''
 
+    
+def get_rattic_pass( rattic_id ):
+    params = ['sudo',settings.RATTIC_KEY_RETRIEVAL_SCRIPT,'-u', '-c', '-i', unicode(rattic_id)]
+
+    logging.info("Getting for rattic id: {}".format(rattic_id))
+    try:
+        p = subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        
+        if out:
+            return out.split('\n')[0:2]
+        else:
+            return ''
+    
+    except Exception as e:
+        logging.error('ERROR Exception: %s' % e)
+        return ''
+
+    
 def pg_check( args={} ):
     pg_env = os.environ.copy()
     pg_env["PGPASSWORD"] = args["db_pass"]
@@ -176,9 +196,7 @@ def check_pass(request):
     result = {}
     args={}
 
-    if 'db_pass' in request.POST and \
-       'db_user' in request.POST and \
-       'db_name' in request.POST and \
+    if 'db_name' in request.POST and \
        'db_server' in request.POST:
 
         server = Servidor.objects.get(nombre=request.POST['db_server'])
@@ -187,8 +205,15 @@ def check_pass(request):
         else:
             args.update({'db_port': '5432'})
 
-        args.update({'db_pass': request.POST['db_pass']})
-        args.update({'db_user': request.POST['db_user']})
+        if 'db_pass_id' in request.POST and request.POST['db_pass_id']:
+            db_user, db_pass = get_rattic_pass(request.POST['db_pass_id'])
+            args.update({'db_user': db_user})
+            args.update({'db_pass': db_pass})
+
+        if 'db_pass' in request.POST and request.POST['db_pass']:
+            args.update({'db_user': request.POST['db_user']})
+            args.update({'db_pass': request.POST['db_pass']})
+
         args.update({'db_name': request.POST['db_name']})
         args.update({'db_server': request.POST['db_server']})
 
