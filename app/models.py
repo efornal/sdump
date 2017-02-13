@@ -52,7 +52,7 @@ class Grupo(models.Model):
     def make_dir(cls,path):
         try:
             os.umask(0);
-            os.mkdir(path, settings.PERMISSIONS_DUMPS_DIRECTORY)
+            os.mkdir(path, int(settings.PERMISSIONS_DUMPS_DIRECTORY))
             gid = grp.getgrnam(settings.GROUP_DUMPS_DIRECTORY).gr_gid
             uid = pwd.getpwnam(settings.USER_DUMPS_DIRECTORY).pw_uid
             os.chown(path, uid, gid)
