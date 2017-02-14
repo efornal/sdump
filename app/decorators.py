@@ -13,7 +13,7 @@ def response_basic_realm(request):
 def validate_basic_http_autorization(view):
     from django.http import HttpResponse
     from django.conf import settings
-    logging.error("VIEW {}".format(view))
+
     def wrap(request, *args, **kwargs):
         if not 'HTTP_AUTHORIZATION' in request.META:
             logging.error("NO KEY HTTP_AUTHORIZATION")
