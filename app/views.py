@@ -27,7 +27,7 @@ from wsgiref.util import FileWrapper
 from django.http import FileResponse
 from django import forms
 import json
-
+from decorators import validate_basic_http_autorization, validate_https_request,response_basic_realm
 
 def clean_extra_options(options):
     cleaned = options
@@ -310,6 +310,8 @@ def update_databases(request):
     return render_to_response('_select_databases.html', context)
 
 
+
+
 @login_required
 def make_backup(request):
     database_id = int(request.POST['database_id'])
@@ -487,3 +489,140 @@ def download(request):
                             content_type='application/application/gzip')
     response['Content-Disposition'] = 'attachment; filename="%s"' % attachment_name
     return response
+
+def basic_http_authentication(request):
+    import base64
+    from django.contrib.auth import authenticate
+    auth = request.META['HTTP_AUTHORIZATION'].split()
+    user = None
+    if len(auth) == 2:
+        if auth[0].lower() == "basic":
+            uname, passwd = base64.b64decode(auth[1]).split(':')
+            user = authenticate(username=uname, password=passwd)
+    return user
+
+    
+@validate_basic_http_autorization
+@validate_https_request
+def api_make_backup(request):
+
+    user = basic_http_authentication(request)
+    if user is None:
+        logging.error("Invalid username or password")
+        return response_basic_realm(request)
+
+    logging.info("Validated user: {}".format(user.username))
+
+    if 'database_id' in request.GET:
+        database_id = int(request.GET['database_id'])
+        database = Base.objects.get(pk=database_id)
+        if not database:
+            logging.error("Invalid Database Id")
+            response_basic_realm(request)
+    
+    server = database.servidor
+    server_ip = server.ip
+    extra_options = ""
+    args = []
+    backup_directory = os.path.join( database.grupo.directorio,
+                                     settings.SUFFIX_SPORADIC_DUMPS)
+
+    # check for maximum sporadick backups
+    max_sporadic = 5
+    project_backup_dir = os.path.join(settings.DUMPS_DIRECTORY,
+                                      backup_directory,
+                                      '%s*_base-%s_*' % (database.servidor.nombre,
+                                                        database.nombre) )
+    if hasattr(settings, 'MAX_SPORADICS_BACKUPS'):
+        max_sporadic = settings.MAX_SPORADICS_BACKUPS
+
+    number_backups = number_of_backups(project_backup_dir)
+
+    if not (number_backups is None) and (number_backups >= max_sporadic):
+        logging.warning("Number of backups (%s) exceeded, the current limit is: %s." % \
+                        (number_backups,max_sporadic) )
+        message_user = _('number_backups_exceeded') % {'max_copies':max_sporadic}
+        return HttpResponse(message_user, content_type="text/plain")
+
+    logging.warning("Making backup ,...")
+
+    args.append('sudo')
+    args.append(settings.DUMPS_SCRIPT)
+
+    if server.version:
+        args.append('-m')
+        args.append(server.version.nombre)
+        
+    if 'opt_inserts' in request.POST and request.POST['opt_inserts']=='true':
+        args.append('-i')
+        
+    if 'opt_clean' in request.POST and request.POST['opt_clean']=='true':
+        extra_options += ' --clean '
+        
+    if 'extra_options' in request.POST:
+        extra_options += clean_extra_options(request.POST['extra_options'])
+
+    if extra_options:
+        args.append('-o')
+        args.append(extra_options)
+
+    args.append('-H')
+    args.append(server_ip)
+
+    args.append('-d')
+    args.append(database.nombre)
+
+    args.append('-U')
+    args.append(database.usuario)
+
+    args.append('-D')
+    args.append(backup_directory)
+
+    args_debug = list(args)
+    args_debug.append('-P')
+    args_debug.append('**********')
+    
+    args.append('-P')
+    args.append(database.contrasenia)
+
+
+    logging.warning("Running with params: \n %s \n" % (args_debug))
+    try:
+        p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        returned_code = p.returncode
+    except Exception as e:
+        logging.error('ERROR Exception: %s' % e)
+        
+    if returned_code :
+        logging.error("ERROR (%s): %s" % (returned_code,err))
+        logging.error("Output: %s" % out)
+        message_user = "error"
+    else:
+        logging.warning("Backup output (%s): %s" % (returned_code,out))
+        message_user = ""
+
+    return HttpResponse(message_user, content_type="text/plain")
+
+
+@validate_basic_http_autorization
+@validate_https_request
+def api_backup_info(request):
+
+    user = basic_http_authentication(request)
+    if user is None:
+        logging.error("Invalid username or password")
+        return response_basic_realm(request)
+
+    logging.info("Validated user: {}".format(user.username))
+
+    if 'backup_filename' in request.GET:
+        backup_filename = request.GET['backup_filename']
+
+        file_exist = os.path.isfile(backup_filename)
+        if file_exist:
+            logging.info("Existing backup filename: {}".format(backup_filename))
+            return HttpResponse("1", content_type="text/plain")
+        else:
+            logging.warning("Backup file does not exist: {}".format(backup_filename))
+            return HttpResponse("0", content_type="text/plain")

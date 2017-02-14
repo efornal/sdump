@@ -90,8 +90,15 @@ DATABASES = {
     }
 }
 
-# =================================/
-# APPLICATION configuration
+
+# CUSTOM CONFIGURATION OF APPLICATION ==============/
+#
+# Enable admin form button to verify connection
+DATABASE_CONNECTION_VERIFICATION=True
+
+# Contains the script that gets the key from RATTIC if the
+# DATABASE_CONNECTION_VERIFICATION option is enabled  
+RATTIC_KEY_RETRIEVAL_SCRIPT='/usr/local/sbin/get_rattic_user_pass'
 #
 # title displayed in the header
 APPLICATION_NAME = "Sargo"
@@ -128,6 +135,9 @@ DUMPS_SCRIPT = "/srv/scripts/hacer_dump"
 #
 # Message to the user on the home page
 USER_NOTIFICATION = "a user notification..., perhaps "
+#
+# ==================================================/
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -167,18 +177,6 @@ SUIT_CONFIG = {
 }
 
 LOCALE_PATHS = ( BASE_DIR + '/locale', )
-
-
-# CUSTOM CONFIGURATION OF APPLICATION ==============/
-
-# Enable admin form button to verify connection
-DATABASE_CONNECTION_VERIFICATION=True
-
-# Contains the script that gets the key from RATTIC if the
-# DATABASE_CONNECTION_VERIFICATION option is enabled  
-RATTIC_KEY_RETRIEVAL_SCRIPT='/usr/local/sbin/get_rattic_user_pass'
-
-# ==================================================/
 
 
 # LDAP Configuration ===============================/

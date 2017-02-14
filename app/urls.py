@@ -9,6 +9,8 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': settings.LOGIN_REDIRECT_URL},
         name='logout'),
+    url('^api_make_backup',views.api_make_backup, name='api_make_backup'),
+    url('^api_backup_info',views.api_backup_info, name='api_backup_info'),
     url('^check_server',views.check_server, name='check_server'),
     url('^check_pass',views.check_pass, name='check_pass'),
     url(r'^make_backup/',views.make_backup, name='make_backup'),
