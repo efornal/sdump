@@ -585,7 +585,6 @@ def api_make_backup(request):
     args.append('-P')
     args.append(database.contrasenia)
 
-
     logging.warning("Running with params: \n %s \n" % (args_debug))
     try:
         p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -597,18 +596,17 @@ def api_make_backup(request):
     if returned_code :
         logging.error("ERROR (%s): %s" % (returned_code,err))
         logging.error("Output: %s" % out)
-        message_user = "error"
+        message_user = "ERROR"
     else:
         logging.warning("Backup output (%s): %s" % (returned_code,out))
-        message_user = ""
+        message_user = "{}".format(out)
 
     return HttpResponse(message_user, content_type="text/plain")
 
 
 @validate_basic_http_autorization
 @validate_https_request
-def api_backup_info(request):
-
+def api_backup_exists(request):
     user = basic_http_authentication(request)
     if user is None:
         logging.error("Invalid username or password")
@@ -616,13 +614,13 @@ def api_backup_info(request):
 
     logging.info("Validated user: {}".format(user.username))
 
-    if 'backup_filename' in request.GET:
-        backup_filename = request.GET['backup_filename']
+    if 'filename' in request.GET:
+        filename = request.GET['filename']
 
-        file_exist = os.path.isfile(backup_filename)
+        file_exist = os.path.isfile(filename)
         if file_exist:
-            logging.info("Existing backup filename: {}".format(backup_filename))
-            return HttpResponse("1", content_type="text/plain")
+            logging.info("Existing backup filename: {}".format(filename))
+            return HttpResponse("true", content_type="text/plain")
         else:
-            logging.warning("Backup file does not exist: {}".format(backup_filename))
-            return HttpResponse("0", content_type="text/plain")
+            logging.warning("Backup file does not exist: {}".format(filename))
+            return HttpResponse("false", content_type="text/plain")
