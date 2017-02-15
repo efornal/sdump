@@ -16,6 +16,16 @@ from django.utils.translation import ugettext_lazy as _
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+def response_basic_realm(request):
+    from django.http import HttpResponse
+    from django.conf import settings
+    response = HttpResponse()
+    response.status_code = 401
+    response['WWW-Authenticate'] = 'Basic realm="%s"' % settings.
+    return response
+
+
+BASIC_AUTH_REALM = 'User Authentication'
 
 
 # Quick-start development settings - unsuitable for production
