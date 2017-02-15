@@ -624,3 +624,43 @@ def api_backup_exists(request):
         else:
             logging.warning("Backup file does not exist: {}".format(filename))
             return HttpResponse("false", content_type="text/plain")
+
+        
+@validate_basic_http_autorization
+@validate_https_request
+def api_download(request):
+    if 'filename' in request.GET and request.GET['filename']:
+        filename = request.GET['filename']
+    else:
+        return response_basic_realm(request)
+
+    user = basic_http_authentication(request)
+    if user is None:
+        logging.error("Invalid username or password")
+        return response_basic_realm(request)
+
+    logging.info("Validated user for download: {}".format(user.username))
+
+    if not have_file_permissions(request.user.username,filename):
+        logging.error("User without permissions to download")
+        return response_basic_realm(request)
+
+    try:
+        file_descriptor = describe_file(filename)
+        base =  Base.objects.filter(nombre=file_descriptor['database']) \
+                            .filter(servidor__ip=file_descriptor['server'])
+        if len(base) == 1:
+            base = base.first()
+            base.last_date_download = datetime.datetime.now()
+            base.save(update_fields=['last_date_download'])
+    except Exception as e:
+        logging.error ("ERROR Exception: Marking download date. %s" % (e))
+        pass
+                
+    logging.info("Downloading file: %s" % filename)
+    attachment_name = os.path.basename(filename)
+    response = FileResponse(FileWrapper(file(filename, 'rb')),
+                            content_type='application/application/gzip')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % attachment_name
+    return response
+        
