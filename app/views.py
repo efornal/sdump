@@ -490,6 +490,7 @@ def download(request):
     response['Content-Disposition'] = 'attachment; filename="%s"' % attachment_name
     return response
 
+
 def basic_http_authentication(request):
     import base64
     from django.contrib.auth import authenticate
