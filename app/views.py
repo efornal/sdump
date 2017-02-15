@@ -649,10 +649,19 @@ def api_download(request):
         file_descriptor = describe_file(filename)
         base =  Base.objects.filter(nombre=file_descriptor['database']) \
                             .filter(servidor__ip=file_descriptor['server'])
+
+        if not base:
+            logging.error("No database found")
+            return HttpResponse('404 No database found', status=404)
+
         if len(base) == 1:
             base = base.first()
             base.last_date_download = datetime.datetime.now()
             base.save(update_fields=['last_date_download'])
+        else:
+            logging.error("The database was not found, or more than one")
+            return HttpResponse('404 Invalid amount of database', status=404)
+
     except Exception as e:
         logging.error ("ERROR Exception: Marking download date. %s" % (e))
         pass
