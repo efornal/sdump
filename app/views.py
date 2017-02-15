@@ -641,7 +641,7 @@ def api_download(request):
 
     logging.info("Validated user for download: {}".format(user.username))
 
-    if not have_file_permissions(request.user.username,filename):
+    if not have_file_permissions(user.username,filename):
         logging.error("User without permissions to download")
         return HttpResponse('401 Unauthorized', status=401)
 
