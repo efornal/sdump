@@ -10,7 +10,7 @@ def validate_basic_http_autorization(view):
             logging.error("No key HTTP_AUTHORIZATION in request")
             response = HttpResponse()
             response.status_code = 401
-            response['WWW-Authenticate'] = 'Basic realm={}'.format(settings.BASIC_AUTH_REALM)
+            response['WWW-Authenticate'] = 'ERROR Basic realm={}'.format(settings.BASIC_AUTH_REALM)
             return response
         else:
             return view(request, *args, **kwargs)
@@ -27,7 +27,7 @@ def validate_https_request(view):
             logging.error("The key REQUEST_SCHEME is not HTTPS")
             response = HttpResponse()
             response.status_code = 401
-            response['WWW-Authenticate'] = 'Basic realm={}'.format(settings.BASIC_AUTH_REALM)
+            response['WWW-Authenticate'] = 'ERROR Basic realm={}'.format(settings.BASIC_AUTH_REALM)
             return response
         else:
             return view(request, *args, **kwargs)
