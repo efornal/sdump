@@ -27,7 +27,7 @@ from wsgiref.util import FileWrapper
 from django.http import FileResponse
 from django import forms
 import json
-from decorators import validate_basic_http_autorization, validate_https_request,response_basic_realm
+from decorators import validate_basic_http_autorization, validate_https_request
 
 def clean_extra_options(options):
     cleaned = options
@@ -510,7 +510,7 @@ def api_make_backup(request):
     user = basic_http_authentication(request)
     if user is None:
         logging.error("Invalid username or password")
-        return response_basic_realm(request)
+        return HttpResponse('401 Unauthorized', status=401)
 
     logging.info("Validated user: {}".format(user.username))
 
@@ -519,7 +519,7 @@ def api_make_backup(request):
         database = Base.objects.get(pk=database_id)
         if not database:
             logging.error("Invalid Database Id")
-            response_basic_realm(request)
+            return HttpResponse('404 Request not found', status=404)
     
     server = database.servidor
     server_ip = server.ip
@@ -542,8 +542,7 @@ def api_make_backup(request):
     if not (number_backups is None) and (number_backups >= max_sporadic):
         logging.warning("Number of backups (%s) exceeded, the current limit is: %s." % \
                         (number_backups,max_sporadic) )
-        message_user = _('number_backups_exceeded') % {'max_copies':max_sporadic}
-        return HttpResponse(message_user, content_type="text/plain")
+        return HttpResponse('403 Copy limit exceeded', status=403)
 
     logging.warning("Making backup ,...")
 
@@ -611,7 +610,7 @@ def api_backup_exists(request):
     user = basic_http_authentication(request)
     if user is None:
         logging.error("Invalid username or password")
-        return response_basic_realm(request)
+        return HttpResponse('401 Unauthorized', status=401)
 
     logging.info("Validated user: {}".format(user.username))
 
@@ -633,18 +632,18 @@ def api_download(request):
     if 'filename' in request.GET and request.GET['filename']:
         filename = request.GET['filename']
     else:
-        return response_basic_realm(request)
+        return HttpResponse('400 Invalid request', status=400)
 
     user = basic_http_authentication(request)
     if user is None:
         logging.error("Invalid username or password")
-        return response_basic_realm(request)
+        return HttpResponse('401 Unauthorized', status=401)
 
     logging.info("Validated user for download: {}".format(user.username))
 
     if not have_file_permissions(request.user.username,filename):
         logging.error("User without permissions to download")
-        return response_basic_realm(request)
+        return HttpResponse('401 Unauthorized', status=401)
 
     try:
         file_descriptor = describe_file(filename)
