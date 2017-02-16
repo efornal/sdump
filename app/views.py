@@ -513,16 +513,17 @@ def api_make_backup(request):
         return HttpResponse('401 Unauthorized', status=401)
 
     logging.info("Validated user: {}".format(user.username))
-
+    logging.info("Validated user: {}".format(user.username))
+    database=None
     try:
         if 'database_id' in request.GET:
             database_id = int(request.GET['database_id'])
             database = Base.objects.get(pk=database_id)
-            if not database:
-                logging.error("Invalid Database Id")
-                return HttpResponse('404 Request not found', status=404)
     except Exception as e:
         logging.error ("ERROR Exception: Marking backup. Incorrect database_id. %s" % (e))
+
+    if not database:
+        logging.error("Invalid Database Id")
         return HttpResponse('404 Request not found', status=404)
     
     server = database.servidor
