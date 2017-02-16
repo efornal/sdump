@@ -510,7 +510,7 @@ def api_make_backup(request):
     user = basic_http_authentication(request)
     if user is None:
         logging.error("Invalid username or password")
-        return HttpResponse('ERROR 401 Unauthorized', status=401)
+        return HttpResponse('401 Unauthorized', status=401)
 
     logging.info("Validated user: {}".format(user.username))
 
@@ -520,10 +520,10 @@ def api_make_backup(request):
             database = Base.objects.get(pk=database_id)
             if not database:
                 logging.error("Invalid Database Id")
-                return HttpResponse('ERROR 404 Request not found', status=404)
+                return HttpResponse('404 Request not found', status=404)
     except Exception as e:
         logging.error ("ERROR Exception: Marking backup. Incorrect database_id. %s" % (e))
-        return HttpResponse('ERROR 404 Request not found', status=404)
+        return HttpResponse('404 Request not found', status=404)
     
     server = database.servidor
     server_ip = server.ip
@@ -546,7 +546,7 @@ def api_make_backup(request):
     if not (number_backups is None) and (number_backups >= max_sporadic):
         logging.warning("Number of backups (%s) exceeded, the current limit is: %s." % \
                         (number_backups,max_sporadic) )
-        return HttpResponse('ERROR 403 Copy limit exceeded', status=403)
+        return HttpResponse('403 Copy limit exceeded', status=403)
 
     logging.warning("Making backup ,...")
 
@@ -600,10 +600,10 @@ def api_make_backup(request):
     if returned_code :
         logging.error("ERROR (%s): %s" % (returned_code,err))
         logging.error("Output: %s" % out)
-        message_user = "ERROR"
+        message_user = "500 Internal Server Error"
     else:
         logging.warning("Backup output (%s): %s" % (returned_code,out))
-        message_user = "{}".format(out)
+        message_user = "200 {}".format(out)
 
     return HttpResponse(message_user, content_type="text/plain")
 
@@ -614,7 +614,7 @@ def api_backup_exists(request):
     user = basic_http_authentication(request)
     if user is None:
         logging.error("Invalid username or password")
-        return HttpResponse('ERROR 401 Unauthorized', status=401)
+        return HttpResponse('401 Unauthorized', status=401)
 
     logging.info("Validated user: {}".format(user.username))
 
@@ -636,18 +636,18 @@ def api_download(request):
     if 'filename' in request.GET and request.GET['filename']:
         filename = request.GET['filename']
     else:
-        return HttpResponse('ERROR 400 Invalid request', status=400)
+        return HttpResponse('400 Invalid request', status=400)
 
     user = basic_http_authentication(request)
     if user is None:
         logging.error("Invalid username or password")
-        return HttpResponse('ERROR 401 Unauthorized', status=401)
+        return HttpResponse('401 Unauthorized', status=401)
 
     logging.info("Validated user for download: {}".format(user.username))
 
     if not have_file_permissions(user.username,filename):
         logging.error("User without permissions to download")
-        return HttpResponse('ERROR 401 Unauthorized', status=401)
+        return HttpResponse('401 Unauthorized', status=401)
 
     try:
         file_descriptor = describe_file(filename)
@@ -656,7 +656,7 @@ def api_download(request):
 
         if not base:
             logging.error("No database found")
-            return HttpResponse('ERROR 404 No database found', status=404)
+            return HttpResponse('404 No database found', status=404)
 
         if len(base) == 1:
             base = base.first()
@@ -664,7 +664,7 @@ def api_download(request):
             base.save(update_fields=['last_date_download'])
         else:
             logging.error("The database was not found, or more than one")
-            return HttpResponse('ERROR 404 Invalid amount of database', status=404)
+            return HttpResponse('404 Invalid amount of database', status=404)
 
     except Exception as e:
         logging.error ("ERROR Exception: Marking download date. %s" % (e))
