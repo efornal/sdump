@@ -25,7 +25,7 @@ msgstr "La contraseña o identificador de password (rattic) son requeridos"
 #: app/admin.py:116
 msgid "msg_backup_config_file_error"
 msgstr ""
-"Se produjo un error al crear el archivo de configuración de backup "
+"Se produjo un error al crear el archivo de configuración de dump "
 "permanente %(filename)s"
 
 #: app/admin.py:121
@@ -167,11 +167,11 @@ msgstr ""
 
 #: app/views.py:319
 msgid "backup_with_mistakes"
-msgstr "Backup realizado con errores!.."
+msgstr "Dump realizado con errores!.."
 
 #: app/views.py:322
 msgid "backup_finished"
-msgstr "Backup finalizado!"
+msgstr "Dump finalizado!"
 
 #: app/views.py:359 app/views.py:387
 msgid "file_not_indicated"
@@ -199,7 +199,7 @@ msgstr "Inglés"
 
 #: templates/_backups_lists.html:3
 msgid "sporadic_backups"
-msgstr "Backups esporádicos"
+msgstr "Dumps esporádicos"
 
 #: templates/_backups_lists.html:10 templates/_backups_lists.html:52
 msgid "Date_and_time"
@@ -223,7 +223,7 @@ msgstr "Eliminar"
 
 #: templates/_backups_lists.html:45
 msgid "periodic_backups"
-msgstr "Backups periódicos"
+msgstr "Dumps periódicos"
 
 #: templates/_backups_lists.html:87
 msgid "confirm_remove_file"
@@ -282,7 +282,7 @@ msgstr "Cerrar sesión"
 
 #: templates/index.html:19
 msgid "data_backup"
-msgstr "Datos del backup"
+msgstr "Datos del Dump"
 
 #: templates/index.html:31
 msgid "options"
@@ -307,7 +307,7 @@ msgstr "Hacer dump"
 #: templates/index.html:96
 msgid "confirm_make_backup"
 msgstr ""
-"¿Confirma que desea realizar el backup? Esta acción afectará el servicio "
+"¿Confirma que desea realizar el dump? Esta acción afectará el servicio "
 "mientras dure el proceso de copia."
 
 #: templates/index.html:101
