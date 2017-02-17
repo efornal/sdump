@@ -327,7 +327,7 @@ def make_backup(request):
     max_sporadic = 5
     project_backup_dir = os.path.join(settings.DUMPS_DIRECTORY,
                                       backup_directory,                                      
-                                      '%s*_base-%s_*' % (database.servidor.nombre,
+                                      '%s*_base-%s_*' % (database.servidor.ip,
                                                         database.nombre) )
     if hasattr(settings, 'MAX_SPORADICS_BACKUPS'):
         max_sporadic = settings.MAX_SPORADICS_BACKUPS
@@ -537,7 +537,7 @@ def api_make_backup(request):
     max_sporadic = 5
     project_backup_dir = os.path.join(settings.DUMPS_DIRECTORY,
                                       backup_directory,
-                                      '%s*_base-%s_*' % (database.servidor.nombre,
+                                      '%s*_base-%s_*' % (database.servidor.ip,
                                                         database.nombre) )
     if hasattr(settings, 'MAX_SPORADICS_BACKUPS'):
         max_sporadic = settings.MAX_SPORADICS_BACKUPS
