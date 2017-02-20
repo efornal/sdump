@@ -695,7 +695,7 @@ def api_last_dump(request):
             database_id = int(request.GET['database_id'])
             database = Base.objects.get(pk=database_id)
     except Exception as e:
-        logging.error ("ERROR Exception: Marking backup. Incorrect database_id. %s" % (e))
+        logging.error ("ERROR Exception: Incorrect database_id. %s" % (e))
 
     if not database:
         logging.error("Invalid Database Id")
@@ -708,13 +708,18 @@ def api_last_dump(request):
                                       '*/%s*_base-%s_*' % (database.servidor.ip,
                                                             database.nombre) )
     try:
-        logging.error("dir count backup: %s" % project_backup_dir)
+        logging.error("Path to count dumps: %s" % project_backup_dir)
 
         dumps_list = glob.glob("%s" % project_backup_dir)
-        logging.error(dumps_list)
-        logging.error(sort(dumps_list))
-        return HttpResponse(str(dumps_list), content_type="text/plain")
+        dumps_list.sort(key=lambda x: re.sub(r"^.*_base-","",x))
+        last_dump=""
+        if len(dumps_list) > 0:
+            last_dump = dumps_list[-1]
+
+        logging.warning("Dump list:{}".format(dumps_list))
+        logging.warning("Last dump:{}".format(last_dump))
+        return HttpResponse(last_dump, content_type="text/plain")
     except Exception as e:
-        logging.error("ERROR Exception: %s".format(e))
+        logging.error("ERROR Exception: {}".format(e))
         return HttpResponse('500 Internal Server Error', status=500)
         pass
