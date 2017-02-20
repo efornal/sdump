@@ -678,3 +678,43 @@ def api_download(request):
     response['Content-Disposition'] = 'attachment; filename="%s"' % attachment_name
     return response
         
+
+@validate_basic_http_autorization
+@validate_https_request
+def api_last_dump(request):
+    user = basic_http_authentication(request)
+    if user is None:
+        logging.error("Invalid username or password")
+        return HttpResponse('401 Unauthorized', status=401)
+
+    logging.info("Validated user to api_backup_exists: {}".format(user.username))
+
+    database=None
+    try:
+        if 'database_id' in request.GET:
+            database_id = int(request.GET['database_id'])
+            database = Base.objects.get(pk=database_id)
+    except Exception as e:
+        logging.error ("ERROR Exception: Marking backup. Incorrect database_id. %s" % (e))
+
+    if not database:
+        logging.error("Invalid Database Id")
+        return HttpResponse('404 Request not found', status=404)
+    
+    backup_directory = database.grupo.directorio
+
+    project_backup_dir = os.path.join(settings.DUMPS_DIRECTORY,
+                                      backup_directory,
+                                      '*/%s*_base-%s_*' % (database.servidor.ip,
+                                                            database.nombre) )
+    try:
+        logging.error("dir count backup: %s" % project_backup_dir)
+
+        dumps_list = glob.glob("%s" % project_backup_dir)
+        logging.error(dumps_list)
+        logging.error(sort(dumps_list))
+        return HttpResponse(str(dumps_list), content_type="text/plain")
+    except Exception as e:
+        logging.error("ERROR Exception: %s".format(e))
+        return HttpResponse('500 Internal Server Error', status=500)
+        pass
