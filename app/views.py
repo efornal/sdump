@@ -723,7 +723,7 @@ def api_last_dump(request):
 
         logging.warning("Dump list:{}".format(dumps_list))
         logging.warning("Last dump:{}".format(last_dump))
-        return HttpResponse(last_dump, content_type="text/plain")
+        return HttpResponse("200 {}".format(last_dump), content_type="text/plain")
     except Exception as e:
         logging.error("ERROR Exception: {}".format(e))
         return HttpResponse('500 Internal Server Error', status=500)
