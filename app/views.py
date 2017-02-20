@@ -533,6 +533,13 @@ def api_make_backup(request):
     backup_directory = os.path.join( database.grupo.directorio,
                                      settings.SUFFIX_SPORADIC_DUMPS)
 
+    dump_date=datetime.datetime.now().strftime('%d-%m-%Y_%H-%M')
+    backup_name = os.path.join(settings.DUMPS_DIRECTORY,
+                               backup_directory,
+                               '%s_base-%s_%s.sql.gz' % (database.servidor.ip,
+                                                         database.nombre,
+                                                         dump_date) )
+
     # check for maximum sporadick backups
     max_sporadic = 5
     project_backup_dir = os.path.join(settings.DUMPS_DIRECTORY,
@@ -583,6 +590,9 @@ def api_make_backup(request):
     args.append('-D')
     args.append(backup_directory)
 
+    args.append('-n')
+    args.append(backup_name)
+
     args_debug = list(args)
     args_debug.append('-P')
     args_debug.append('**********')
@@ -592,19 +602,14 @@ def api_make_backup(request):
 
     logging.warning("Running with params: \n %s \n" % (args_debug))
     try:
-        p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, err = p.communicate()
-        returned_code = p.returncode
+        p = subprocess.Popen(args)
+
+        logging.warning("Requested dump: {}".format(backup_name))
+        message_user = "200 {}".format(backup_name)
+
     except Exception as e:
         logging.error('ERROR Exception: %s' % e)
-        
-    if returned_code :
-        logging.error("ERROR (%s): %s" % (returned_code,err))
-        logging.error("Output: %s" % out)
         message_user = "500 Internal Server Error"
-    else:
-        logging.warning("Backup output (%s): %s" % (returned_code,out))
-        message_user = "200 {}".format(out)
 
     return HttpResponse(message_user, content_type="text/plain")
 
