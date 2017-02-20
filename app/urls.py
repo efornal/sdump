@@ -12,6 +12,7 @@ urlpatterns = [
     url('^api/make_dump',views.api_make_backup, name='api_make_backup'),
     url('^api/dump_exists',views.api_backup_exists, name='api_backup_exists'),
     url('^api/download',views.api_download, name='api_download'),
+    url('^api/last_dump',views.api_last_dump, name='api_last_dump'),
     url('^check_server',views.check_server, name='check_server'),
     url('^check_pass',views.check_pass, name='check_pass'),
     url(r'^make_backup/',views.make_backup, name='make_backup'),
