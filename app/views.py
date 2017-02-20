@@ -703,7 +703,7 @@ def api_last_dump(request):
         logging.error ("ERROR Exception: Incorrect database_id. %s" % (e))
 
     if not database:
-        logging.error("Invalid Database Id")
+        logging.warning("Invalid Database Id")
         return HttpResponse('404 Request not found', status=404)
     
     backup_directory = database.grupo.directorio
@@ -713,7 +713,7 @@ def api_last_dump(request):
                                       '*/%s*_base-%s_*' % (database.servidor.ip,
                                                             database.nombre) )
     try:
-        logging.error("Path to count dumps: %s" % project_backup_dir)
+        logging.info("Path to count dumps: %s" % project_backup_dir)
 
         dumps_list = glob.glob("%s" % project_backup_dir)
         dumps_list.sort(key=lambda x: re.sub(r"^.*_base-","",x))
@@ -721,8 +721,8 @@ def api_last_dump(request):
         if len(dumps_list) > 0:
             last_dump = dumps_list[-1]
 
-        logging.warning("Dump list:{}".format(dumps_list))
-        logging.warning("Last dump:{}".format(last_dump))
+        logging.info("Dumps list: {}".format(dumps_list))
+        logging.info("Last dump found: {}".format(last_dump))
         return HttpResponse("200 {}".format(last_dump), content_type="text/plain")
     except Exception as e:
         logging.error("ERROR Exception: {}".format(e))
