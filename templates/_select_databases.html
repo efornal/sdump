@@ -4,7 +4,7 @@
     {% for database in databases %}
     <option value='{{ database.id }}'
             {% if database.id == database_id %} selected="selected" {% endif %}
-            >{{ database.nombre }}</option>
+            >{{ database.nombre }} ({{ database.id }})</option>
     {% endfor %}
   </select>
 </div>
