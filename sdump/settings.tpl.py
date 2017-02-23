@@ -93,11 +93,19 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'sdump_db',
+        'USER': 'sdump_user',
+        'PASSWORD': 'user',
+        'PORT': '5432',
+        'HOST': 'localhost',
+    },
+    'sdump_owner': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'sdump_db',
         'USER': 'sdump_owner',
         'PASSWORD': 'owner',
         'PORT': '5432',
         'HOST': 'localhost',
-    }
+    },
 }
 
 

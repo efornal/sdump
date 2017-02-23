@@ -18,7 +18,7 @@ cp sdump/settings.tpl.py sdump/settings.py
 
 ### Util commands
 ```bash
-python manage.py migrate
+python manage.py migrate --database=sdump_owner
 
 pip freeze > requirements.txt
 pip install -r requirements.txt
