@@ -533,7 +533,7 @@ def api_make_backup(request):
     backup_directory = os.path.join( database.grupo.directorio,
                                      settings.SUFFIX_SPORADIC_DUMPS)
 
-    dump_date=datetime.datetime.now().strftime('%d-%m-%Y_%H-%M')
+    dump_date=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
     backup_name = os.path.join(settings.DUMPS_DIRECTORY,
                                backup_directory,
                                '%s_base-%s_%s.sql.gz' % (database.servidor.ip,
