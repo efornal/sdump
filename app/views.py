@@ -140,20 +140,20 @@ def ip_from_vm_name( vm_name='' ):
     
 def get_rattic_pass( rattic_id ):
     params = ['sudo',settings.RATTIC_KEY_RETRIEVAL_SCRIPT,'-u', '-c', '-i', unicode(rattic_id)]
-
     logging.info("Getting for rattic id: {}".format(rattic_id))
     try:
         p = subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
-        
-        if out:
-            return out.split('\n')[0:2]
+
+        if err:
+            logging.error("ERROR Getting rattic id: {}".format(err))
+            return ['','']
         else:
-            return ''
+            return out.split('\n')[0:2]
     
     except Exception as e:
         logging.error('ERROR Exception: %s' % e)
-        return ''
+        return ['','']
 
     
 def pg_check( args={} ):
@@ -369,21 +369,37 @@ def make_backup(request):
     args.append('-d')
     args.append(database.nombre)
 
-    args.append('-U')
-    args.append(database.usuario)
-
     args.append('-D')
     args.append(backup_directory)
 
     args_debug = list(args)
+    
+    if database.contrasenia:
+        args.append('-U')
+        args.append(database.usuario)
+        args.append('-P')
+        args.append(database.contrasenia)
+        args_debug.append('-U')             # for debug
+        args_debug.append(database.usuario) # for debug
+    else:
+        if database.password_id:
+            logging.warning("Password not defined, using password_id ...")
+            db_user, db_pass = get_rattic_pass(database.password_id)
+            args.append('-U')
+            args.append(db_user)
+            args.append('-P')
+            args.append(db_pass)
+            args_debug.append('-U')    # for debug
+            args_debug.append(db_user) # for debug
+        else:
+            logging.error("ERROR: No password or id password to use")
+            message_user = "%s\n" % (_('backup_with_mistakes'))
+
+
     args_debug.append('-P')
     args_debug.append('**********')
-    
-    args.append('-P')
-    args.append(database.contrasenia)
-
-
     logging.warning("Running with params: \n %s \n" % (args_debug))
+
     try:
         p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
