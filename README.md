@@ -24,6 +24,39 @@ pip freeze > requirements.txt
 pip install -r requirements.txt
 ```
 
+### Api request format
+Depending on the type of request, it may or may not require [Basic access authentication](https://en.wikipedia.org/wiki/Basic_access_authentication). In these cases an https connection is required.
+##### Make dump
+```bash
+echo $(curl -kv https://hostname/api/make_dump?database_id=120 -u username:password)
+
+200 /dumpspath/server_base-dbname_2017-02-16-09_33.sql.gz
+```
+##### Check if the dump exists
+```bash
+echo $(curl -kv https://hostname/api/dump_exists?filename=/dumpspath/server_base-dbname_2017-02-16-09_33.sql.gz -u username:password)" 
+
+true
+```
+##### Download dump
+```bash
+curl -kv -X GET -u usuario:password https://hostname/api/download?filename=/dumpspath/server_base-dbname_2017-02-16-09_33.sql.gz > /tmp/server_base-dbname_2017-02-16-09_33.sql.gz
+
+```
+##### Get the name of the last dump of a given database
+```bash
+echo $(curl -kv https://hostname/api/last_dump?database_id=id -u username:password)
+
+200 /dumpspath/server_base-dbname_2017-02-16-09_33.sql.gz
+```
+##### Get id from names
+The group can be omitted if multiple results are not obtained
+```bash
+echo $(curl -kv 'https://hostname/api/get_database_id?database=dbname&server=server&group=migroup' -u username:password)
+
+200 database_id database_name
+```
+
 ### Postgres configuration
 ```bash
 createdb sdump_db;
