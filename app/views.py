@@ -744,3 +744,48 @@ def api_last_dump(request):
         logging.error("ERROR Exception: {}".format(e))
         return HttpResponse('500 Internal Server Error', status=500)
         pass
+
+    
+@validate_basic_http_autorization
+@validate_https_request
+def api_get_database_id(request, database='', server='', group=''):
+    user = basic_http_authentication(request)
+    if user is None:
+        logging.error("Invalid username or password")
+        return HttpResponse('401 Unauthorized', status=401)
+
+    logging.info("Validated user: {}".format(user.username))
+
+    if not server or not database: 
+        logging.warning("Database and server name are required")
+        return HttpResponse('404 Request not found', status=404)
+
+    try:
+        if group:
+            db_found = Base.objects.values('id', 'nombre') \
+                                   .filter(grupo__nombre=group) \
+                                   .filter(servidor__nombre=server) \
+                                   .filter(nombre=database)
+        else:
+            db_found = Base.objects.values('id', 'nombre') \
+                                   .filter(servidor__nombre=server) \
+                                   .filter(nombre=database)
+
+        if len(db_found) == 1:
+            db_found = db_found.first()
+            logging.info("Database found: {}-{}".format(db_found['id'],db_found['nombre']))
+            return HttpResponse("200 {} {}".format(db_found['id'],db_found['nombre']), \
+                                content_type="text/plain",status=200)
+        elif len(db_found) > 1: 
+            logging.warning("More than one result was found for database:{}, server:{}, group:{}" \
+                            .format(database, server, group))
+            return HttpResponse('404 More than one result was found', status=404)
+        else:
+            logging.warning("No results found for database:{}, server:{}, group:{}" \
+                            .format(database, server, group))
+            return HttpResponse('404 Request not found', status=404)
+    
+    except Exception as e:
+        logging.error ("ERROR Exception: {}".format(e))
+        return HttpResponse('500 Internal Server Error', status=500)
+
