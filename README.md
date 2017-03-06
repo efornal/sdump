@@ -26,6 +26,16 @@ pip install -r requirements.txt
 
 ### Api request format
 Api requests require authentication through [Basic access authentication](https://en.wikipedia.org/wiki/Basic_access_authentication). An https connection is required.
+The answers try to match the preset codes:
+```bash
+200 file_name
+
+400 Bad request
+401 Unauthorized
+404 Not Found
+500 Internal Server Error
+```
+
 ##### Make dump
 ```bash
 echo $(curl -kv https://hostname/api/make_dump?database_id=id -u username:password)
