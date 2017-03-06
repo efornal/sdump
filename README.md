@@ -25,10 +25,10 @@ pip install -r requirements.txt
 ```
 
 ### Api request format
-Depending on the type of request, it may or may not require [Basic access authentication](https://en.wikipedia.org/wiki/Basic_access_authentication). In these cases an https connection is required.
+Api requests require authentication through [Basic access authentication](https://en.wikipedia.org/wiki/Basic_access_authentication). An https connection is required.
 ##### Make dump
 ```bash
-echo $(curl -kv https://hostname/api/make_dump?database_id=120 -u username:password)
+echo $(curl -kv https://hostname/api/make_dump?database_id=id -u username:password)
 
 200 /dumpspath/server_base-dbname_2017-02-16-09_33.sql.gz
 ```
