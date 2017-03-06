@@ -748,13 +748,23 @@ def api_last_dump(request):
     
 @validate_basic_http_autorization
 @validate_https_request
-def api_get_database_id(request, database='', server='', group=''):
+def api_get_database_id(request):
     user = basic_http_authentication(request)
     if user is None:
         logging.error("Invalid username or password")
         return HttpResponse('401 Unauthorized', status=401)
 
     logging.info("Validated user: {}".format(user.username))
+
+    server = ''
+    database = ''
+    group = ''
+    if 'server' in request.GET:
+        server = request.GET['server']
+    if 'database' in request.GET:
+        database = request.GET['database']
+    if 'group' in request.GET:
+        group = request.GET['group']
 
     if not server or not database: 
         logging.warning("Database and server name are required")
