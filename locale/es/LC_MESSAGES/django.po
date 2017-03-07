@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-30 09:20-0300\n"
+"POT-Creation-Date: 2017-03-06 13:17-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,13 +22,13 @@ msgstr ""
 msgid "password_or_id_required"
 msgstr "La contraseña o identificador de password (rattic) son requeridos"
 
-#: app/admin.py:116
+#: app/admin.py:125
 msgid "msg_backup_config_file_error"
 msgstr ""
-"Se produjo un error al crear el archivo de configuración de dump "
-"permanente %(filename)s"
+"Se produjo un error al crear el archivo de configuración de dump permanente "
+"%(filename)s"
 
-#: app/admin.py:121
+#: app/admin.py:130
 msgid "msg_incomplete_parameters"
 msgstr "Parámetros incompletos para crear archivo de configuración de dumps"
 
@@ -159,41 +159,41 @@ msgstr "Usuario"
 msgid "Users"
 msgstr "Usuarios"
 
-#: app/views.py:262
+#: app/views.py:340
 msgid "number_backups_exceeded"
 msgstr ""
 "Se ha exedido la cantidad de copias realizables. Por favor, elimine copias "
 "anteriores para poder realizar una nueva. El límite actual es %(max_copies)s."
 
-#: app/views.py:319
+#: app/views.py:396 app/views.py:413
 msgid "backup_with_mistakes"
 msgstr "Dump realizado con errores!.."
 
-#: app/views.py:322
+#: app/views.py:416
 msgid "backup_finished"
 msgstr "Dump finalizado!"
 
-#: app/views.py:359 app/views.py:387
+#: app/views.py:453 app/views.py:481
 msgid "file_not_indicated"
 msgstr "No se especificó el archivo sobre el cual realizar la acción"
 
-#: app/views.py:365 app/views.py:393
+#: app/views.py:459 app/views.py:487
 msgid "without_permission"
 msgstr "No tiene permisos para realizar esta acción"
 
-#: app/views.py:372
+#: app/views.py:466
 msgid "deleted_file"
 msgstr "El archivo se eliminó correctamente"
 
-#: app/views.py:376
+#: app/views.py:470
 msgid "error_deleting"
 msgstr "Se produjo un error al eliminar el archivo"
 
-#: sdump/settings.py:129 sdump/settings.tpl.py:138
+#: sdump/settings.py:145 sdump/settings.tpl.py:166
 msgid "Spanish"
 msgstr "Español"
 
-#: sdump/settings.py:130 sdump/settings.tpl.py:139
+#: sdump/settings.py:146 sdump/settings.tpl.py:167
 msgid "English"
 msgstr "Inglés"
 
@@ -313,6 +313,10 @@ msgstr ""
 #: templates/index.html:101
 msgid "making_backup"
 msgstr "Haciendo dump..  "
+
+#: templates/index.html:128
+msgid "timeout_dump"
+msgstr "El tiempo de espera ha exedido. Si la base de datos es grande verifique la lista mas tarde."
 
 #: templates/registration/login.html:6
 msgid "invalid_username_or_password"

@@ -259,6 +259,7 @@ def index(request,group_id=0, server_id=0, database_id=0):
     context.update({'groups': groups})
     context.update({'sporadics': sporadics })
     context.update({'periodics': periodics })
+    context.update({'dump_timeout': settings.DUMP_TIMEOUT })
     
     if not group_id:
         context.update({'backup_notification': settings.USER_NOTIFICATION})

@@ -147,6 +147,9 @@ PERMISSIONS_CONFIG_DUMP_FILE = '0600'
 # by 'id' and/or 'username'. Ej, both of them: ['id', 'username']
 DUMPS_CONFIG_AUTHENTICATION = ['id']
 #
+# Time the dump is expected before restarting the page
+DUMP_TIMEOUT=50000
+#
 # bash script to make dump
 DUMPS_SCRIPT = "/srv/scripts/hacer_dump"
 #

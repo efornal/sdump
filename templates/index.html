@@ -104,6 +104,7 @@ $(document).ready(function(){
     opt_clean = $("#opt_clean").is(':checked');
     $.ajax({
         url: "{% url 'make_backup' %}",
+        timeout:'{{ dump_timeout }}' || 5000, 
         data: {
           csrfmiddlewaretoken: '{{ csrf_token }}',
           database_id: $('#database_select').val(),
@@ -122,7 +123,12 @@ $(document).ready(function(){
           $('#user_notification').append(data);
           $('#make_backup').attr("disabled", false);
           update_backups_lists()
-      })
+      }).fail(function(jqXHR, textStatus){
+          if(textStatus === 'timeout'){     
+            alert('{{ _('timeout_dump') }}');
+            window.location.href = "{% url 'index' %}group/" + $('#group_select').val();
+          }
+      });
   });
 
   $('#group_select').change(function () {
@@ -130,7 +136,7 @@ $(document).ready(function(){
     $('#database_select').empty();
     $('#make_backup').attr("disabled", true);
     $.ajax({
-        url: "{% url 'update_servers' %}",
+    url: "{% url 'update_servers' %}",
         data: {
             group_id: $('#group_select').val()
         },
@@ -141,7 +147,7 @@ $(document).ready(function(){
         },
     }).done(function (data) {
         $('#server_select').change();
-    });
+    })
     if ( parseInt($('#group_select').val()) > 0) {
         window.history.pushState('', '', '{% url 'index' %}group/'+ $('#group_select').val());
     } else {
