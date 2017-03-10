@@ -370,6 +370,9 @@ def make_backup(request):
     args.append('-d')
     args.append(database.nombre)
 
+    args.append('-t')
+    args.append(database.servidor.motor)
+
     args.append('-D')
     args.append(backup_directory)
 
@@ -600,6 +603,9 @@ def api_make_backup(request):
 
     args.append('-d')
     args.append(database.nombre)
+
+    args.append('-t')
+    args.append(database.servidor.motor)
 
     args.append('-U')
     args.append(database.usuario)
