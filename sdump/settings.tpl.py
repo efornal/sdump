@@ -158,7 +158,12 @@ DUMPS_SCRIPT = "/srv/scripts/hacer_dump"
 USER_NOTIFICATION = "a user notification..., perhaps "
 #
 # ==================================================/
-
+#
+# Database engine options for server
+ENGINE_OPTIONS = (
+    ('postgresql','postgresql'),
+    ('mysql','mysql'),
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

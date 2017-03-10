@@ -17,6 +17,8 @@ import os
 import pwd
 import grp
 import subprocess
+from django import forms
+from app.forms import ServidorForm
 
 
 class GrupoAdmin(admin.ModelAdmin):
@@ -137,6 +139,7 @@ class ServidorAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'ip', 'puerto', 'motor', 'version')
     search_fields = ['nombre','ip']
     ordering = ('nombre',)
+    form = ServidorForm
 
 class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'usuario')
