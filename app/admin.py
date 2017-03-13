@@ -101,8 +101,13 @@ class BaseAdmin(admin.ModelAdmin):
                     file_content = ""
                     file_content += "DB_HOST='%s'\n" % obj.servidor.ip
                     file_content += "DB_NAME='%s'\n" % obj.nombre
-                    file_content += "DB_ENGINE='%s'\n" % obj.servidor.motor
-                    file_content += "DB_ENGINE_VERSION='%s'\n" % obj.servidor.version
+                    if obj.servidor.motor:
+                        file_content += "DB_ENGINE='%s'\n" % obj.servidor.motor
+                    if obj.servidor.version:
+                        file_content += "DB_ENGINE_VERSION='%s'\n" % obj.servidor.version
+                    if obj.servidor.puerto:
+                        file_content += "DB_ENGINE_PORT='%s'\n" % obj.servidor.puerto
+                    
                     file_content += "DUMPS_PATH='%s'\n" \
                                     % os.path.join( obj.grupo.directorio,
                                                     settings.SUFFIX_PERIODICAL_DUMPS)
