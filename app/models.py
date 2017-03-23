@@ -226,32 +226,32 @@ class Usuario(models.Model):
         return self.nombre
 
 
-# class Shared(models.Model):
-#     id = models.AutoField(
-#         primary_key=True,
-#         null=False)
-#     database = models.ForeignKey(
-#         Base,
-#         null=False,
-#         verbose_name=_('database'))
-#     name = models.CharField(
-#         max_length=254,
-#         null=False,
-#         verbose_name=_('name'))
-#     hash = models.CharField(
-#         max_length=254,
-#         null=False,
-#         verbose_name=_('hash'))
+class Shared(models.Model):
+    id = models.AutoField(
+        primary_key=True,
+        null=False)
+    database = models.ForeignKey(
+        Base,
+        null=False,
+        verbose_name=_('database'))
+    name = models.CharField(
+        max_length=254,
+        null=False,
+        verbose_name=_('name'))
+    hash = models.CharField(
+        max_length=254,
+        null=False,
+        verbose_name=_('hash'))
 
     
-    # class Meta:
-    #     db_table = 'shares'
-    #     verbose_name = _('Share')
-    #     verbose_name_plural = _('Shares')
+    class Meta:
+        db_table = 'shares'
+        verbose_name = _('Share')
+        verbose_name_plural = _('Shares')
 
         
-    # def __unicode__(self):
-    #     return self.name
+    def __unicode__(self):
+        return self.name
 
     
 @receiver(post_save, sender=Grupo)
