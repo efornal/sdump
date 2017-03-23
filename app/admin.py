@@ -61,8 +61,9 @@ def delete_config_file(file_path):
 
 class BaseAdmin(admin.ModelAdmin):
     form = BaseAdminForm
-    list_display = ('nombre', 'servidor', 'grupo', 'password_id', 'periodic_dump')
-    list_filter = ('servidor','grupo',)
+    list_display = ('nombre', 'servidor', 'grupo', 'password_id',
+                    'periodic_dump', 'alow_sharing')
+    list_filter = ('servidor','grupo', 'periodic_dump', 'alow_sharing',)
     search_fields = ['nombre','password_id','usuario']
 
     ordering = ('nombre','servidor','grupo')

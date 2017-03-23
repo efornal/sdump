@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-06 13:17-0300\n"
+"POT-Creation-Date: 2017-03-23 11:52-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,182 +18,174 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/admin.py:45
+#: app/admin.py:47
 msgid "password_or_id_required"
 msgstr "La contraseña o identificador de password (rattic) son requeridos"
 
-#: app/admin.py:125
+#: app/admin.py:135
 msgid "msg_backup_config_file_error"
 msgstr ""
 "Se produjo un error al crear el archivo de configuración de dump permanente "
 "%(filename)s"
 
-#: app/admin.py:130
+#: app/admin.py:140
 msgid "msg_incomplete_parameters"
 msgstr "Parámetros incompletos para crear archivo de configuración de dumps"
 
-#: app/forms.py:9
+#: app/forms.py:12
 msgid "nombre"
 msgstr "Nombre"
 
-#: app/forms.py:10
+#: app/forms.py:13
 msgid "usuario"
 msgstr "Usuario"
 
-#: app/forms.py:11
+#: app/forms.py:14
 msgid "contrasenia"
 msgstr "Contraseña"
 
-#: app/forms.py:12
-msgid "descripcion"
-msgstr "Descripción"
-
-#: app/forms.py:13
-msgid "servidor"
-msgstr "Servidor"
-
-#: app/forms.py:14
-msgid "grupo"
-msgstr "Grupo"
-
-#: app/models.py:16 app/models.py:31 app/models.py:79 app/models.py:103
-#: app/models.py:137
-msgid "name"
-msgstr "nombre"
-
-#: app/models.py:20
-msgid "Version"
-msgstr "Versión"
-
-#: app/models.py:21
-msgid "Versions"
-msgstr "Versiones"
-
-#: app/models.py:33
-msgid "directory"
-msgstr "Directorio"
-
-#: app/models.py:37
-msgid "Group"
-msgstr "Grupo"
-
-#: app/models.py:38
-msgid "Groups"
-msgstr "Grupos"
-
-#: app/models.py:81
-msgid "ip_address"
-msgstr "ip"
-
-#: app/models.py:83
-msgid "port"
-msgstr "puerto"
-
-#: app/models.py:85
-msgid "engine"
-msgstr "motor"
-
-#: app/models.py:87 app/models.py:109
+#: app/forms.py:15 app/forms.py:27 app/models.py:109 app/models.py:149
 msgid "description"
 msgstr "Descripción"
 
-#: app/models.py:89
+#: app/forms.py:23 app/models.py:20 app/models.py:41 app/models.py:91
+#: app/models.py:135 app/models.py:200
+msgid "name"
+msgstr "nombre"
+
+#: app/forms.py:24 app/models.py:96
+msgid "ip_address"
+msgstr "ip"
+
+#: app/forms.py:25 app/models.py:100
+msgid "port"
+msgstr "puerto"
+
+#: app/models.py:25
+msgid "Version"
+msgstr "Versión"
+
+#: app/models.py:26
+msgid "Versions"
+msgstr "Versiones"
+
+#: app/models.py:45
+msgid "directory"
+msgstr "Directorio"
+
+#: app/models.py:50
+msgid "Group"
+msgstr "Grupo"
+
+#: app/models.py:51
+msgid "Groups"
+msgstr "Grupos"
+
+#: app/models.py:105
+msgid "engine"
+msgstr "motor"
+
+#: app/models.py:114
 msgid "version"
 msgstr "versión"
 
-#: app/models.py:93 templates/_backups_lists.html:11
+#: app/models.py:119 templates/_backups_lists.html:11
 #: templates/_backups_lists.html:53 templates/_select_servers.html:2
 msgid "Server"
 msgstr "Servidor"
 
-#: app/models.py:94
+#: app/models.py:120
 msgid "Servers"
 msgstr "Servidores"
 
-#: app/models.py:105 app/models.py:139
+#: app/models.py:140 app/models.py:205
 msgid "username"
 msgstr "usuario"
 
-#: app/models.py:107 templates/registration/login.html:29
+#: app/models.py:145 templates/registration/login.html:29
 msgid "password"
 msgstr "contraseña"
 
-#: app/models.py:111
+#: app/models.py:154
 msgid "server"
 msgstr "Servidor"
 
-#: app/models.py:113 app/models.py:141
+#: app/models.py:159 app/models.py:208
 msgid "group"
 msgstr "grupo"
 
-#: app/models.py:116
+#: app/models.py:164
 msgid "extra_command_options"
 msgstr "Opciones extras del comando"
 
-#: app/models.py:118
+#: app/models.py:169
 msgid "password_id"
 msgstr "Id contraseña (rattic)"
 
-#: app/models.py:120
+#: app/models.py:172
 msgid "periodic_dump"
 msgstr "Dumps periódicos"
 
-#: app/models.py:122
+#: app/models.py:176
 msgid "last_date_download"
 msgstr "Fecha última descarga"
 
-#: app/models.py:127 templates/_backups_lists.html:9
+#: app/models.py:179
+msgid "alow_sharing"
+msgstr "Permitir compartir"
+
+#: app/models.py:184 templates/_backups_lists.html:9
 #: templates/_backups_lists.html:51 templates/_select_databases.html:2
 msgid "Database"
 msgstr "Base de datos"
 
-#: app/models.py:128
+#: app/models.py:185
 msgid "Databases"
 msgstr "Bases de datos"
 
-#: app/models.py:145
+#: app/models.py:213
 msgid "User"
 msgstr "Usuario"
 
-#: app/models.py:146
+#: app/models.py:214
 msgid "Users"
 msgstr "Usuarios"
 
-#: app/views.py:340
+#: app/views.py:341
 msgid "number_backups_exceeded"
 msgstr ""
 "Se ha exedido la cantidad de copias realizables. Por favor, elimine copias "
 "anteriores para poder realizar una nueva. El límite actual es %(max_copies)s."
 
-#: app/views.py:396 app/views.py:413
+#: app/views.py:400 app/views.py:417
 msgid "backup_with_mistakes"
 msgstr "Dump realizado con errores!.."
 
-#: app/views.py:416
+#: app/views.py:420
 msgid "backup_finished"
 msgstr "Dump finalizado!"
 
-#: app/views.py:453 app/views.py:481
+#: app/views.py:457 app/views.py:485
 msgid "file_not_indicated"
 msgstr "No se especificó el archivo sobre el cual realizar la acción"
 
-#: app/views.py:459 app/views.py:487
+#: app/views.py:463 app/views.py:491
 msgid "without_permission"
 msgstr "No tiene permisos para realizar esta acción"
 
-#: app/views.py:466
+#: app/views.py:470
 msgid "deleted_file"
 msgstr "El archivo se eliminó correctamente"
 
-#: app/views.py:470
+#: app/views.py:474
 msgid "error_deleting"
 msgstr "Se produjo un error al eliminar el archivo"
 
-#: sdump/settings.py:145 sdump/settings.tpl.py:166
+#: sdump/settings.py:146 sdump/settings.tpl.py:174
 msgid "Spanish"
 msgstr "Español"
 
-#: sdump/settings.py:146 sdump/settings.tpl.py:167
+#: sdump/settings.py:147 sdump/settings.tpl.py:175
 msgid "English"
 msgstr "Inglés"
 
@@ -316,7 +308,9 @@ msgstr "Haciendo dump..  "
 
 #: templates/index.html:128
 msgid "timeout_dump"
-msgstr "El tiempo de espera ha exedido. Si la base de datos es grande verifique la lista mas tarde."
+msgstr ""
+"El tiempo de espera ha exedido. Si la base de datos es grande verifique la "
+"lista mas tarde."
 
 #: templates/registration/login.html:6
 msgid "invalid_username_or_password"
@@ -334,3 +328,12 @@ msgstr "usuario"
 #: templates/registration/login.html:35
 msgid "log_in"
 msgstr "Iniciar sesión"
+
+#~ msgid "descripcion"
+#~ msgstr "Descripción"
+
+#~ msgid "servidor"
+#~ msgstr "Servidor"
+
+#~ msgid "grupo"
+#~ msgstr "Grupo"
