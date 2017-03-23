@@ -226,7 +226,7 @@ class Usuario(models.Model):
         return self.nombre
 
 
-class Shared(models.Model):
+class Share(models.Model):
     id = models.AutoField(
         primary_key=True,
         null=False)

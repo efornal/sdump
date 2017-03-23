@@ -6,6 +6,7 @@ from django.db import models
 from django import forms
 from django.forms import ModelForm, PasswordInput
 from .models import Base
+from .models import Share
 from django.utils.translation import ugettext as _
 from django.utils import translation
 from django.contrib import messages
@@ -149,17 +150,26 @@ class ServidorAdmin(admin.ModelAdmin):
     ordering = ('nombre',)
     form = ServidorForm
 
+    
 class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'usuario')
     search_fields = ['nombre','usuario']
     formfield_overrides = { models.ManyToManyField: {'widget': SelectMultiple(attrs={'size':'20'})}, }
     ordering = ('nombre',)
 
+    
+class ShareAdmin(admin.ModelAdmin):
+   list_display = ('name', 'hash', 'database')
+   search_fields = ['name','database']
+   ordering = ('name',)
+
+    
 admin.site.register(Grupo, GrupoAdmin)
 admin.site.register(Base, BaseAdmin)
 admin.site.register(Servidor, ServidorAdmin)
 admin.site.register(Usuario, UsuarioAdmin)
 admin.site.register(Version)
+admin.site.register(Share,ShareAdmin)
 
 
 

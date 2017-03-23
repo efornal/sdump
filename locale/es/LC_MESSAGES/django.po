@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-23 11:52-0300\n"
+"POT-Creation-Date: 2017-03-23 12:30-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,17 +18,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/admin.py:47
+#: app/admin.py:48
 msgid "password_or_id_required"
 msgstr "La contraseña o identificador de password (rattic) son requeridos"
 
-#: app/admin.py:135
+#: app/admin.py:136
 msgid "msg_backup_config_file_error"
 msgstr ""
 "Se produjo un error al crear el archivo de configuración de dump permanente "
 "%(filename)s"
 
-#: app/admin.py:140
+#: app/admin.py:141
 msgid "msg_incomplete_parameters"
 msgstr "Parámetros incompletos para crear archivo de configuración de dumps"
 
@@ -49,7 +49,7 @@ msgid "description"
 msgstr "Descripción"
 
 #: app/forms.py:23 app/models.py:20 app/models.py:41 app/models.py:91
-#: app/models.py:135 app/models.py:200
+#: app/models.py:135 app/models.py:200 app/models.py:240
 msgid "name"
 msgstr "nombre"
 
@@ -150,6 +150,22 @@ msgstr "Usuario"
 #: app/models.py:214
 msgid "Users"
 msgstr "Usuarios"
+
+#: app/models.py:236
+msgid "database"
+msgstr "Base de datos"
+
+#: app/models.py:244
+msgid "hash"
+msgstr "hash"
+
+#: app/models.py:249
+msgid "Share"
+msgstr "Compartir"
+
+#: app/models.py:250
+msgid "Shares"
+msgstr "Compartidos"
 
 #: app/views.py:341
 msgid "number_backups_exceeded"
