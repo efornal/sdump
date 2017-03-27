@@ -66,19 +66,32 @@ def to_date_according_to_text(s_date):
     return None
 
 
+
+
 def describe_file (file_path):
 
     descrived_file = {}
     try:
         file_size = filesizeformat(os.path.getsize(file_path))
         file_name = os.path.basename(file_path)
+        link_to_share_file = ''
+        
         [server,text] = re.split("_base-|_base_con_historico-|_base_sin_hist-",file_name)
         [database,date,time,text] = re.split("_([0-9]{2,4}-[0-9]{2}-[0-9]{2,4})[_|-]([0-9]{2}[-|_][0-9]{2})",text)
         time = time.replace('_',':').replace('-',':')
         fdate = to_date_according_to_text(date)
         date = fdate.strftime("%d-%m-%Y")
+
+        share_file_related = Share.objects.filter(database__nombre=database) \
+                                          .filter(name=file_path) \
+                                          .first()
+        if not share_file_related is None:
+            link_to_share_file = reverse('api_export_dump' ,
+                                         kwargs={'filename':share_file_related.hash})
+            
         descrived_file = {'file_path': file_path,
                           'file_name': file_name,
+                          'link_to_share_file': link_to_share_file,
                           'database': database,
                           'server': server,
                           'size': file_size,
@@ -779,7 +792,8 @@ def api_last_dump(request):
         return HttpResponse('500 Internal Server Error', status=500)
         pass
 
-    
+
+   
 @validate_basic_http_autorization
 @validate_https_request
 def api_get_database_id(request):
@@ -833,3 +847,13 @@ def api_get_database_id(request):
         logging.error ("ERROR Exception: {}".format(e))
         return HttpResponse('500 Internal Server Error', status=500)
 
+
+
+def api_export_dump(request, filename=None):
+    logging.warning(filename)
+    share_file = Share.objects.get(hash=filename)
+    logging.warning("Exporting file {} with hash {}".format(share_file.name,share_file.hash))
+    response = FileResponse(FileWrapper(file(share_file.name, 'rb')),
+                            content_type='application/gzip')
+    response['Content-Disposition'] = 'attachment; filename={}'.format(share_file.name)
+    return response

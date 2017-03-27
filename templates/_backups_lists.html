@@ -21,6 +21,13 @@
           <td>{{ sporadic.server }}</td>
           <td>{{ sporadic.size }}</td>
           <td>
+            {% if sporadic.link_to_share_file %}
+            <a href="{{sporadic.link_to_share_file }}">
+              {{ _('share') }}
+            </a>
+            {% endif %}
+          </td>
+          <td>
             <a href="{% url 'download' %}?filename={{sporadic.file_path}}">
               {{ _('download') }}
             </a>

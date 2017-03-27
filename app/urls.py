@@ -16,6 +16,7 @@ urlpatterns = [
     url('^api/get_database_id',views.api_get_database_id, name='api_get_database_id'),
     url('^api/download',views.api_download, name='api_download'),
     url('^api/last_dump',views.api_last_dump, name='api_last_dump'),
+    url('^api/export/(?P<filename>.+)/$',views.api_export_dump, name='api_export_dump'),
     url('^check_server',views.check_server, name='check_server'),
     url('^check_pass',views.check_pass, name='check_pass'),
     url(r'^make_backup/',views.make_backup, name='make_backup'),
