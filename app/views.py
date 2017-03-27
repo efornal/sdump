@@ -507,11 +507,19 @@ def remove(request):
         os.remove(filename)
         logging.warning("Se elimino el archivo: %s" % filename)
         message = _('deleted_file')
+        share_file = Share.objects.get(name=filename)
+        if share_file:
+            share_file.remove()
+            
     except OSError as e:
         logging.warning("Error removing file: %s" % filename)
         logging.warning("Error: %s" % e)
         message = _('error_deleting')
         pass
+    except Exception as e:
+        logging.error ("ERROR Exception: Deleting share. %s" % (e))
+        pass
+
 
     return HttpResponse(message, content_type="text/plain")    
 
