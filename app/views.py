@@ -865,10 +865,6 @@ def api_share_dump(request, filename=None):
         logging.error ("ERROR Exception: {}".format(e))
         return HttpResponse('500 Internal Server Error', status=500)
 
-    if not have_file_permissions(request.user.username,share_file.name):
-        logging.error("User without permissions to share the dump")
-        return HttpResponse('401 Unauthorized', status=401)
-
     if not share_file.database.alow_sharing:
         logging.error("The dump is not allowed to be shared.")
         return HttpResponse('401 Unauthorized', status=401)
