@@ -20,21 +20,21 @@
           <td>{{ sporadic.date }} {{ sporadic.time }}</td>
           <td>{{ sporadic.server }}</td>
           <td>{{ sporadic.size }}</td>
-          <td>
+          <td title="{{ _('share') }}">
             {% if sporadic.link_to_share_file %}
             <a href="{{sporadic.link_to_share_file }}">
-              {{ _('share') }}
+              <i class="glyphicon glyphicon-share-alt"></i>
             </a>
             {% endif %}
           </td>
-          <td>
+          <td title="{{ _('download') }}">
             <a href="{% url 'download' %}?filename={{sporadic.file_path}}">
-              {{ _('download') }}
+              <i class="glyphicon glyphicon-download-alt"></i>
             </a>
           </td>
-          <td id="removing_backups">
-            <a href="#" data-filename="{{sporadic.file_path}}">
-              {{ _('remove') }}
+          <td id="removing_backups" title="{{ _('remove') }}">
+            <a href="#" data-filename="{{sporadic.file_path}}" >
+              <i class="glyphicon glyphicon-trash"></i>
             </a>
           </td>
         </tr>
@@ -69,14 +69,14 @@
           <td>{{ periodic.date }} {{ periodic.time }}</td>
           <td>{{ periodic.server }}</td>
           <td>{{ periodic.size }}</td>
-          <td>
+          <td title="{{ _('download') }}">
             <a href="{% url 'download' %}?filename={{periodic.file_path}}">
-              {{ _('download') }}
+              <i class="glyphicon glyphicon-download-alt"></i>
             </a>
           </td>
-          <td id="removing_backups">
+          <td id="removing_backups" title="{{ _('remove') }}">
             <a href="#" data-filename="{{ periodic.file_path}}">
-              {{ _('remove') }}
+              <i class="glyphicon glyphicon-trash"></i>
             </a>
           </td>
         </tr>
