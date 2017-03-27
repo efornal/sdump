@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
@@ -8,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-23 12:30-0300\n"
+"POT-Creation-Date: 2017-03-27 08:16-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -157,7 +158,7 @@ msgstr "database"
 msgid "hash"
 msgstr "hash"
 
-#: app/models.py:249
+#: app/models.py:249 templates/index.html:52
 msgid "Share"
 msgstr "Share"
 
@@ -165,33 +166,37 @@ msgstr "Share"
 msgid "Shares"
 msgstr "Shares"
 
-#: app/views.py:341
+#: app/views.py:351
 msgid "number_backups_exceeded"
 msgstr ""
 "It has exceeded the amount of realizable copies. Please remove previous "
 "copies to make a new. The current limit is %(max_copies)s."
 
-#: app/views.py:400 app/views.py:417
+#: app/views.py:413 app/views.py:444
 msgid "backup_with_mistakes"
 msgstr "Backup with mistakes !"
 
-#: app/views.py:420
+#: app/views.py:434
+msgid "no_permissions_to_share"
+msgstr "It will not be possible to share the dump, no sharing permissions were defined."
+
+#: app/views.py:447
 msgid "backup_finished"
 msgstr "Backup finished!"
 
-#: app/views.py:457 app/views.py:485
+#: app/views.py:484 app/views.py:512
 msgid "file_not_indicated"
 msgstr "The file was not specified on which to perform the action"
 
-#: app/views.py:463 app/views.py:491
+#: app/views.py:490 app/views.py:518
 msgid "without_permission"
 msgstr "You do not have permission to perform this action"
 
-#: app/views.py:470
+#: app/views.py:497
 msgid "deleted_file"
 msgstr "The file was deleted successfully"
 
-#: app/views.py:474
+#: app/views.py:501
 msgid "error_deleting"
 msgstr "There was an error deleting the file"
 
@@ -305,25 +310,25 @@ msgstr "Inserts"
 msgid "clean"
 msgstr "Clean"
 
-#: templates/index.html:50
+#: templates/index.html:56
 msgid "extra_options"
 msgstr "Extra Options"
 
-#: templates/index.html:59
+#: templates/index.html:65
 msgid "make_backup"
 msgstr "Make backup"
 
-#: templates/index.html:96
+#: templates/index.html:102
 msgid "confirm_make_backup"
 msgstr ""
 "Confirm you want to perform the backup? This action affects the service for "
 "the duration of the copy process."
 
-#: templates/index.html:101
+#: templates/index.html:107
 msgid "making_backup"
 msgstr "Making backup.. "
 
-#: templates/index.html:128
+#: templates/index.html:136
 msgid "timeout_dump"
 msgstr ""
 "Waiting time has exceeded. If the database is large check the list later."

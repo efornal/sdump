@@ -1,4 +1,5 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.contrib import admin
 from app.models import Grupo, Servidor, Base, Usuario, Version
 from django.forms.widgets import SelectMultiple

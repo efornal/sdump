@@ -1,4 +1,5 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
@@ -12,7 +13,7 @@ import datetime
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils import translation
-from .models import Grupo, Servidor, Base
+from .models import Grupo, Servidor, Base, Share
 from django.shortcuts import render_to_response
 from django.db.models import Count
 import os
@@ -28,6 +29,8 @@ from django.http import FileResponse
 from django import forms
 import json
 from decorators import validate_basic_http_autorization, validate_https_request
+import md5
+
 
 def clean_extra_options(options):
     cleaned = options
@@ -319,10 +322,18 @@ def make_backup(request):
     database = Base.objects.get(pk=database_id)
     server = database.servidor
     server_ip = server.ip
-    extra_options = ""
+    extra_options = ''
+    message_user = ''
     args = []
     backup_directory = os.path.join( database.grupo.directorio,
                                      settings.SUFFIX_SPORADIC_DUMPS)
+
+    dump_date=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
+    backup_name = os.path.join(settings.DUMPS_DIRECTORY,
+                               backup_directory,
+                               '%s_base-%s_%s.sql.gz' % (database.servidor.ip,
+                                                         database.nombre,
+                                                         dump_date) )
 
     # check for maximum sporadick backups
     max_sporadic = 5
@@ -338,7 +349,7 @@ def make_backup(request):
     if not (number_backups is None) and (number_backups >= max_sporadic):
         logging.warning("Number of backups (%s) exceeded, the current limit is: %s." % \
                         (number_backups,max_sporadic) )
-        message_user = _('number_backups_exceeded') % {'max_copies':max_sporadic}
+        message_user += _('number_backups_exceeded') % {'max_copies':max_sporadic}
         return HttpResponse(message_user, content_type="text/plain")
 
     
@@ -376,6 +387,9 @@ def make_backup(request):
     args.append('-D')
     args.append(backup_directory)
 
+    args.append('-n')
+    args.append(backup_name)
+
     args_debug = list(args)
     
     if database.contrasenia:
@@ -397,7 +411,7 @@ def make_backup(request):
             args_debug.append(db_user) # for debug
         else:
             logging.error("ERROR: No password or id password to use")
-            message_user = "%s\n" % (_('backup_with_mistakes'))
+            message_user += "%s\n" % (_('backup_with_mistakes'))
 
 
     args_debug.append('-P')
@@ -408,16 +422,30 @@ def make_backup(request):
         p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         returned_code = p.returncode
+        if 'opt_share' in request.POST and request.POST['opt_share']=='true':
+            if database.alow_sharing:
+                share = Share(name=backup_name,
+                              hash= md5.new(backup_name).hexdigest(),
+                              database=database)
+                logging.warning("Sharing dump file: {}".format(backup_name) )
+                share.save()
+            else:
+                logging.warning("Request to share link dump, but the database {} "\
+                                "does not have permissions to share.".format(database))
+                message_user += "{}\n".format(_('no_permissions_to_share'))
+
+
+
     except Exception as e:
-        logging.error('ERROR Exception: %s' % e)
+        logging.error('ERROR Exception: {}'.format(e))
         
     if returned_code :
-        logging.error("ERROR (%s): %s" % (returned_code,err))
-        logging.error("Output: %s" % out)
-        message_user = "%s\n %s\n" % (_('backup_with_mistakes'),out)
+        logging.error("ERROR ({}): {}".format(returned_code,err))
+        logging.error("Output: {}".format(out))
+        message_user += "{}\n {}\n".format(_('backup_with_mistakes'),out)
     else:
-        logging.warning("Backup output (%s): %s" % (returned_code,out))
-        message_user = _('backup_finished')
+        logging.warning("Backup output ({}): {}".format(returned_code,out))
+        message_user += _('backup_finished')
 
     return HttpResponse(message_user, content_type="text/plain")
 
@@ -532,7 +560,6 @@ def api_make_backup(request):
         logging.error("Invalid username or password")
         return HttpResponse('401 Unauthorized', status=401)
 
-    logging.info("Validated user: {}".format(user.username))
     logging.info("Validated user: {}".format(user.username))
     database=None
     try:

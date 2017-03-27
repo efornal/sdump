@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
@@ -8,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-23 12:30-0300\n"
+"POT-Creation-Date: 2017-03-27 08:16-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -159,7 +160,7 @@ msgstr "Base de datos"
 msgid "hash"
 msgstr "hash"
 
-#: app/models.py:249
+#: app/models.py:249 templates/index.html:52
 msgid "Share"
 msgstr "Compartir"
 
@@ -167,33 +168,37 @@ msgstr "Compartir"
 msgid "Shares"
 msgstr "Compartidos"
 
-#: app/views.py:341
+#: app/views.py:351
 msgid "number_backups_exceeded"
 msgstr ""
 "Se ha exedido la cantidad de copias realizables. Por favor, elimine copias "
 "anteriores para poder realizar una nueva. El límite actual es %(max_copies)s."
 
-#: app/views.py:400 app/views.py:417
+#: app/views.py:413 app/views.py:444
 msgid "backup_with_mistakes"
 msgstr "Dump realizado con errores!.."
 
-#: app/views.py:420
+#: app/views.py:434
+msgid "no_permissions_to_share"
+msgstr "No será posible compartir el dump, no se definieron permisos para compartir."
+
+#: app/views.py:447
 msgid "backup_finished"
 msgstr "Dump finalizado!"
 
-#: app/views.py:457 app/views.py:485
+#: app/views.py:484 app/views.py:512
 msgid "file_not_indicated"
 msgstr "No se especificó el archivo sobre el cual realizar la acción"
 
-#: app/views.py:463 app/views.py:491
+#: app/views.py:490 app/views.py:518
 msgid "without_permission"
 msgstr "No tiene permisos para realizar esta acción"
 
-#: app/views.py:470
+#: app/views.py:497
 msgid "deleted_file"
 msgstr "El archivo se eliminó correctamente"
 
-#: app/views.py:474
+#: app/views.py:501
 msgid "error_deleting"
 msgstr "Se produjo un error al eliminar el archivo"
 
@@ -304,25 +309,25 @@ msgstr "Inserts"
 msgid "clean"
 msgstr "Clean"
 
-#: templates/index.html:50
+#: templates/index.html:56
 msgid "extra_options"
 msgstr "Opciones Extras"
 
-#: templates/index.html:59
+#: templates/index.html:65
 msgid "make_backup"
 msgstr "Hacer dump"
 
-#: templates/index.html:96
+#: templates/index.html:102
 msgid "confirm_make_backup"
 msgstr ""
 "¿Confirma que desea realizar el dump? Esta acción afectará el servicio "
 "mientras dure el proceso de copia."
 
-#: templates/index.html:101
+#: templates/index.html:107
 msgid "making_backup"
 msgstr "Haciendo dump..  "
 
-#: templates/index.html:128
+#: templates/index.html:136
 msgid "timeout_dump"
 msgstr ""
 "El tiempo de espera ha exedido. Si la base de datos es grande verifique la "
