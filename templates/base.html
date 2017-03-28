@@ -17,34 +17,34 @@
 
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <script type="text/javascript">
-    function update_backups_lists() {
-        console.log("update list backup");
-        $.ajax({
-            url: "{% url 'update_list_backups' %}",
-            data: {
-                group_id: $('#group_select').val()
-            },
-            type: "GET",
-            dataType: "html",
-            success: function (data) {
-                $('#backups_lists').html(data);
-            },
-        })
-    };
+      function update_backups_lists() {
+      console.log("update list backup");
+      $.ajax({
+      url: "{% url 'update_list_backups' %}",
+      data: {
+      group_id: $('#group_select').val()
+      },
+      type: "GET",
+      dataType: "html",
+      success: function (data) {
+      $('#backups_lists').html(data);
+      },
+      })
+      };
 
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-23019901-1']);
-    _gaq.push(['_setDomainName', "bootswatch.com"]);
-    _gaq.push(['_setAllowLinker', true]);
-    _gaq.push(['_trackPageview']);
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-23019901-1']);
+      _gaq.push(['_setDomainName', "bootswatch.com"]);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
 
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www')
-            + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www')
+      + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
   </head>
   
   <body>
@@ -64,18 +64,19 @@
           <div class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav">
             </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li>
-            <a href="#" title="{{ _('registered_user') }}">
-            <i class="glyphicon glyphicon-user"></i> {{ user.username }}</a>
-          </li>
-          <li>
-            <a href="{% url 'logout' %}" title="{{ _('close_session') }}">
-            <i class="glyphicon glyphicon-log-out"></i></a>
-          </li>
-          <li style="margin-left:10px;"></li>
-        </ul>
-
+            {% if user.is_authenticated %}
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a href="#" title="{{ _('registered_user') }}">
+                  <i class="glyphicon glyphicon-user"></i> {{ user.username }}</a>
+              </li>
+              <li>
+                <a href="{% url 'logout' %}" title="{{ _('close_session') }}">
+                  <i class="glyphicon glyphicon-log-out"></i></a>
+              </li>
+              <li style="margin-left:10px;"></li>
+            </ul>
+            {% endif %}
             <ul class="nav navbar-nav navbar-left">
               <li><a class="titulo" href="#">{{ ''|application_title }}</a></li>
             </ul>
