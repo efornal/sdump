@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-27 08:16-0300\n"
+"POT-Creation-Date: 2017-03-28 10:45-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,193 +18,195 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: app/admin.py:48
+#: app/admin.py:49
 msgid "password_or_id_required"
 msgstr "Password or password identifier (rattic) is required"
 
-#: app/admin.py:136
+#: app/admin.py:137
 msgid "msg_backup_config_file_error"
 msgstr ""
 "It failed to create the permanent configuration file backup %(filename)s"
 
-#: app/admin.py:141
+#: app/admin.py:142
 msgid "msg_incomplete_parameters"
 msgstr "Incomplete parameters to create configuration file dumps"
 
-#: app/forms.py:12
+#: app/forms.py:14
 msgid "nombre"
 msgstr "Name"
 
-#: app/forms.py:13
+#: app/forms.py:15
 msgid "usuario"
 msgstr "Username"
 
-#: app/forms.py:14
+#: app/forms.py:16
 msgid "contrasenia"
 msgstr "Password"
 
-#: app/forms.py:15 app/forms.py:27 app/models.py:109 app/models.py:149
+#: app/forms.py:17 app/forms.py:29 app/models.py:110 app/models.py:150
 msgid "description"
 msgstr "Description"
 
-#: app/forms.py:23 app/models.py:20 app/models.py:41 app/models.py:91
-#: app/models.py:135 app/models.py:200 app/models.py:240
+#: app/forms.py:25 app/models.py:21 app/models.py:42 app/models.py:92
+#: app/models.py:136 app/models.py:201 app/models.py:241
 msgid "name"
 msgstr "name"
 
-#: app/forms.py:24 app/models.py:96
+#: app/forms.py:26 app/models.py:97
 msgid "ip_address"
 msgstr "Ip address"
 
-#: app/forms.py:25 app/models.py:100
+#: app/forms.py:27 app/models.py:101
 msgid "port"
 msgstr "Port"
 
-#: app/models.py:25
+#: app/models.py:26
 msgid "Version"
 msgstr "Version"
 
-#: app/models.py:26
+#: app/models.py:27
 msgid "Versions"
 msgstr "Versions"
 
-#: app/models.py:45
+#: app/models.py:46
 msgid "directory"
 msgstr "directory"
 
-#: app/models.py:50
+#: app/models.py:51
 msgid "Group"
 msgstr "Group"
 
-#: app/models.py:51
+#: app/models.py:52
 msgid "Groups"
 msgstr "Groups"
 
-#: app/models.py:105
+#: app/models.py:106
 msgid "engine"
 msgstr "Engine"
 
-#: app/models.py:114
+#: app/models.py:115
 msgid "version"
 msgstr "Version"
 
-#: app/models.py:119 templates/_backups_lists.html:11
-#: templates/_backups_lists.html:53 templates/_select_servers.html:2
+#: app/models.py:120 templates/_backups_lists.html:11
+#: templates/_backups_lists.html:60 templates/_select_servers.html:2
 msgid "Server"
 msgstr "Server"
 
-#: app/models.py:120
+#: app/models.py:121
 msgid "Servers"
 msgstr "Servers"
 
-#: app/models.py:140 app/models.py:205
+#: app/models.py:141 app/models.py:206
 msgid "username"
 msgstr "Username"
 
-#: app/models.py:145 templates/registration/login.html:29
+#: app/models.py:146 templates/registration/login.html:29
 msgid "password"
 msgstr "Password"
 
-#: app/models.py:154
+#: app/models.py:155
 msgid "server"
 msgstr "Server"
 
-#: app/models.py:159 app/models.py:208
+#: app/models.py:160 app/models.py:209
 msgid "group"
 msgstr "Group"
 
-#: app/models.py:164
+#: app/models.py:165
 msgid "extra_command_options"
 msgstr "Extra command options"
 
-#: app/models.py:169
+#: app/models.py:170
 msgid "password_id"
 msgstr "Password Id"
 
-#: app/models.py:172
+#: app/models.py:173
 msgid "periodic_dump"
 msgstr "Periodic dump"
 
-#: app/models.py:176
+#: app/models.py:177
 msgid "last_date_download"
 msgstr "Last date download"
 
-#: app/models.py:179
+#: app/models.py:180
 msgid "alow_sharing"
 msgstr "Alow sharing"
 
-#: app/models.py:184 templates/_backups_lists.html:9
-#: templates/_backups_lists.html:51 templates/_select_databases.html:2
+#: app/models.py:185 templates/_backups_lists.html:9
+#: templates/_backups_lists.html:58 templates/_select_databases.html:2
 msgid "Database"
 msgstr "Database"
 
-#: app/models.py:185
+#: app/models.py:186
 msgid "Databases"
 msgstr "Databases"
 
-#: app/models.py:213
+#: app/models.py:214
 msgid "User"
 msgstr "User"
 
-#: app/models.py:214
+#: app/models.py:215
 msgid "Users"
 msgstr "Users"
 
-#: app/models.py:236
+#: app/models.py:237
 msgid "database"
 msgstr "database"
 
-#: app/models.py:244
+#: app/models.py:245
 msgid "hash"
 msgstr "hash"
 
-#: app/models.py:249 templates/index.html:52
+#: app/models.py:250 templates/index.html:52
 msgid "Share"
 msgstr "Share"
 
-#: app/models.py:250
+#: app/models.py:251
 msgid "Shares"
 msgstr "Shares"
 
-#: app/views.py:351
+#: app/views.py:363
 msgid "number_backups_exceeded"
 msgstr ""
 "It has exceeded the amount of realizable copies. Please remove previous "
 "copies to make a new. The current limit is %(max_copies)s."
 
-#: app/views.py:413 app/views.py:444
+#: app/views.py:425 app/views.py:456
 msgid "backup_with_mistakes"
 msgstr "Backup with mistakes !"
 
-#: app/views.py:434
+#: app/views.py:446
 msgid "no_permissions_to_share"
-msgstr "It will not be possible to share the dump, no sharing permissions were defined."
+msgstr ""
+"It will not be possible to share the dump, no sharing permissions were "
+"defined."
 
-#: app/views.py:447
+#: app/views.py:459
 msgid "backup_finished"
 msgstr "Backup finished!"
 
-#: app/views.py:484 app/views.py:512
+#: app/views.py:496 app/views.py:532
 msgid "file_not_indicated"
 msgstr "The file was not specified on which to perform the action"
 
-#: app/views.py:490 app/views.py:518
+#: app/views.py:502 app/views.py:538
 msgid "without_permission"
 msgstr "You do not have permission to perform this action"
 
-#: app/views.py:497
+#: app/views.py:509
 msgid "deleted_file"
 msgstr "The file was deleted successfully"
 
-#: app/views.py:501
+#: app/views.py:517
 msgid "error_deleting"
 msgstr "There was an error deleting the file"
 
-#: sdump/settings.py:146 sdump/settings.tpl.py:174
+#: sdump/settings.py:148 sdump/settings.tpl.py:174
 msgid "Spanish"
 msgstr "Spanish"
 
-#: sdump/settings.py:147 sdump/settings.tpl.py:175
+#: sdump/settings.py:149 sdump/settings.tpl.py:175
 msgid "English"
 msgstr "English"
 
@@ -212,31 +214,35 @@ msgstr "English"
 msgid "sporadic_backups"
 msgstr "Sporadic backups"
 
-#: templates/_backups_lists.html:10 templates/_backups_lists.html:52
+#: templates/_backups_lists.html:10 templates/_backups_lists.html:59
 msgid "Date_and_time"
 msgstr "Date and time"
 
-#: templates/_backups_lists.html:12 templates/_backups_lists.html:54
+#: templates/_backups_lists.html:12 templates/_backups_lists.html:61
 msgid "Size"
 msgstr "Size"
 
-#: templates/_backups_lists.html:13 templates/_backups_lists.html:55
+#: templates/_backups_lists.html:13 templates/_backups_lists.html:62
 msgid "Actions"
 msgstr "Actions"
 
-#: templates/_backups_lists.html:25 templates/_backups_lists.html:67
+#: templates/_backups_lists.html:23
+msgid "share"
+msgstr "Share"
+
+#: templates/_backups_lists.html:30 templates/_backups_lists.html:72
 msgid "download"
 msgstr "Download"
 
-#: templates/_backups_lists.html:30 templates/_backups_lists.html:72
+#: templates/_backups_lists.html:35 templates/_backups_lists.html:77
 msgid "remove"
 msgstr "Remove"
 
-#: templates/_backups_lists.html:45
+#: templates/_backups_lists.html:52
 msgid "periodic_backups"
 msgstr "Periodic backups"
 
-#: templates/_backups_lists.html:87
+#: templates/_backups_lists.html:94
 msgid "confirm_remove_file"
 msgstr "Are you sure you want to delete the file?"
 
