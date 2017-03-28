@@ -84,7 +84,7 @@ def describe_file (file_path):
                                           .filter(name=file_path) \
                                           .first()
         if not share_file_related is None:
-            link_to_share_file = reverse('api_share_dump' ,
+            link_to_share_file = reverse('share_dump' ,
                                          kwargs={'filename':share_file_related.hash})
             
         descrived_file = {'file_path': file_path,
@@ -854,7 +854,7 @@ def api_get_database_id(request):
         return HttpResponse('500 Internal Server Error', status=500)
 
 
-def api_share_dump(request, filename=None):
+def share_dump(request, filename=None):
     if 'filename' is None:
         logging.error("Undefined file name")
         return HttpResponse('404 Request not found', status=404)
@@ -868,9 +868,11 @@ def api_share_dump(request, filename=None):
     if not share_file.database.alow_sharing:
         logging.error("The dump is not allowed to be shared.")
         return HttpResponse('404 Request not found', status=404)
-    
+
+    attachment_name = re.sub(r'.+_base-','',share_file.name)
+
     logging.warning("Exporting file {} with hash {}".format(share_file.name,share_file.hash))
     response = FileResponse(FileWrapper(file(share_file.name, 'rb')),
                             content_type='application/gzip')
-    response['Content-Disposition'] = 'attachment; filename={}'.format(share_file.name)
+    response['Content-Disposition'] = 'attachment; filename={}'.format(attachment_name)
     return response
