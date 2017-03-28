@@ -857,17 +857,17 @@ def api_get_database_id(request):
 def api_share_dump(request, filename=None):
     if 'filename' is None:
         logging.error("Undefined file name")
-        return HttpResponse('400 Invalid request', status=400)
+        return HttpResponse('404 Request not found', status=404)
     
     try:
         share_file = Share.objects.get(hash=filename)
     except Exception as e:
         logging.error ("ERROR Exception: {}".format(e))
-        return HttpResponse('500 Internal Server Error', status=500)
+        return HttpResponse('404 Request not found', status=404)
 
     if not share_file.database.alow_sharing:
         logging.error("The dump is not allowed to be shared.")
-        return HttpResponse('401 Unauthorized', status=401)
+        return HttpResponse('404 Request not found', status=404)
     
     logging.warning("Exporting file {} with hash {}".format(share_file.name,share_file.hash))
     response = FileResponse(FileWrapper(file(share_file.name, 'rb')),
