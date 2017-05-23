@@ -451,11 +451,16 @@ def make_backup(request):
         logging.error('ERROR Exception: {}'.format(e))
         
     if returned_code :
-        logging.error("ERROR ({}): {}".format(returned_code,err))
-        logging.error("Output: {}".format(out))
+        logging.error("ERROR")
+        logging.error(returned_code)
+        logging.error(err)
+        logging.error("Output:")
+        logging.error(out)
         message_user += "{}\n {}\n".format(_('backup_with_mistakes'),out)
     else:
-        logging.warning("Backup output ({}): {}".format(returned_code,out))
+        logging.warning("Backup output:")
+        logging.warning(returned_code)
+        logging.warning(out)
         message_user += _('backup_finished')
 
     return HttpResponse(message_user, content_type="text/plain")
