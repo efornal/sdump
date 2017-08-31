@@ -30,6 +30,8 @@ urlpatterns = [
     url(r'^group/(?P<group_id>\d+)/server/(?P<server_id>\d+)/$', views.index, name='index'),
     url(r'^group/(?P<group_id>\d+)/server/(?P<server_id>\d+)/database/(?P<database_id>\d+)/$',
         views.index, name='index'),
+    url(r'^en/$', views.index, name='index'),
+    url(r'^lang/(?P<lang>\w+)/$', views.set_language, name='set_language'),
     url(r'^$', views.index, name='index'),
 ]
 

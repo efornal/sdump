@@ -2,6 +2,13 @@
 <html lang="es">
   <head>
     {% load staticfiles %}
+    {% block extrahead %}
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <link rel='stylesheet' type='text/css' href="{% static 'css/jquery-ui/smoothness/jquery-ui.css' %}" />
+    {% endblock %}
+
     {% load bootstrap_themes %}
     {% bootstrap_styles theme='spacelab' type='css' %}
     {% bootstrap_script use_min=True %}
@@ -9,6 +16,7 @@
     {% get_current_language as LANGUAGE_CODE %}
     {% load application %}
     
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
     <meta charset="utf-8">
     <title>{{ ''|application_title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,110 +25,117 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <script type="text/javascript">
       function update_backups_lists() {
-      console.log("update list backup");
-      $.ajax({
-      url: "{% url 'update_list_backups' %}",
-      data: {
-      group_id: $('#group_select').val()
-      },
-      type: "GET",
-      dataType: "html",
-      success: function (data) {
-      $('#backups_lists').html(data);
-      },
-      })
+        console.log("update list backup");
+        $.ajax({
+          url: "{% url 'update_list_backups' %}",
+          data: { group_id: $('#group_select').val() },
+          type: "GET",
+          dataType: "html",
+          success: function (data) {
+            $('#backups_lists').html(data);
+          },
+       })
       };
-
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-23019901-1']);
-      _gaq.push(['_setDomainName', "bootswatch.com"]);
-      _gaq.push(['_setAllowLinker', true]);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www')
-      + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
     </script>
   </head>
-  
+
+
   <body>
-    
-    <div class="navbar navbar navbar-fixed-top">
-      <div class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-          <div class="navbar-header">
-            <div id='logo-header'></div>
-            <button class="navbar-toggle"
-                    type="button" data-toggle="collapse" data-target="#navbar-main">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-          </div>
-          <div class="navbar-collapse collapse" id="navbar-main">
-            <ul class="nav navbar-nav">
-            </ul>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed"
+                  data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="{% url 'index' %}" title="{{ _('Go_home') }}">
+            <img class="logo-header" src="{% static 'images/logo.png' %}">
+          </a>
+          <a href="{% url 'index' %}" title="{{ _('Go_home') }}">
+            <span class="navbar-brand">
+            <p>{{ ''|application_title }}</p>
+            <small>{{ ''|application_subtitle }}</small>
+            </span>
+          </a>
+        </div>
+        
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav"></ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url 'index' %}"
+                   title="{{ _('Go_home') }}">{{ _('Home') }}</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download"
+                 title="{{ _('language') }}">
+                <i class="glyphicon glyphicon-flag"></i>
+                {% if LANGUAGE_CODE == 'es' %} {{ _('Spanish') }} {% endif %}
+                {% if LANGUAGE_CODE == 'en' %} {{ _('English') }} {% endif %}
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="download">
+                <li><a href="{% url 'set_language' lang='es' %}">{{ _('Spanish') }}</a></li>
+                <li class="divider"></li>
+                <li><a href="{% url 'set_language' lang='en' %}">{{ _('English') }}</a></li>
+              </ul>
+            </li>
+          
             {% if user.is_authenticated %}
-            <ul class="nav navbar-nav navbar-right">
-              <li>
-                <a href="#" title="{{ _('registered_user') }}">
-                  <i class="glyphicon glyphicon-user"></i> {{ user.username }}</a>
-              </li>
-              <li>
-                <a href="{% url 'logout' %}" title="{{ _('close_session') }}">
-                  <i class="glyphicon glyphicon-log-out"></i></a>
-              </li>
-              <li style="margin-left:10px;"></li>
-            </ul>
+            <li>
+              <a href="#" title="{{ _('registered_user') }}">
+                <i class="glyphicon glyphicon-user"></i> {{ user.username }}</a>
+            </li>
+            <li>
+              <a href="{% url 'logout' %}" title="{{ _('close_session') }}">
+                <i class="glyphicon glyphicon-log-out"></i></a>
+            </li>
+            <li style="margin-left:10px;"></li>
             {% endif %}
-            <ul class="nav navbar-nav navbar-left">
-              <li><a class="titulo" href="#">{{ ''|application_title }}</a></li>
-            </ul>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+    <div class="container-fluid">      
+
+      {% if messaes %}
+      {% for message in messages %}
+      <div class="alert alert-dismissible alert-{{message.tags}}">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
+
+      {% if form.errors %}
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="bs-component">
+            {% for field in form %}
+            {% if field.errors %}
+            <div class="alert alert-dismissible alert-danger">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {%  trans field.name %}: {{ field.errors|striptags }}
+            </div>
+            {% endif %}
+            {% endfor %}
           </div>
         </div>
       </div>
-    </div>
-
-
-    <div class="container">
-
-      <div class="page-header" id="banner"></div>
+      {% endif %}
 
       {% block content %}
       {% endblock %}
 
-
-      <footer>
-        <div class="navbar-fixed-bottom">
-          <div class="col-lg-12" style="padding: 0% 6%;">
-            <ul class="list-unstyled">
-              <li class="pull-right">
-                <a href="https://github.com/efornal/sdump">Sargo</a>
-              </li>
-              <li>
-                <a href="http://validator.w3.org/check?uri=referer">HTML5</a> |
-                <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> |
-                <a href="http://bootswatch.com">Website templates</a>
-                <a href=""> &nbsp;</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </footer>
+      
+      {% include "_footer.html" %}
 
     </div>
 
 
-
-    <!-- <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script> -->
-    <!-- <script src="../assets/js/bootswatch.js"></script> -->
-    <script type="text/javascript">
-      /* <![CDATA[ */
-      (function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
-      /* ]]> */
-    </script>
   </body>
 </html>

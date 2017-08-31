@@ -4,7 +4,6 @@ from django.conf import settings
 
 register = template.Library()
 
-
 @register.filter
 def application_title(value):
     title = ''
@@ -14,3 +13,14 @@ def application_title(value):
         title = settings.APPLICATION_NAME
 
     return title
+
+@register.filter
+def application_subtitle(value):
+    subtitle = ''
+    if value:
+        subtitle = value
+    elif settings.APPLICATION_DESC:
+        subtitle = settings.APPLICATION_DESC
+
+    return subtitle
+

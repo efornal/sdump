@@ -1,17 +1,29 @@
-#logo-header{
-    background:url("images/logo.png") no-repeat;
-    width:915px;
-    font-size: 30px; 
-    line-height: 86px; 
-    text-align: right; 
-    margin-right: 10px;
-    height:50px;
-    position: absolute;
+body {
+    padding-top: 70px;
 }
 
-.titulo{
-    left: 80px;
-    font-size: 30px; 
+.navbar-brand > small {
+    font-size: 75%;
+}
+
+.navbar-brand > p {
+    padding: 0px;
+    margin: 0px;
+    margin-top: -6px;
+    color: #00728f;
+}
+
+.logo-header{
+    float: left;
+    margin-right: 20px;
+}
+
+legend {
+    font-size: 18px;
+}
+
+.icon-pointer{
+    cursor: pointer;
 }
 
 table {

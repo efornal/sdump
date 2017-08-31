@@ -32,6 +32,15 @@ from decorators import validate_basic_http_autorization, validate_https_request
 import md5
 
 
+def set_language(request, lang='es'):
+    if 'lang' in request.GET:
+        lang = request.GET['lang']
+    translation.activate(lang)
+    request.session[translation.LANGUAGE_SESSION_KEY] = lang
+    logging.info("Language changed by the user to '{}'".format(lang))
+    return redirect('index')
+
+
 def clean_extra_options(options):
     cleaned = options
     cleaned.replace('#','')

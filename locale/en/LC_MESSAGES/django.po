@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-28 10:45-0300\n"
+"POT-Creation-Date: 2017-08-31 10:15-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -166,47 +166,49 @@ msgstr "Share"
 msgid "Shares"
 msgstr "Shares"
 
-#: app/views.py:363
+#: app/views.py:372
 msgid "number_backups_exceeded"
 msgstr ""
 "It has exceeded the amount of realizable copies. Please remove previous "
 "copies to make a new. The current limit is %(max_copies)s."
 
-#: app/views.py:425 app/views.py:456
+#: app/views.py:434 app/views.py:468
 msgid "backup_with_mistakes"
 msgstr "Backup with mistakes !"
 
-#: app/views.py:446
+#: app/views.py:455
 msgid "no_permissions_to_share"
 msgstr ""
 "It will not be possible to share the dump, no sharing permissions were "
 "defined."
 
-#: app/views.py:459
+#: app/views.py:473
 msgid "backup_finished"
 msgstr "Backup finished!"
 
-#: app/views.py:496 app/views.py:532
+#: app/views.py:510 app/views.py:546
 msgid "file_not_indicated"
 msgstr "The file was not specified on which to perform the action"
 
-#: app/views.py:502 app/views.py:538
+#: app/views.py:516 app/views.py:552
 msgid "without_permission"
 msgstr "You do not have permission to perform this action"
 
-#: app/views.py:509
+#: app/views.py:523
 msgid "deleted_file"
 msgstr "The file was deleted successfully"
 
-#: app/views.py:517
+#: app/views.py:531
 msgid "error_deleting"
 msgstr "There was an error deleting the file"
 
-#: sdump/settings.py:148 sdump/settings.tpl.py:174
+#: sdump/settings.py:156 sdump/settings.tpl.py:174 templates/base.html:75
+#: templates/base.html:80
 msgid "Spanish"
 msgstr "Spanish"
 
-#: sdump/settings.py:149 sdump/settings.tpl.py:175
+#: sdump/settings.py:157 sdump/settings.tpl.py:175 templates/base.html:76
+#: templates/base.html:82
 msgid "English"
 msgstr "English"
 
@@ -262,7 +264,7 @@ msgstr "You have unsaved changes"
 msgid "Add"
 msgstr "Add"
 
-#: templates/admin/change_form.html:61
+#: templates/admin/change_form.html:61 templates/base.html:70
 msgid "Home"
 msgstr "Home"
 
@@ -284,19 +286,24 @@ msgid "Add %(name)s"
 msgstr "Add %(name)s"
 
 #: templates/admin/change_form.html:153
-#, fuzzy
-#| msgid "Please correct the error below."
-#| msgid_plural "Please correct the errors below."
 msgid "Please correct the error below."
 msgid_plural " Please correct the errors below."
 msgstr[0] "Please correct the error below."
 msgstr[1] "Please correct the errors below."
 
-#: templates/base.html:69
+#: templates/base.html:55 templates/base.html:58 templates/base.html:70
+msgid "Go_home"
+msgstr "Home"
+
+#: templates/base.html:73
+msgid "language"
+msgstr "language"
+
+#: templates/base.html:88
 msgid "registered_user"
 msgstr "Registered user"
 
-#: templates/base.html:73
+#: templates/base.html:92
 msgid "close_session"
 msgstr "Close session"
 
