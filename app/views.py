@@ -41,6 +41,13 @@ def set_language(request, lang='es'):
     return redirect('index')
 
 
+def show_dump_errors_to_user():
+    if hasattr(settings, 'SHOW_DUMP_ERRORS_TO_USER'):
+        return settings.SHOW_DUMP_ERRORS_TO_USER
+    else:
+        return False
+
+    
 def clean_extra_options(options):
     cleaned = options
     cleaned.replace('#','')
@@ -466,6 +473,13 @@ def make_backup(request):
         logging.error("Output:")
         logging.error(out)
         message_user += "{}\n {}\n".format(_('backup_with_mistakes'),out)
+        if show_dump_errors_to_user():
+            if isinstance(err, str):
+                err_msg = err.decode('ascii', 'ignore').encode('ascii')
+            elif isinstance(err, unicode):
+                err_msg = err.encode('ascii', 'ignore')
+                message_user += err_msg
+                
     else:
         logging.warning("Backup output:")
         logging.warning(returned_code)
