@@ -412,7 +412,7 @@ def make_backup(request):
 
     args_debug = list(args)
     
-    if database.contrasenia:
+    if database.usuario and database.contrasenia:
         args.append('-U')
         args.append(database.usuario)
         args.append('-P')
