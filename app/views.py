@@ -803,10 +803,13 @@ def api_last_dump(request):
         last_dump=""
         if len(dumps_list) > 0:
             last_dump = dumps_list[-1]
-
-        logging.info("Dumps list: {}".format(dumps_list))
-        logging.info("Last dump found: {}".format(last_dump))
-        return HttpResponse("200 {}".format(last_dump), content_type="text/plain")
+            logging.info("Dumps list: {}".format(dumps_list))
+            logging.info("Last dump found: {}".format(last_dump))
+            return HttpResponse("200 {}".format(last_dump), content_type="text/plain")
+        else:
+            logging.warning("The database does not have an available dump.")
+            return HttpResponse('404 Request not found.', status=404)
+ 
     except Exception as e:
         logging.error("ERROR Exception: {}".format(e))
         return HttpResponse('500 Internal Server Error', status=500)

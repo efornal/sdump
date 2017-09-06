@@ -15,7 +15,6 @@ urlpatterns = [
     url('^api/dump_exists',views.api_backup_exists, name='api_backup_exists'),
     url('^api/get_database_id',views.api_get_database_id, name='api_get_database_id'),
     url('^api/download',views.api_download, name='api_download'),
-    url('^api/last_dump',views.api_last_dump, name='api_last_dump'),
     url('^share/(?P<filename>.+)/$',views.share_dump, name='share_dump'),
     url('^check_server',views.check_server, name='check_server'),
     url('^check_pass',views.check_pass, name='check_pass'),
