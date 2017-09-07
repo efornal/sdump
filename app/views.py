@@ -13,7 +13,7 @@ import datetime
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils import translation
-from .models import Grupo, Servidor, Base, Share
+from .models import Grupo, Servidor, Base, Share, Version
 from django.shortcuts import render_to_response
 from django.db.models import Count
 import os
@@ -27,6 +27,7 @@ import os
 from wsgiref.util import FileWrapper
 from django.http import FileResponse
 from django import forms
+from app.forms import ServidorForm
 import json
 from decorators import validate_basic_http_autorization, validate_https_request
 import md5
@@ -907,3 +908,66 @@ def share_dump(request, filename=None):
                             content_type='application/gzip')
     response['Content-Disposition'] = 'attachment; filename={}'.format(attachment_name)
     return response
+
+
+
+# Creates or updates the server specified in name parameter.
+# If the indicated engine version does not exist, create it.
+# Parameters: 
+#     nombre, ip, puerto, motor (postgresql/mysql), description, version(9.4, 8.4,..)
+# responses (code, message):
+#     401: '401 Unauthorized'
+#     200: '200 server_id'           # created or updated!
+#     404: '404 Request not found'   # another thing
+@validate_basic_http_autorization
+@validate_https_request
+def api_servers_update_or_create(request):
+
+    user = basic_http_authentication(request)
+    if user is None:
+        logging.error("Invalid username or password")
+        return HttpResponse('401 Unauthorized', status=401)
+    logging.info("Validated user to api_backup_exists: {}".format(user.username))
+
+    try:
+        server = None
+        server_form = None
+        params = request.GET.copy()
+        version_id = None
+        status = 'Nothing done'
+        logging.info("creating server with params: {}".format(params))
+
+        # obtiene id version, o crea nueva si no existe
+        if 'version' in params and params['version']:
+            try:
+                version = Version.objects.get(nombre="{}".format(params['version'].strip()))
+                version_id = version.pk
+                status = 'Updated'
+            except Version.DoesNotExist:
+                logging.warning("The version {} does not exist, a new one is created"
+                                .format(params['version']))
+                new_version = Version(nombre=params['version'])
+                new_version.save()
+                version_id = new_version.pk
+                status = 'Created'
+            params['version'] = version_id
+
+            
+        if 'nombre' in params and params['nombre']:
+            try:
+                server = Servidor.objects.get(nombre=params['nombre'])
+                server_form = ServidorForm(params, instance=server)
+            except Servidor.DoesNotExist:
+                server_form = ServidorForm(params)
+            
+        if server_form.is_valid():
+            server = server_form.save()
+            logging.warning("Server: {}, Status: {}".format(server,status))
+            return HttpResponse('200 {}'.format(server.pk), status=200)
+        else:
+            logging.error("Incomplete attributes when creating server")
+            
+    except Exception as e:
+        logging.error(e)
+
+    return HttpResponse('404 Request not found', status=404)
