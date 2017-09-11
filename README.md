@@ -69,17 +69,19 @@ echo $(curl -kv 'https://hostname/api/get_database_id?database=dbname&server=ser
 
 ##### Creates or updates the server specified in name parameter.
 If the indicated engine version does not exist, create it.
+```bash
 Parameters: 
     nombre, ip, puerto, motor (postgresql/mysql), description, version(9.4, 8.4,..)
 responses (code, message):
     401: '401 Unauthorized'
     200: '200 server_id'           # created or updated!
     404: '404 Request not found'   # another thing
-
+```
 
 ##### Creates or updates the database specified in name parameter.
 If the server name or group name is not indicated it is not updated,
 if they are indicated and do not exist it gives an error.
+```bash
 Parameters: 
    nombre,usuario,contrasenia,password_id, descripcion,
    servidor(nombre), grupo(nombre), 
@@ -87,7 +89,7 @@ responses (code, message):
     401: '401 Unauthorized'
     200: '200 database_id'           # created or updated!
     404: '404 Request not found'     # another thing
-
+```
 
 ### Postgres configuration
 ```bash
