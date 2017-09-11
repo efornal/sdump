@@ -14,6 +14,8 @@ urlpatterns = [
     url('^api/last_dump',views.api_last_dump, name='api_last_dump'),
     url('^api/servers/update_or_create/$',views.api_servers_update_or_create,
         name='api_servers_update_or_create'),
+    url('^api/databases/update_or_create/$',views.api_databases_update_or_create,
+        name='api_databases_update_or_create'),
 ]
 urlpatterns += i18n_patterns(
     url(r'^', include('app.urls')),

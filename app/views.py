@@ -27,7 +27,7 @@ import os
 from wsgiref.util import FileWrapper
 from django.http import FileResponse
 from django import forms
-from app.forms import ServidorForm
+from app.forms import ServidorForm, BaseForm
 import json
 from decorators import validate_basic_http_autorization, validate_https_request
 import md5
@@ -942,14 +942,13 @@ def api_servers_update_or_create(request):
             try:
                 version = Version.objects.get(nombre="{}".format(params['version'].strip()))
                 version_id = version.pk
-                status = 'Updated'
+
             except Version.DoesNotExist:
                 logging.warning("The version {} does not exist, a new one is created"
                                 .format(params['version']))
                 new_version = Version(nombre=params['version'])
                 new_version.save()
                 version_id = new_version.pk
-                status = 'Created'
             params['version'] = version_id
 
             
@@ -957,8 +956,10 @@ def api_servers_update_or_create(request):
             try:
                 server = Servidor.objects.get(nombre=params['nombre'])
                 server_form = ServidorForm(params, instance=server)
+                status = 'Updated'
             except Servidor.DoesNotExist:
                 server_form = ServidorForm(params)
+                status = 'Created'
             
         if server_form.is_valid():
             server = server_form.save()
@@ -966,6 +967,84 @@ def api_servers_update_or_create(request):
             return HttpResponse('200 {}'.format(server.pk), status=200)
         else:
             logging.error("Incomplete attributes when creating server")
+            
+    except Exception as e:
+        logging.error(e)
+
+    return HttpResponse('404 Request not found', status=404)
+
+
+
+# Creates or updates the database specified in name parameter.
+# If the server name or group name is not indicated it is not updated,
+# if they are indicated and do not exist it gives an error.
+# Parameters: 
+#    nombre,usuario,contrasenia,password_id (id_rattic), descripcion,
+#    servidor(nombre), grupo(nombre), 
+# responses (code, message):
+#     401: '401 Unauthorized'
+#     200: '200 database_id'           # created or updated!
+#     404: '404 Request not found'     # another thing
+@validate_basic_http_autorization
+@validate_https_request
+def api_databases_update_or_create(request):
+
+    user = basic_http_authentication(request)
+    if user is None:
+        logging.error("Invalid username or password")
+        return HttpResponse('401 Unauthorized', status=401)
+    logging.info("Validated user to api_backup_exists: {}".format(user.username))
+
+    try:
+        database = None
+        database_form = None
+        params = request.GET.copy()
+        server = None
+        status = 'Nothing done'
+        logging.info("creating database with params: {}".format(params))
+
+        # obtiene el servidor si existe
+        if 'servidor' in params and params['servidor']:
+            try:
+                server = Servidor.objects.get(nombre="{}".format(params['servidor'].strip()))
+                params['servidor'] = server.pk
+            except Servidor.DoesNotExist:
+                logging.error("The server {} does not exist,"
+                                .format(params['servidor']))
+                return HttpResponse('404 Request not found', status=404)
+
+        # obtiene el grupo si existe
+        if 'grupo' in params and params['grupo']:
+            try:
+                group = Grupo.objects.get(nombre="{}".format(params['grupo'].strip()))
+                params['grupo'] = group.pk
+            except Grupo.DoesNotExist:
+                logging.error("The group {} does not exist,"
+                                .format(params['grupo']))
+                return HttpResponse('404 Request not found', status=404)
+
+        if 'nombre' in params and params['nombre']:
+            try:
+                database = Base.objects.get(nombre=params['nombre'])
+                database_form = BaseForm(params, instance=database)
+                if database_form.is_valid():
+                    database.save(update_fields=params)
+                    status = 'Updated'
+                    return HttpResponse('200 {}'.format(database.pk), status=200)
+                else:
+                    logging.error("Incomplete attributes when creating database")
+
+            except Base.DoesNotExist:
+                database_form = BaseForm(params)
+                if database_form.is_valid():
+                    database = database_form.save()
+                    status = 'Created'
+                    return HttpResponse('200 {}'.format(database.pk), status=200)                    
+                else:
+                    logging.error("Incomplete attributes when creating database")
+            
+        else:
+            logging.error("Incomplete attributes when creating database")
             
     except Exception as e:
         logging.error(e)
