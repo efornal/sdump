@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-31 10:15-0300\n"
+"POT-Creation-Date: 2017-09-11 08:01-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,32 +33,44 @@ msgstr ""
 msgid "msg_incomplete_parameters"
 msgstr "Parámetros incompletos para crear archivo de configuración de dumps"
 
-#: app/forms.py:14
+#: app/forms.py:17
 msgid "nombre"
 msgstr "Nombre"
 
-#: app/forms.py:15
+#: app/forms.py:21
 msgid "usuario"
 msgstr "Usuario"
 
-#: app/forms.py:16
+#: app/forms.py:25
 msgid "contrasenia"
 msgstr "Contraseña"
 
-#: app/forms.py:17 app/forms.py:29 app/models.py:110 app/models.py:150
+#: app/forms.py:29 app/forms.py:56 app/models.py:110 app/models.py:150
 msgid "description"
 msgstr "Descripción"
 
-#: app/forms.py:25 app/models.py:21 app/models.py:42 app/models.py:92
+#: app/forms.py:33 app/models.py:170
+msgid "password_id"
+msgstr "Id contraseña (rattic)"
+
+#: app/forms.py:38 app/models.py:155
+msgid "server"
+msgstr "Servidor"
+
+#: app/forms.py:43 app/models.py:160 app/models.py:209
+msgid "group"
+msgstr "grupo"
+
+#: app/forms.py:52 app/models.py:21 app/models.py:42 app/models.py:92
 #: app/models.py:136 app/models.py:201 app/models.py:241
 msgid "name"
 msgstr "nombre"
 
-#: app/forms.py:26 app/models.py:97
+#: app/forms.py:53 app/models.py:97
 msgid "ip_address"
 msgstr "ip"
 
-#: app/forms.py:27 app/models.py:101
+#: app/forms.py:54 app/models.py:101
 msgid "port"
 msgstr "puerto"
 
@@ -103,25 +115,13 @@ msgstr "Servidores"
 msgid "username"
 msgstr "usuario"
 
-#: app/models.py:146 templates/registration/login.html:29
+#: app/models.py:146 templates/registration/login.html:40
 msgid "password"
 msgstr "contraseña"
-
-#: app/models.py:155
-msgid "server"
-msgstr "Servidor"
-
-#: app/models.py:160 app/models.py:209
-msgid "group"
-msgstr "grupo"
 
 #: app/models.py:165
 msgid "extra_command_options"
 msgstr "Opciones extras del comando"
-
-#: app/models.py:170
-msgid "password_id"
-msgstr "Id contraseña (rattic)"
 
 #: app/models.py:173
 msgid "periodic_dump"
@@ -168,48 +168,46 @@ msgstr "Compartir"
 msgid "Shares"
 msgstr "Compartidos"
 
-#: app/views.py:372
+#: app/views.py:380
 msgid "number_backups_exceeded"
 msgstr ""
 "Se ha exedido la cantidad de copias realizables. Por favor, elimine copias "
 "anteriores para poder realizar una nueva. El límite actual es %(max_copies)s."
 
-#: app/views.py:434 app/views.py:468
+#: app/views.py:442 app/views.py:476
 msgid "backup_with_mistakes"
 msgstr "Dump realizado con errores!.."
 
-#: app/views.py:455
+#: app/views.py:463
 msgid "no_permissions_to_share"
 msgstr ""
 "No será posible compartir el dump, no se definieron permisos para compartir."
 
-#: app/views.py:473
+#: app/views.py:488
 msgid "backup_finished"
 msgstr "Dump finalizado!"
 
-#: app/views.py:510 app/views.py:546
+#: app/views.py:525 app/views.py:561
 msgid "file_not_indicated"
 msgstr "No se especificó el archivo sobre el cual realizar la acción"
 
-#: app/views.py:516 app/views.py:552
+#: app/views.py:531 app/views.py:567
 msgid "without_permission"
 msgstr "No tiene permisos para realizar esta acción"
 
-#: app/views.py:523
+#: app/views.py:538
 msgid "deleted_file"
 msgstr "El archivo se eliminó correctamente"
 
-#: app/views.py:531
+#: app/views.py:546
 msgid "error_deleting"
 msgstr "Se produjo un error al eliminar el archivo"
 
-#: sdump/settings.py:156 sdump/settings.tpl.py:174 templates/base.html:75
-#: templates/base.html:80
+#: sdump/settings.py:157 templates/base.html:75 templates/base.html:80
 msgid "Spanish"
 msgstr "Español"
 
-#: sdump/settings.py:157 sdump/settings.tpl.py:175 templates/base.html:76
-#: templates/base.html:82
+#: sdump/settings.py:158 templates/base.html:76 templates/base.html:82
 msgid "English"
 msgstr "Inglés"
 
@@ -348,22 +346,21 @@ msgstr ""
 "El tiempo de espera ha exedido. Si la base de datos es grande verifique la "
 "lista mas tarde."
 
-#: templates/registration/login.html:6
-msgid "invalid_username_or_password"
-msgstr ""
-"Nombre de usuario o contraseña incorrectos. Por favor, inténtelo de nuevo."
-
-#: templates/registration/login.html:18
+#: templates/registration/login.html:31
 msgid "home_login"
 msgstr "Iniciar sesión"
 
-#: templates/registration/login.html:23
+#: templates/registration/login.html:35
 msgid "user"
 msgstr "usuario"
 
-#: templates/registration/login.html:35
+#: templates/registration/login.html:45
 msgid "log_in"
 msgstr "Iniciar sesión"
+
+#~ msgid "invalid_username_or_password"
+#~ msgstr ""
+#~ "Nombre de usuario o contraseña incorrectos. Por favor, inténtelo de nuevo."
 
 #~ msgid "descripcion"
 #~ msgstr "Descripción"
