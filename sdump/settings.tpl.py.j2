@@ -136,7 +136,7 @@ DUMPS_SCRIPT = "{{ dumps_script }}"
 # for configurations dumps
 DUMPS_CONFIG_DIRECTORY = "{{ dumps_config_directory }}"
 PERMISSIONS_CONFIG_DUMP_FILE = "{{ permissions_config_dump_file }}"
-DUMPS_CONFIG_AUTHENTICATION = {{ dumps_config_authentication }}
+DUMPS_CONFIG_AUTHENTICATION = {{ dumps_config_authentication|to_json }}
 DUMP_TIMEOUT = {{ dump_timeout }}
 #
 # views
