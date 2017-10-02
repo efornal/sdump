@@ -620,6 +620,19 @@ def api_make_backup(request):
     if not database:
         logging.error("Invalid Database Id")
         return HttpResponse('404 Request not found', status=404)
+
+    db_user = ''
+    db_pass = ''
+    if database.usuario and database.contrasenia:
+        db_user = database.usuario
+        db_pass = database.contrasenia
+    else:
+        if database.password_id:
+            logging.warning("Password not defined, using password_id ...")
+            db_user, db_pass = get_rattic_pass(database.password_id)
+        else:
+            logging.error("ERROR: No password or id password to use")
+            return HttpResponse('500 Internal Server Error', status=500)
     
     server = database.servidor
     server_ip = server.ip
@@ -683,7 +696,7 @@ def api_make_backup(request):
     args.append(database.servidor.motor)
 
     args.append('-U')
-    args.append(database.usuario)
+    args.append(db_user)
 
     args.append('-D')
     args.append(backup_directory)
@@ -696,7 +709,7 @@ def api_make_backup(request):
     args_debug.append('**********')
     
     args.append('-P')
-    args.append(database.contrasenia)
+    args.append(db_pass)
 
     logging.warning("Running with params: \n %s \n" % (args_debug))
     try:
