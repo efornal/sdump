@@ -420,7 +420,7 @@ def make_backup(request):
     args.append(database.servidor.motor)
 
     args.append('-D')
-    args.append(backup_directory)
+    args.append( os.path.join(settings.DUMPS_DIRECTORY, backup_directory) )
 
     args.append('-n')
     args.append(backup_name)
@@ -698,7 +698,7 @@ def api_make_backup(request):
     args.append(db_user)
 
     args.append('-D')
-    args.append(backup_directory)
+    args.append( os.path.join(settings.DUMPS_DIRECTORY, backup_directory) )
 
     args.append('-n')
     args.append(backup_name)
