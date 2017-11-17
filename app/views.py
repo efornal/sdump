@@ -33,6 +33,13 @@ from decorators import validate_basic_http_autorization, validate_https_request
 import md5
 
 
+def to_encode(text):
+    if isinstance(text, str):
+        return text.decode('ascii', 'ignore').encode('ascii')
+    elif isinstance(text, unicode):
+        return text.encode('ascii', 'ignore')
+
+    
 def set_language(request, lang='es'):
     if 'lang' in request.GET:
         lang = request.GET['lang']
@@ -463,30 +470,22 @@ def make_backup(request):
                 message_user += "{}\n".format(_('no_permissions_to_share'))
 
 
-
     except Exception as e:
         logging.error('ERROR Exception: {}'.format(e))
         
     if returned_code :
-        logging.error("ERROR")
-        logging.error(returned_code)
+        logging.error("Dump script error:")
         logging.error(err)
-        logging.error("Output:")
-        logging.error(out)
-        message_user += "{}\n {}\n".format(_('backup_with_mistakes'),out)
+        message_user += "{}\n {}\n".format(_('backup_with_mistakes'),to_encode(out))
         if show_dump_errors_to_user():
-            if isinstance(err, str):
-                err_msg = err.decode('ascii', 'ignore').encode('ascii')
-            elif isinstance(err, unicode):
-                err_msg = err.encode('ascii', 'ignore')
-                message_user += err_msg
-                
+            message_user += to_encode(err)
     else:
-        logging.warning("Backup output:")
-        logging.warning(returned_code)
-        logging.warning(out)
         message_user += _('backup_finished')
-
+        
+    logging.warning("Dump script output:")
+    logging.warning(out)
+    logging.warning("Dump script exit code: {}".format(returned_code))
+    
     return HttpResponse(message_user, content_type="text/plain")
 
 
