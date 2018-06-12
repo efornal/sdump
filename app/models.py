@@ -25,7 +25,7 @@ class Version(models.Model):
         db_table = 'versiones'   
         verbose_name = _('Version')
         verbose_name_plural = _('Versions')
-
+        ordering = ['nombre']
         
     def __unicode__(self):
         return self.nombre
@@ -50,7 +50,7 @@ class Grupo(models.Model):
         db_table = 'grupos'
         verbose_name = _('Group')
         verbose_name_plural = _('Groups')
-
+        ordering = ['nombre']
         
     def __unicode__(self):
         return self.nombre
@@ -119,7 +119,7 @@ class Servidor(models.Model):
         db_table = 'servidores'
         verbose_name = _('Server')
         verbose_name_plural = _('Servers')
-
+        ordering = ['nombre']
         
     def __unicode__(self):
         return self.nombre
@@ -184,7 +184,7 @@ class Base(models.Model):
         db_table = 'bases'
         verbose_name = _('Database')
         verbose_name_plural = _('Databases')
-
+        ordering = ['nombre']
         
     def __unicode__(self):
         return self.nombre
@@ -213,7 +213,7 @@ class Usuario(models.Model):
         db_table = 'usuarios'
         verbose_name = _('User')
         verbose_name_plural = _('Users')
-
+        ordering = ['nombre']
         
     def grupos_asignados(self):
         grupos = []
@@ -249,7 +249,7 @@ class Share(models.Model):
         db_table = 'shares'
         verbose_name = _('Share')
         verbose_name_plural = _('Shares')
-
+        ordering = ['name']
         
     def __unicode__(self):
         return self.name
