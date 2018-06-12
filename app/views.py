@@ -835,7 +835,7 @@ def api_last_dump(request):
             return HttpResponse("200 {}".format(last_dump), content_type="text/plain")
         else:
             logging.warning("The database does not have an available dump.")
-            return HttpResponse('404 Request not found.', status=404)
+            return HttpResponse('404 The database does not have an available dump.', status=404)
  
     except Exception as e:
         logging.error("ERROR Exception: {}".format(e))
