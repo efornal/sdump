@@ -12,6 +12,8 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('app.urls')),
     url('^api/last_dump',views.api_last_dump, name='api_last_dump'),
+    url('^api/sporadics/last_dump',views.api_sporadics_last_dump, name='api_sporadics_last_dump'),
+    url('^api/periodics/last_dump',views.api_periodics_last_dump, name='api_periodics_last_dump'),
     url('^api/servers/update_or_create/$',views.api_servers_update_or_create,
         name='api_servers_update_or_create'),
     url('^api/databases/update_or_create/$',views.api_databases_update_or_create,

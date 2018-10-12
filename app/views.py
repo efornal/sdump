@@ -792,11 +792,10 @@ def api_download(request):
                             content_type='application/application/gzip')
     response['Content-Disposition'] = 'attachment; filename="%s"' % attachment_name
     return response
-        
 
-@validate_basic_http_autorization
-@validate_https_request
-def api_last_dump(request):
+
+# sub directory within backup_directory, default all subdirectory
+def get_last_dump_name(request,sub_directory='*'):
     user = basic_http_authentication(request)
     if user is None:
         logging.error("Invalid username or password")
@@ -817,11 +816,11 @@ def api_last_dump(request):
         return HttpResponse('404 Request not found', status=404)
     
     backup_directory = database.grupo.directorio
-
     project_backup_dir = os.path.join(settings.DUMPS_DIRECTORY,
                                       backup_directory,
-                                      '*/%s*_base-%s_*' % (database.servidor.ip,
-                                                            database.nombre) )
+                                      '%s/%s*_base-%s_*' % (sub_directory,
+                                                                database.servidor.ip,
+                                                                database.nombre) )
     try:
         logging.info("Path to count dumps: %s" % project_backup_dir)
 
@@ -841,6 +840,26 @@ def api_last_dump(request):
         logging.error("ERROR Exception: {}".format(e))
         return HttpResponse('500 Internal Server Error', status=500)
         pass
+
+    
+@validate_basic_http_autorization
+@validate_https_request
+def api_periodics_last_dump(request):
+    return get_last_dump_name( request,
+                                   settings.SUFFIX_PERIODICAL_DUMPS )
+
+
+@validate_basic_http_autorization
+@validate_https_request
+def api_sporadics_last_dump(request):
+    return get_last_dump_name( request,
+                                   settings.SUFFIX_SPORADIC_DUMPS )
+
+
+@validate_basic_http_autorization
+@validate_https_request
+def api_last_dump(request):
+    return get_last_dump_name( request )
 
 
    
