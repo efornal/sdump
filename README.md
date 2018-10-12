@@ -59,6 +59,15 @@ echo $(curl -kv https://hostname/api/last_dump?database_id=id -u username:passwo
 
 200 /dumpspath/server_base-dbname_2017-02-16-09_33.sql.gz
 ```
+```bash
+echo $(curl -kv https://hostname/api/sporadics/last_dump?database_id=id -u username:password)
+200 /sporadics_dumpspath/server_base-dbname_2017-02-16-09_33.sql.gz
+```
+```bash
+echo $(curl -kv https://hostname/api/periodics/last_dump?database_id=id -u username:password)
+200 /periodics_dumpspath/server_base-dbname_2017-02-16-09_33.sql.gz
+```
+
 ##### Get id from names
 The group can be omitted if multiple results are not obtained
 ```bash
