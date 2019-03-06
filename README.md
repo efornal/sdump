@@ -1,14 +1,27 @@
 # sdump
 Dumps administration. To manage information databases and dumps to make each of them. To this generates a configuration file which is used by a cron script to perform the dumps using the configuration specified in those files.
 
-### Package Installation
+### Package Installation debian stretch
 ```bash
-sudo apt-get install python2.7
-sudo apt-get install postgresql-9.3
-sudo apt-get install python-psycopg2
+sudo apt-get install python-dev
 sudo apt-get install python-pip
+sudo apt-get install libpq-dev
+sudo apt-get install libyaml-dev
+sudo apt-get install libldap2-dev
+sudo apt-get install libsasl2-dev
+sudo apt-get install gettext
+sudo apt-get install libjpeg-dev
+sudo apt-get install zlib1g-dev
+sudo apt-get install python-dnspython # for reidi
+sudo apt-get install mariadb-client # for dumpserver
+sudo apt-get install pkg-config
+sudo apt-get install libgtk2.0-dev
+sudo apt-get install libgirepository1.0-dev
+```
 
-pip install -r app/requirements.txt
+### Python lib Installation
+```bash
+pip install -r requieremens.txt
 ```
 
 ### Application configuration
