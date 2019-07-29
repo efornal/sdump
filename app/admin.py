@@ -155,6 +155,7 @@ class ServidorAdmin(admin.ModelAdmin):
 class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'usuario')
     search_fields = ['nombre','usuario']
+    list_filter = ('grupos',)
     formfield_overrides = { models.ManyToManyField: {'widget': SelectMultiple(attrs={'size':'20'})}, }
     ordering = ('nombre',)
 
