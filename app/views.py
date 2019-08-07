@@ -824,8 +824,16 @@ def get_last_dump_name(request,sub_directory='*'):
     try:
         logging.info("Path to count dumps: %s" % project_backup_dir)
 
-        dumps_list = glob.glob("%s" % project_backup_dir)
-        dumps_list.sort(key=lambda x: re.sub(r"^.*_base-","",x))
+        dumps_list_0 = glob.glob("%s" % project_backup_dir)
+        dumps_list_0.sort(key=lambda x: re.sub(r"^.*_base-","",x))
+
+        # filtrar match exacto en el nombre de la base de datos
+        dumps_list = [i for i in dumps_list_0 if re.match('^.*/{}_base-{}{}'.format(
+            database.servidor.ip,
+            database.nombre,
+            '_[0-9]{2,4}-[0-9]{2}-[0-9]{2,4}[_|-][0-9]{2}[-|_][0-9]{2}\.'
+        ), i)]
+
         last_dump=""
         if len(dumps_list) > 0:
             last_dump = dumps_list[-1]
