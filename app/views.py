@@ -68,9 +68,18 @@ def clean_extra_options(options):
     return cleaned
 
 
-def number_of_backups(path):
+def number_of_backups(path, server=None, database=None):
+    '''
+    find number of backups for given path, server, and database.
+    path must be a glob expression, server and database are optional
+    filters to further refine the search
+    '''
+    logging.error("dir count backup: %s, %s, %s" % (path, server, database))
     try:
-        logging.error("dir count backup: %s" % path)
+        if server and database:
+            coll = [ describe_file(p) for p in glob.glob("%s" % path) ]
+            filtered = [ f for f in coll if f['database'] == database and f['server'] == server ]
+            return len(filtered)
         return len( glob.glob("%s" % path) )
     except Exception as e:
         logging.error ("ERROR Exception: Number of backups for '%s'. %s" % (path,e))
@@ -370,16 +379,20 @@ def make_backup(request):
                                                          database.nombre,
                                                          dump_date) )
 
+
+
     # check for maximum sporadick backups
     max_sporadic = 5
     project_backup_dir = os.path.join(settings.DUMPS_DIRECTORY,
-                                      backup_directory,                                      
-                                      '%s*_base-%s_*' % (database.servidor.ip,
-                                                        database.nombre) )
+                                      backup_directory)
     if hasattr(settings, 'MAX_SPORADICS_BACKUPS'):
         max_sporadic = settings.MAX_SPORADICS_BACKUPS
 
-    number_backups = number_of_backups(project_backup_dir)
+    number_backups = number_of_backups(
+        "{}/*".format(project_backup_dir),
+        database.servidor.ip,
+        database.nombre
+    )
 
     if not (number_backups is None) and (number_backups >= max_sporadic):
         logging.warning("Number of backups (%s) exceeded, the current limit is: %s." % \
