@@ -13,7 +13,7 @@ import datetime
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils import translation
-from .models import Grupo, Servidor, Base, Share, Version
+from .models import Grupo, Servidor, Base, Share, Version, RatticAPI
 from django.shortcuts import render_to_response
 from django.db.models import Count
 import os
@@ -33,6 +33,7 @@ from decorators import validate_basic_http_autorization, validate_https_request
 import md5
 
 
+    
 def to_encode(text):
     if isinstance(text, str):
         return text.decode('ascii', 'ignore').encode('ascii')
@@ -99,7 +100,7 @@ def to_date_according_to_text(s_date):
     return None
 
 
-def describe_file (file_path):
+def describe_file(file_path):
 
     descrived_file = {}
     try:
@@ -134,7 +135,7 @@ def describe_file (file_path):
     return descrived_file
 
 
-def describe_files (files):
+def describe_files(files):
     descrived_files = []
     for file_path in files:
         descrived_files.append( describe_file(file_path) )
@@ -184,23 +185,22 @@ def ip_from_vm_name( vm_name='' ):
         logging.error('ERROR Exception: %s' % e)
         return ''
 
-    
-def get_rattic_pass( rattic_id ):
-    params = ['sudo',settings.RATTIC_KEY_RETRIEVAL_SCRIPT,'-u', '-c', '-i', unicode(rattic_id)]
-    logging.info("Getting for rattic id: {}".format(rattic_id))
-    try:
-        p = subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, err = p.communicate()
 
-        if err:
-            logging.error("ERROR Getting rattic id: {}".format(err))
-            return ['','']
-        else:
-            return out.split('\n')[0:2]
-    
+def get_rattic_pass( rattic_id ):
+    result = ['','']
+    try:
+        if not hasattr(settings, 'RATTIC_SERVER') or not hasattr(settings, 'RATTIC_CREDS'):
+            logging.warning("Whithout configurations for rattic")
+            return result
+        
+        api = RatticAPI(
+            server = settings.RATTIC_SERVER,
+            creds  = settings.RATTIC_CREDS,
+        )
+        result = api.get_creds(rattic_id)
     except Exception as e:
         logging.error('ERROR Exception: %s' % e)
-        return ['','']
+    return result
 
     
 def pg_check( args={} ):
@@ -275,7 +275,7 @@ def check_pass(request):
 
 @login_required
 def index(request,group_id=0, server_id=0, database_id=0):
- 
+    
     username = request.user.username
     context={}
         

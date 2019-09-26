@@ -9,6 +9,59 @@ from django.utils.translation import ugettext as _
 import os
 import pwd
 import grp
+import json
+import requests
+
+
+class RatticAPI(object):
+    VERSION = 'v1'
+    
+    def __init__(self, creds=None, server=None):
+        if server is not None:
+            self.server = server
+        if creds is not None:
+            self.creds = creds
+
+    def _headers(self):
+        '''Retorna headers requeridos para interactuar con la API de rattic'''
+        try:
+            return {
+                'Authorization': 'ApiKey {}:{}'.format(*self.creds),
+                'Accept': 'application/json',
+            }
+        except Exception as e:            
+            logging.error(e)
+
+    def _request(self, key):
+        '''Efectúa la petición a la API y devuelve un objeto dict con
+        la respuesta obtenida'''
+        try:
+            result = dict()
+
+            url = "{}/api/{}/cred/{}/?format=json" \
+              .format( self.server.rstrip('/'), self.VERSION, key )
+              
+            response = requests.get( url, headers=self._headers())
+            
+            if response.status_code == 200:
+                return dict(filter(lambda item: item[0] in ['username','password'],
+                                       response.json().items()))
+        except HTTPError as http_err:
+            logging.error('HTTP error occurred: {}'.format(http_err)) 
+        except Exception as e:
+            logging.eror(e)
+        return result
+
+    def get(self, id):
+        return self._request(id)
+    
+    def get_creds(self, id):
+        result = self._request(id)
+        if bool(result):
+            return [v for k,v in result.items()]
+        else:
+            return ['','']
+
 
 
 class Version(models.Model):
