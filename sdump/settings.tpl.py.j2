@@ -124,8 +124,8 @@ DATABASE_CONNECTION_VERIFICATION={{ database_connection_verification }}
 # e.g.
 # rattic_service_url: http://the_url_to_service
 # rattic_service_creds: ('rattic_name','rattic_api_key')
-RATTIC_SERVICE_URL = "'{{ rattic_service_url }}'"
-RATTIC_SERVICE_CREDS = "{{ rattic_service_creds|to_json }}"
+RATTIC_SERVICE_URL = '{{ rattic_service_url }}'
+RATTIC_SERVICE_CREDS = {{ rattic_service_creds|to_json }}
 
 # backups
 APPLICATION_NAME = "{{ app_title }}"
