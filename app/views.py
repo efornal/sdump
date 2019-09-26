@@ -186,7 +186,7 @@ def ip_from_vm_name( vm_name='' ):
         return ''
 
 
-def get_rattic_pass( rattic_id ):
+def get_rattic_creds( rattic_id ):
     result = ['','']
     try:
         if not hasattr(settings, 'RATTIC_SERVER') or not hasattr(settings, 'RATTIC_CREDS'):
@@ -253,7 +253,7 @@ def check_pass(request):
             args.update({'db_port': '5432'})
 
         if 'db_pass_id' in request.POST and request.POST['db_pass_id']:
-            db_user, db_pass = get_rattic_pass(request.POST['db_pass_id'])
+            db_user, db_pass = get_rattic_creds(request.POST['db_pass_id'])
             args.update({'db_user': db_user})
             args.update({'db_pass': db_pass})
 
@@ -450,7 +450,7 @@ def make_backup(request):
     else:
         if database.password_id:
             logging.warning("Password not defined, using password_id ...")
-            db_user, db_pass = get_rattic_pass(database.password_id)
+            db_user, db_pass = get_rattic_creds(database.password_id)
             args.append('-U')
             args.append(db_user)
             args.append('-P')
@@ -641,7 +641,7 @@ def api_make_backup(request):
     else:
         if database.password_id:
             logging.warning("Password not defined, using password_id ...")
-            db_user, db_pass = get_rattic_pass(database.password_id)
+            db_user, db_pass = get_rattic_creds(database.password_id)
         else:
             logging.error("ERROR: No password or id password to use")
             return HttpResponse('500 Internal Server Error', status=500)
