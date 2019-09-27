@@ -185,17 +185,17 @@ def ip_from_vm_name( vm_name='' ):
         logging.error('ERROR Exception: %s' % e)
         return ''
 
-
 def get_rattic_creds( rattic_id ):
     result = ['','']
     try:
-        if not hasattr(settings, 'RATTIC_SERVER') or not hasattr(settings, 'RATTIC_CREDS'):
+        if not hasattr(settings, 'RATTIC_SERVICE_URL') \
+          or not hasattr(settings, 'RATTIC_SERVICE_CREDS'):
             logging.warning("Whithout configurations for rattic")
             return result
         
         api = RatticAPI(
-            server = settings.RATTIC_SERVER,
-            creds  = settings.RATTIC_CREDS,
+            server = settings.RATTIC_SERVICE_URL,
+            creds  = settings.RATTIC_SERVICE_CREDS,
         )
         result = api.get_creds(rattic_id)
     except Exception as e:
