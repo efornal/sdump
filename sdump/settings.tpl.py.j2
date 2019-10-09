@@ -34,6 +34,14 @@ DEBUG = {{ app_debug }}
 
 ALLOWED_HOSTS = ['*']
 
+ADMINS = (
+    ("{{ app_admin_name }}", "{{ app_admin_email }}"),
+)
+
+MANAGERS = (
+    ("{{ app_manager_name }}", "{{ app_manager_email }}"),
+)
+
 BASIC_AUTH_REALM = 'User Authentication'
 
 # Application definition
