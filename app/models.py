@@ -149,8 +149,7 @@ class Servidor(models.Model):
         blank=True,
         verbose_name=_('ip_address'))
     puerto = models.IntegerField(
-        null=True,
-        blank=True,
+        null=False,
         verbose_name=_('port'))
     motor = models.CharField(
         max_length=100,

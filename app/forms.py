@@ -51,7 +51,7 @@ class BaseForm(forms.ModelForm):
 class ServidorForm(forms.ModelForm):
     nombre = forms.CharField(max_length=100,required=True, label=_('name'))
     ip = forms.CharField(max_length=100,required=False, label=_('ip_address'))
-    puerto = forms.IntegerField(required=False, label=_('port'))
+    puerto = forms.IntegerField(required=True, label=_('port'))
     motor = forms.ChoiceField( choices = settings.ENGINE_OPTIONS)
     descripcion = forms.CharField(required=False, widget=forms.Textarea, label=_('description'))
 
