@@ -16,7 +16,7 @@ import requests
 class RatticAPI(object):
     VERSION = 'v1'
     
-    def __init__(self, creds=None, server=None):
+    def __init__(self, server=None, creds=None):
         if server is not None:
             self.server = server
         if creds is not None:
@@ -42,10 +42,11 @@ class RatticAPI(object):
               .format( self.server.rstrip('/'), self.VERSION, key )
               
             response = requests.get( url, headers=self._headers())
-            
             if response.status_code == 200:
                 return dict(filter(lambda item: item[0] in ['username','password'],
                                        response.json().items()))
+            else:
+                logging.error('The request to the rati api could not be made. The http response code was: {}'.format(response.status_code))
         except HTTPError as http_err:
             logging.error('HTTP error occurred: {}'.format(http_err)) 
         except Exception as e:
