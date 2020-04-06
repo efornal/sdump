@@ -3,16 +3,20 @@ Dumps administration. To manage information databases and dumps to make each of 
 
 ### Package Installation debian buster
 ```bash
+apt install git
+apt install python-dev
 apt install python-pip
-apt install python-cffi
-apt install python-django
-apt install python-pil
-apt install python-psycopg2
-apt install python-pkgconfig
-apt install python-reportlab
-apt install python-cairo
-apt install python-socks
-apt install python-redminelib
+apt install pkg-config
+apt install libpq-dev
+apt install libyaml-dev
+apt install libldap2-dev
+apt install libsasl2-dev
+apt install gettext
+apt install libjpeg-dev
+apt install zlib1g-dev
+apt install libgtk2.0-dev
+apt install libgirepository1.0-dev
+apt install mariadb-client
 ```
 
 ### Python lib Installation
