@@ -1,4 +1,4 @@
-# docker build -t dsump:latest .
+# docker build -t sdump:latest .
 
 FROM python:2.7.18-buster
 #FROM python:3.3-slim
@@ -16,11 +16,11 @@ RUN apt-get install -y libcairo2-dev libcairo2 python-cairo python-cairo-dev \
    procps python-apt python3-cairo python3-cairo-dev
 
 RUN pip install --upgrade pip
-WORKDIR /srv/dsump
+WORKDIR /srv/sdump
 EXPOSE 8000
 
 COPY app app
-COPY dsump dsump
+COPY sdump sdump
 COPY LICENSE .
 COPY locale locale
 COPY manage.py .
@@ -38,4 +38,4 @@ RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 
-CMD ["gunicorn", "dsump.wsgi:application", "--bind",  ":8000"]
+CMD ["gunicorn", "sdump.wsgi:application", "--bind",  ":8000"]
