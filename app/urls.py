@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': settings.LOGIN_REDIRECT_URL},
         name='logout'),
+    url('health/', views.health, name='health'),
     url('^api/make_dump',views.api_make_backup, name='api_make_backup'),
     url('^api/dump_exists',views.api_backup_exists, name='api_backup_exists'),
     url('^api/get_database_id',views.api_get_database_id, name='api_get_database_id'),
@@ -29,7 +30,7 @@ urlpatterns = [
     url(r'^group/(?P<group_id>\d+)/server/(?P<server_id>\d+)/$', views.index, name='index'),
     url(r'^group/(?P<group_id>\d+)/server/(?P<server_id>\d+)/database/(?P<database_id>\d+)/$',
         views.index, name='index'),
-    url(r'^en/$', views.index, name='index'),
+#    url(r'^en/$', views.index, name='index'),
     url(r'^lang/(?P<lang>\w+)/$', views.set_language, name='set_language'),
     url(r'^$', views.index, name='index'),
 ]

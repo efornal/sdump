@@ -19,6 +19,9 @@ RUN pip install --upgrade pip
 WORKDIR /srv/sdump
 EXPOSE 8000
 
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
 COPY app app
 COPY sdump sdump
 COPY LICENSE .
@@ -29,8 +32,6 @@ COPY static static
 COPY templates templates
 COPY tests tests
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
 RUN apt-get clean && apt-get autoremove
 
 COPY ./entrypoint.sh /entrypoint.sh

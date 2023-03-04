@@ -32,7 +32,9 @@ import json
 from decorators import validate_basic_http_autorization, validate_https_request
 import md5
 
-
+def health(request):
+    from django.http import HttpResponse
+    return HttpResponse(status=200)
     
 def to_encode(text):
     if isinstance(text, str):
