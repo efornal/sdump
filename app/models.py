@@ -272,7 +272,7 @@ class Usuario(models.Model):
         grupos = []
         for grupo in self.grupos.all():
           grupos.append(grupo.nombre)
-          print grupo.nombre
+#          print grupo.nombre
         return ', '.join(grupos)
 
     

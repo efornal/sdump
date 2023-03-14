@@ -29,8 +29,8 @@ from django.http import FileResponse
 from django import forms
 from app.forms import ServidorForm, BaseForm
 import json
-from decorators import validate_basic_http_autorization, validate_https_request
-import md5
+from .decorators import validate_basic_http_autorization, validate_https_request
+import hashlib
 
 def health(request):
     from django.http import HttpResponse
@@ -150,10 +150,8 @@ def make_backups_lists(group_id=None):
 
     if group_id is None or not (int(group_id) > 0):
         return backups_lists
-
     try:
         group = Grupo.objects.get( id=group_id )
-        
         sporadics_path = os.path.join( settings.DUMPS_DIRECTORY,
                                        group.directorio,
                                        settings.SUFFIX_SPORADIC_DUMPS )
@@ -168,7 +166,6 @@ def make_backups_lists(group_id=None):
         backups_lists = [sporadics,periodics]
     except Exception as e:
         logging.error('ERROR Exception: with group_id %s, %s' % (group_id,e))
-
     return backups_lists
 
 
@@ -277,7 +274,7 @@ def check_pass(request):
 
 @login_required
 def index(request,group_id=0, server_id=0, database_id=0):
-    
+
     username = request.user.username
     context={}
         
@@ -360,58 +357,20 @@ def update_databases(request):
     return render_to_response('_select_databases.html', context)
 
 
-
-
-@login_required
-def make_backup(request):
-    database_id = int(request.POST['database_id'])
-    database = Base.objects.get(pk=database_id)
-    server = database.servidor
-    server_ip = server.ip
-    extra_options = ''
-    message_user = ''
+def get_postgresql_args(request,database):
     args = []
+    extra_options = ''
+    dump_date=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
     backup_directory = os.path.join( database.grupo.directorio,
                                      settings.SUFFIX_SPORADIC_DUMPS)
-
-    dump_date=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
     backup_name = os.path.join(settings.DUMPS_DIRECTORY,
                                backup_directory,
                                '%s_base-%s_%s.sql.gz' % (database.servidor.ip,
                                                          database.nombre,
                                                          dump_date) )
-
-
-
-    # check for maximum sporadick backups
-    max_sporadic = 5
-    project_backup_dir = os.path.join(settings.DUMPS_DIRECTORY,
-                                      backup_directory)
-    if hasattr(settings, 'MAX_SPORADICS_BACKUPS'):
-        max_sporadic = settings.MAX_SPORADICS_BACKUPS
-
-    number_backups = number_of_backups(
-        "{}/*".format(project_backup_dir),
-        database.servidor.ip,
-        database.nombre
-    )
-
-    if not (number_backups is None) and (number_backups >= max_sporadic):
-        logging.warning("Number of backups (%s) exceeded, the current limit is: %s." % \
-                        (number_backups,max_sporadic) )
-        message_user += _('number_backups_exceeded') % {'max_copies':max_sporadic}
-        return HttpResponse(message_user, content_type="text/plain")
-
-    
-    logging.warning("Making backup ,...")
-
     args.append('sudo')
-    args.append(settings.DUMPS_SCRIPT)
+    args.append('/usr/bin/pg_dump')
 
-    if server.version:
-        args.append('-m')
-        args.append(server.version.nombre)
-        
     if 'opt_inserts' in request.POST and request.POST['opt_inserts']=='true':
         args.append('-i')
         
@@ -426,7 +385,7 @@ def make_backup(request):
         args.append(extra_options)
 
     args.append('-H')
-    args.append(server_ip)
+    args.append(database.servidor.ip)
 
     args.append('-d')
     args.append(database.nombre)
@@ -445,7 +404,7 @@ def make_backup(request):
     if database.usuario and database.contrasenia:
         args.append('-U')
         args.append(database.usuario)
-        args.append('-P')
+        args.append('-W')
         args.append(database.contrasenia)
         args_debug.append('-U')             # for debug
         args_debug.append(database.usuario) # for debug
@@ -455,7 +414,7 @@ def make_backup(request):
             db_user, db_pass = get_rattic_creds(database.password_id)
             args.append('-U')
             args.append(db_user)
-            args.append('-P')
+            args.append('-W')
             args.append(db_pass)
             args_debug.append('-U')    # for debug
             args_debug.append(db_user) # for debug
@@ -464,10 +423,48 @@ def make_backup(request):
             message_user += "%s\n" % (_('backup_with_mistakes'))
 
 
-    args_debug.append('-P')
+    args_debug.append('-W')
     args_debug.append('**********')
     logging.warning("Running with params: \n %s \n" % (args_debug))
+    return args
 
+@login_required
+def make_backup(request):
+    database_id = int(request.POST['database_id'])
+    database = Base.objects.get(pk=database_id)
+#    server = database.servidor
+#    server_ip = server.ip
+    message_user = ''
+    args = []
+    backup_directory = os.path.join( database.grupo.directorio,
+                                     settings.SUFFIX_SPORADIC_DUMPS)
+
+#    dump_date=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
+
+
+
+    # check for maximum sporadick backups
+    max_sporadic = 5
+    project_backup_dir = os.path.join(settings.DUMPS_DIRECTORY,
+                                      backup_directory)
+    if hasattr(settings, 'MAX_SPORADICS_BACKUPS'):
+        max_sporadic = settings.MAX_SPORADICS_BACKUPS
+
+    number_backups = number_of_backups(
+        "{}/*".format(project_backup_dir),
+        database.servidor.ip,
+        database.nombre
+    )
+
+    if not (number_backups is None) and (int(number_backups) >= int(max_sporadic)):
+        logging.warning("Number of backups (%s) exceeded, the current limit is: %s." % \
+                        (number_backups,max_sporadic) )
+        message_user += _('number_backups_exceeded') % {'max_copies':max_sporadic}
+        return HttpResponse(message_user, content_type="text/plain")
+
+    
+    logging.warning("Making backup ,...")
+    logging.warning("ARGS: {}".format(get_postgresql_args(request,database)))
     try:
         p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
@@ -475,7 +472,7 @@ def make_backup(request):
         if 'opt_share' in request.POST and request.POST['opt_share']=='true':
             if database.alow_sharing:
                 share = Share(name=backup_name,
-                              hash= md5.new(backup_name).hexdigest(),
+                              hash= hashlib.md5(backup_name.encode()).hexdigest(),
                               database=database)
                 logging.warning("Sharing dump file: {}".format(backup_name) )
                 share.save()
@@ -507,7 +504,7 @@ def make_backup(request):
 @login_required
 def update_extra_options(request):
     extra_options=""
-    if ('database_id' in request.GET) and (request.GET['database_id'] > 0):
+    if ('database_id' in request.GET) and (int(request.GET['database_id']) > 0):
         database = Base.objects.get(pk=int(request.GET['database_id']))
         if database.extra_command_options:
             extra_options = database.extra_command_options
@@ -941,7 +938,7 @@ def api_get_database_id(request):
 
 
 def share_dump(request, filename=None):
-    if 'filename' is None:
+    if filename is None:
         logging.error("Undefined file name")
         return HttpResponse('404 Request not found', status=404)
     

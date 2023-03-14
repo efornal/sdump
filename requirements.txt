@@ -1,9 +1,12 @@
-asn1crypto==0.24.0
-certifi==2018.8.24
-cffi==1.12.2
-chardet==3.0.4
-configparser==3.5.0b2
-cryptography==2.6.1
+
+attrs==20.3.0
+blinker==1.4
+certifi==2020.6.20
+chardet==4.0.0
+configobj==5.0.6
+cryptography==3.3.2
+dbus-python==1.2.16
+distro-info==1.0
 Django==1.11.28
 django-auth-ldap==1.7.0
 django-bootstrap-themes==3.3.6
@@ -18,37 +21,113 @@ django-suit-locale==1.0.10
 django-tag-parser==2.1
 dnspython==1.16.0
 dominate==2.1.17
-entrypoints==0.3
-enum34==1.1.6
-idna==2.6
-ipaddress==1.0.17
-keyring==17.1.1
-keyrings.alt==3.1.1
-lxml==4.3.2
-olefile==0.46
-Pillow==5.4.1
-pkgconfig==1.4.0
-ply==3.11
-py-zabbix==1.1.5
-pyasn1==0.4.2
+httplib2==0.18.1
+idna==2.10
+importlib-metadata==1.6.0
+Jinja2==2.11.3
+jsonpatch==1.25
+jsonpointer==2.0
+jsonschema==3.2.0
+Mako==1.1.3
+Markdown==3.3.4
+MarkupSafe==1.1.1
+more-itertools==4.2.0
+oauthlib==3.1.0
+psycopg2==2.8.6
+pyasn1==0.4.8
 pyasn1-modules==0.2.1
-pycparser==2.19
-pycrypto==2.6.1
-PyGObject==3.30.4
-PySocks==1.6.8
-python-ldap==3.1.0
-python-redmine==2.1.1
-pytz==2019.1
-pyxdg==0.25
-PyYAML==3.13
-reportlab==3.5.13
-requestbuilder
-requests==2.21.0
-SecretStorage==2.3.1
-six==1.12.0
-sqlparse==0.2.4
-typing==3.6.6
-urllib3==1.24.1
-psycopg2-binary
+pycurl==7.43.0.6
+Pygments==2.7.1
+PyJWT==1.7.1
+pyrsistent==0.15.5
+PySimpleSOAP==1.16.2
+#python-apt==2.2.1
+python-debian==0.1.39
+python-debianbts==3.1.0
+python-ldap==3.2.0
+pytz==2021.3
+PyYAML==5.3.1
+requests==2.25.1
+six==1.16.0
+urllib3==1.26.5
+zipp==1.0.0
+#psycopg2-binary==2.7.7
 django-environ
 gunicorn
+
+
+
+
+# Django==1.11.28
+# django-auth-ldap==1.7.0
+# django-bootstrap-themes==3.3.6
+# django-bootstrap-ui==0.5.1
+# django-datetime-widget==0.9.3
+# django-durationfield==0.5.5
+# django-extensions==2.1.4
+# django-jquery==2.2.4
+# django-jquery-ui==1.11.4.1
+# django-suit==0.2.28
+# django-suit-locale==1.0.10
+# django-tag-parser==2.1
+# dnspython==1.16.0
+# psycopg2-binary
+# django-environ
+# gunicorn
+
+
+
+# asn1crypto==0.24.0
+# certifi==2018.8.24
+# cffi==1.12.2
+# chardet==3.0.4
+# configparser==3.5.0b2
+# cryptography==2.6.1
+# Django==1.11.28
+# django-auth-ldap==1.7.0
+# django-bootstrap-themes==3.3.6
+# django-bootstrap-ui==0.5.1
+# django-datetime-widget==0.9.3
+# django-durationfield==0.5.5
+# django-extensions==2.1.4
+# django-jquery==2.2.4
+# django-jquery-ui==1.11.4.1
+# django-suit==0.2.28
+# django-suit-locale==1.0.10
+# django-tag-parser==2.1
+# dnspython==1.16.0
+# dominate==2.1.17
+# entrypoints==0.3
+# enum34==1.1.6
+# idna==2.6
+# ipaddress==1.0.17
+# keyring==17.1.1
+# keyrings.alt==3.1.1
+# #lxml==4.3.2
+# olefile==0.46
+# Pillow==5.4.1
+# pkgconfig==1.4.0
+# ply==3.11
+# py-zabbix==1.1.5
+# pyasn1==0.4.2
+# pyasn1-modules==0.2.1
+# pycparser==2.19
+# pycrypto==2.6.1
+# PyGObject==3.30.4
+# PySocks==1.6.8
+# python-ldap==3.1.0
+# python-redmine==2.1.1
+# pytz==2019.1
+# pyxdg==0.25
+# PyYAML==3.13
+# reportlab==3.5.13
+# requestbuilder
+# requests==2.21.0
+# SecretStorage==2.3.1
+# six==1.12.0
+# sqlparse==0.2.4
+# typing==3.6.6
+# urllib3==1.24.1
+# psycopg2-binary
+# django-environ
+# gunicorn
