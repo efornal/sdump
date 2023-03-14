@@ -60,7 +60,7 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
-
+shared/
 
 # media files
 media/*
