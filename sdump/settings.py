@@ -241,8 +241,8 @@ DATABASE_CONNECTION_VERIFICATION = os.getenv("DATABASE_CONNECTION_VERIFICATION",
 # e.g.
 # rattic_service_url: http://the_url_to_service
 # rattic_service_creds: ('rattic_name','rattic_api_key')
-RATTIC_SERVICE_URL = os.environ.get('RATTIC_SERVICE_URL')
-RATTIC_SERVICE_CREDS = os.environ.get('RATTIC_SERVICE_CREDS')
+RATTIC_SERVICE_URL = ast.literal_eval(os.environ.get('RATTIC_SERVICE_URL'))
+RATTIC_SERVICE_CREDS = ast.literal_eval(os.environ.get('RATTIC_SERVICE_CREDS'))
 
 # backups
 DUMPS_DIRECTORY = os.getenv('DUMPS_DIRECTORY')

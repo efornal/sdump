@@ -11,7 +11,7 @@ import pwd
 import grp
 import json
 import requests
-
+from urllib.error import HTTPError
 
 class RatticAPI(object):
     VERSION = 'v1'
@@ -50,7 +50,7 @@ class RatticAPI(object):
         except HTTPError as http_err:
             logging.error('HTTP error occurred: {}'.format(http_err)) 
         except Exception as e:
-            logging.eror(e)
+            logging.error(e)
         return result
 
     def get(self, id):

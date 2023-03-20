@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render
@@ -32,17 +33,18 @@ import json
 from .decorators import validate_basic_http_autorization, validate_https_request
 import hashlib
 
+
 def health(request):
     from django.http import HttpResponse
     return HttpResponse(status=200)
-    
-def to_encode(text):
-    if isinstance(text, str):
-        return text.decode('ascii', 'ignore').encode('ascii')
-    elif isinstance(text, unicode):
-        return text.encode('ascii', 'ignore')
 
-    
+
+def to_encode(text):
+    if isinstance(text, bytes):
+        return text.decode("utf-8")
+    return test
+
+
 def set_language(request, lang='es'):
     if 'lang' in request.GET:
         lang = request.GET['lang']
@@ -360,7 +362,7 @@ def update_databases(request):
 def get_postgresql_args(request,database):
     args = []
     extra_options = ''
-    dump_date=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
+    dump_date = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
     backup_directory = os.path.join( database.grupo.directorio,
                                      settings.SUFFIX_SPORADIC_DUMPS)
     backup_name = os.path.join(settings.DUMPS_DIRECTORY,
@@ -368,7 +370,6 @@ def get_postgresql_args(request,database):
                                '%s_base-%s_%s.sql.gz' % (database.servidor.ip,
                                                          database.nombre,
                                                          dump_date) )
-    args.append('sudo')
     args.append('/usr/bin/pg_dump')
 
     if 'opt_inserts' in request.POST and request.POST['opt_inserts']=='true':
@@ -384,64 +385,44 @@ def get_postgresql_args(request,database):
         args.append('-o')
         args.append(extra_options)
 
-    args.append('-H')
+    args.append('-h')
     args.append(database.servidor.ip)
+
+    args.append('-f')
+    args.append(backup_name)
 
     args.append('-d')
     args.append(database.nombre)
+    return args
 
-    args.append('-t')
-    args.append(database.servidor.motor)
 
-    args.append('-D')
-    args.append( os.path.join(settings.DUMPS_DIRECTORY, backup_directory) )
 
-    args.append('-n')
-    args.append(backup_name)
-
-    args_debug = list(args)
-    
+def get_db_credentials(database):
+    db_pass = None
+    db_user = None
     if database.usuario and database.contrasenia:
-        args.append('-U')
-        args.append(database.usuario)
-        args.append('-W')
-        args.append(database.contrasenia)
-        args_debug.append('-U')             # for debug
-        args_debug.append(database.usuario) # for debug
+        db_pass = database.contrasenia
+        db_user = database.usuario
     else:
         if database.password_id:
             logging.warning("Password not defined, using password_id ...")
-            db_user, db_pass = get_rattic_creds(database.password_id)
-            args.append('-U')
-            args.append(db_user)
-            args.append('-W')
-            args.append(db_pass)
-            args_debug.append('-U')    # for debug
-            args_debug.append(db_user) # for debug
+            db_pass,db_user = get_rattic_creds(database.password_id)
         else:
             logging.error("ERROR: No password or id password to use")
             message_user += "%s\n" % (_('backup_with_mistakes'))
-
-
-    args_debug.append('-W')
-    args_debug.append('**********')
-    logging.warning("Running with params: \n %s \n" % (args_debug))
-    return args
+    return db_user, db_pass
 
 @login_required
 def make_backup(request):
     database_id = int(request.POST['database_id'])
     database = Base.objects.get(pk=database_id)
-#    server = database.servidor
-#    server_ip = server.ip
+
     message_user = ''
     args = []
     backup_directory = os.path.join( database.grupo.directorio,
                                      settings.SUFFIX_SPORADIC_DUMPS)
-
-#    dump_date=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
-
-
+    returned_code = None
+    proc_env={}
 
     # check for maximum sporadick backups
     max_sporadic = 5
@@ -462,13 +443,23 @@ def make_backup(request):
         message_user += _('number_backups_exceeded') % {'max_copies':max_sporadic}
         return HttpResponse(message_user, content_type="text/plain")
 
+    if database.servidor.motor == 'postgresql':
+        args = get_postgresql_args(request,database)
+    
+    db_user, db_pass = get_db_credentials(database)
+    args.append('-U')
+    args.append(db_user)
+    logging.warning("Running with params: \n {} \n".format(args))
+
     
     logging.warning("Making backup ,...")
-    logging.warning("ARGS: {}".format(get_postgresql_args(request,database)))
     try:
-        p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        proc_env = os.environ
+        proc_env['PGPASSWORD'] = db_pass
+        p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=proc_env)
         out, err = p.communicate()
         returned_code = p.returncode
+
         if 'opt_share' in request.POST and request.POST['opt_share']=='true':
             if database.alow_sharing:
                 share = Share(name=backup_name,
@@ -485,18 +476,17 @@ def make_backup(request):
     except Exception as e:
         logging.error('ERROR Exception: {}'.format(e))
         
-    if returned_code :
+    if returned_code:
         logging.error("Dump script error:")
         logging.error(err)
+        logging.warning("Dump script output:")
+        logging.warning(out)
+        logging.warning("Dump script exit code: {}".format(returned_code))
         message_user += "{}\n {}\n".format(_('backup_with_mistakes'),to_encode(out))
         if show_dump_errors_to_user():
             message_user += to_encode(err)
     else:
         message_user += _('backup_finished')
-        
-    logging.warning("Dump script output:")
-    logging.warning(out)
-    logging.warning("Dump script exit code: {}".format(returned_code))
     
     return HttpResponse(message_user, content_type="text/plain")
 
@@ -509,8 +499,6 @@ def update_extra_options(request):
         if database.extra_command_options:
             extra_options = database.extra_command_options
     return HttpResponse(extra_options, content_type="text/plain")
-
-
 
 
 def have_file_permissions( username, filename ):
