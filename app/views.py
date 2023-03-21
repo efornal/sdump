@@ -396,6 +396,45 @@ def get_postgresql_args(request,database):
     return args
 
 
+def get_mysql_args(request,database):
+    args = []
+    extra_options = ''
+    dump_date = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
+    backup_directory = os.path.join( database.grupo.directorio,
+                                     settings.SUFFIX_SPORADIC_DUMPS)
+    backup_name = os.path.join(settings.DUMPS_DIRECTORY,
+                               backup_directory,
+                               '%s_base-%s_%s.sql.gz' % (database.servidor.ip,
+                                                         database.nombre,
+                                                         dump_date) )
+    args.append('/usr/bin/mysqldump')
+    
+mysqldump --host=${SERVER} --user=${USUARIO_DB} --password=${PASSWORD} \
+	      --opt --databases ${BASE} ${OPCIONES_DUMP}
+ 
+        
+    if 'extra_options' in request.POST:
+        extra_options += clean_extra_options(request.POST['extra_options'])
+    if extra_options:
+        args.append('-o')
+        args.append(extra_options)
+
+    args.append('-h')
+    args.append(database.servidor.ip)
+
+    args.append('-u')
+    args.append(db_user)
+
+    args.append('-p')
+    args.append(db_pass)
+
+    
+    args.append('-f')
+    args.append(backup_name)
+
+    args.append(database.nombre)
+    return args
+
 
 def get_db_credentials(database):
     db_pass = None

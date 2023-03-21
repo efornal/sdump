@@ -14,7 +14,7 @@ RUN apt-get install -y  pkg-config  libdbus-1-dev gettext libpq-dev libyaml-dev 
     libpq-dev libyaml-dev libldap2-dev libsasl2-dev gettext \
     libjpeg-dev zlib1g-dev libgtk2.0-dev libgirepository1.0-dev \
     python3-wheel python-pip-whl \
-    postgresql-client
+    postgresql-client mysql-common
 # RUN apt-get install -y  pkg-config gettext libpq-dev libyaml-dev \
 #     pkg-config gettext libpq-dev libyaml-dev \
 #     libldap2-dev libsasl2-dev libjpeg-dev zlib1g-dev libgtk2.0-dev \
