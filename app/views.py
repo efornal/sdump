@@ -32,7 +32,8 @@ from app.forms import ServidorForm, BaseForm
 import json
 from .decorators import validate_basic_http_autorization, validate_https_request
 import hashlib
-
+import paramiko
+from paramiko.ssh_exception import BadHostKeyException, AuthenticationException, SSHException
 
 def health(request):
     from django.http import HttpResponse
@@ -370,8 +371,7 @@ def get_postgresql_args(request,database):
                                '%s_base-%s_%s.sql.gz' % (database.servidor.ip,
                                                          database.nombre,
                                                          dump_date) )
-    args.append('/usr/bin/pg_dump')
-
+    args.append(str("/usr/bin/pg_dump"))
     if 'opt_inserts' in request.POST and request.POST['opt_inserts']=='true':
         args.append('-i')
         
@@ -382,17 +382,17 @@ def get_postgresql_args(request,database):
         extra_options += clean_extra_options(request.POST['extra_options'])
 
     if extra_options:
-        args.append('-o')
-        args.append(extra_options)
+        args.append(str("-o"))
+        args.append(str(extra_options))
 
-    args.append('-h')
-    args.append(database.servidor.ip)
+    args.append(str("-h"))
+    args.append(str(database.servidor.ip))
 
-    args.append('-f')
-    args.append(backup_name)
+    args.append(str("-f"))
+    args.append(str(backup_name))
 
-    args.append('-d')
-    args.append(database.nombre)
+    args.append(str("-d"))
+    args.append(str(database.nombre))
     return args
 
 
@@ -409,8 +409,8 @@ def get_mysql_args(request,database):
                                                          dump_date) )
     args.append('/usr/bin/mysqldump')
     
-mysqldump --host=${SERVER} --user=${USUARIO_DB} --password=${PASSWORD} \
-	      --opt --databases ${BASE} ${OPCIONES_DUMP}
+#mysqldump --host=${SERVER} --user=${USUARIO_DB} --password=${PASSWORD} \
+#	      --opt --databases ${BASE} ${OPCIONES_DUMP}
  
         
     if 'extra_options' in request.POST:
@@ -451,6 +451,17 @@ def get_db_credentials(database):
             message_user += "%s\n" % (_('backup_with_mistakes'))
     return db_user, db_pass
 
+def get_client_ssh_connection(hostname='', username='', password=''):
+    try:
+        client = paramiko.SSHClient()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        client.connect(hostname=hostname, username=username, password=password)
+    except Exception as e:
+        logging.error('Error trying to connect to remote host,..')
+        logging.error(e)
+        client = None
+    return client
+
 @login_required
 def make_backup(request):
     database_id = int(request.POST['database_id'])
@@ -486,47 +497,77 @@ def make_backup(request):
         args = get_postgresql_args(request,database)
     
     db_user, db_pass = get_db_credentials(database)
-    args.append('-U')
-    args.append(db_user)
+    args.append(str("-U"))
+    args.append(str(db_user))
+
     logging.warning("Running with params: \n {} \n".format(args))
+    args.insert(0,"PGPASSWORD={}".format(db_pass))
+    command = ' '.join(args)
 
-    
     logging.warning("Making backup ,...")
+
+    client = get_client_ssh_connection('dumps', 'dumpserver', 'pass')
+    logging.warning(client)
+    if client is None:
+        message_user += _('client_ssh_connection_error')
+        return HttpResponse(message_user, content_type="text/plain")
+
     try:
-        proc_env = os.environ
-        proc_env['PGPASSWORD'] = db_pass
-        p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=proc_env)
-        out, err = p.communicate()
-        returned_code = p.returncode
+        # not found
+        #cmd_env = os.environ
+        #cmd_env['PGPASSWORD'] = db_pass
+        #cmd_env={"PGPASSWORD":db_pass}
+        #update_environment(environment)#
+        
+        stdin, stdout, stderr = client.exec_command(command)
+        returned_code = stdout.channel.recv_exit_status()
+        outlines = stdout.readlines()
+        errlines = stderr.readlines()
+        print(stdout.channel.recv_exit_status())
+        print(outlines)
+        print(stdout)
+        print(stderr)
+        print(stdin)
 
-        if 'opt_share' in request.POST and request.POST['opt_share']=='true':
-            if database.alow_sharing:
-                share = Share(name=backup_name,
-                              hash= hashlib.md5(backup_name.encode()).hexdigest(),
-                              database=database)
-                logging.warning("Sharing dump file: {}".format(backup_name) )
-                share.save()
-            else:
-                logging.warning("Request to share link dump, but the database {} "\
-                                "does not have permissions to share.".format(database))
-                message_user += "{}\n".format(_('no_permissions_to_share'))
-
-
+        
+        out = stdout.read().decode().strip()
+        error = stderr.read().decode().strip()
+        print("SALIDA:")
+        print(out)
+        print("ERROR::")
+        print(error)
+    except SSHException as se:
+        logging.error("SSHException: {}".format(e))
     except Exception as e:
-        logging.error('ERROR Exception: {}'.format(e))
+        logging.error(e)
+
+    client.close()
+#        proc_env = os.environ
+#        proc_env['PGPASSWORD'] = db_pass
+        # p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=proc_env)
+        # out, err = p.communicate()
+        # returned_code = p.returncode
+
+    if 'opt_share' in request.POST and request.POST['opt_share']=='true':
+        if database.alow_sharing:
+            share = Share(name=backup_name,
+                          hash= hashlib.md5(backup_name.encode()).hexdigest(),
+                          database=database)
+            logging.warning("Sharing dump file: {}".format(backup_name) )
+            share.save()
+        else:
+            logging.warning("Request to share link dump, but the database {} "\
+                            "does not have permissions to share.".format(database))
+            message_user += "{}\n".format(_('no_permissions_to_share'))
         
     if returned_code:
-        logging.error("Dump script error:")
-        logging.error(err)
-        logging.warning("Dump script output:")
-        logging.warning(out)
         logging.warning("Dump script exit code: {}".format(returned_code))
         message_user += "{}\n {}\n".format(_('backup_with_mistakes'),to_encode(out))
         if show_dump_errors_to_user():
             message_user += to_encode(err)
     else:
         message_user += _('backup_finished')
-    
+
     return HttpResponse(message_user, content_type="text/plain")
 
 

@@ -10,6 +10,16 @@ services:
     volumes:
       - sdump_pgdata:/var/lib/postgresql/data
       - ./db:/docker-entrypoint-initdb.d
+      
+  dumps:
+    tty: true
+    image: sdump_dumps:latest
+    restart: always
+    environment:
+      DUMPSERVER_USER: dumpserver
+      DUMPSERVER_PASSWORD: pass
+    volumes:
+      - sdump_dumps:/srv/dumps
   
   sdump:
     restart: always
@@ -20,6 +30,7 @@ services:
       - .env.dev
     volumes:
       - .:/srv/sdump
+      - sdump_dumps:/srv/dumps
     ports:
       - "8000:8000"
     depends_on:
@@ -27,4 +38,6 @@ services:
 
 volumes:
   sdump_pgdata:
+    external: true
+  sdump_dumps:
     external: true
