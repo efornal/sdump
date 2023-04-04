@@ -1,6 +1,7 @@
 # docker build -t sdump:latest .
 
 #FROM python:2.7.18-buster
+#FROM python:3.8.16-bullseye
 FROM python:3.9.16-bullseye
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED 1

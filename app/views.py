@@ -34,6 +34,7 @@ from .decorators import validate_basic_http_autorization, validate_https_request
 import hashlib
 import paramiko
 from paramiko.ssh_exception import BadHostKeyException, AuthenticationException, SSHException
+#from django.http import StreamingHttpResponse
 
 def health(request):
     from django.http import HttpResponse
@@ -372,6 +373,8 @@ def get_postgresql_args(request,database):
                                                          database.nombre,
                                                          dump_date) )
     args.append(str("/usr/bin/pg_dump"))
+    args.append('-Z9')
+    
     if 'opt_inserts' in request.POST and request.POST['opt_inserts']=='true':
         args.append('-i')
         
@@ -408,7 +411,6 @@ def get_mysql_args(request,database):
                                                          database.nombre,
                                                          dump_date) )
     args.append('/usr/bin/mysqldump')
-    
 #mysqldump --host=${SERVER} --user=${USUARIO_DB} --password=${PASSWORD} \
 #	      --opt --databases ${BASE} ${OPCIONES_DUMP}
  
@@ -660,7 +662,8 @@ def download(request):
                 
     logging.warning("Downloading file: %s" % filename)
     attachment_name = os.path.basename(filename)
-    response = FileResponse(FileWrapper(file(filename, 'rb')),
+    #response = StreamingHttpResponse(FileWrapper(open(filename, 'rb')), content_type='application/zip')
+    response = FileResponse(FileWrapper(open(filename, 'rb')),
                             content_type='application/application/gzip')
     response['Content-Disposition'] = 'attachment; filename="%s"' % attachment_name
     return response
@@ -868,7 +871,7 @@ def api_download(request):
                 
     logging.info("Downloading file: %s" % filename)
     attachment_name = os.path.basename(filename)
-    response = FileResponse(FileWrapper(file(filename, 'rb')),
+    response = FileResponse(FileWrapper(open(filename, 'rb')),
                             content_type='application/application/gzip')
     response['Content-Disposition'] = 'attachment; filename="%s"' % attachment_name
     return response
@@ -1023,7 +1026,7 @@ def share_dump(request, filename=None):
     attachment_name = re.sub(r'.+_base-','',share_file.name)
 
     logging.warning("Exporting file {} with hash {}".format(share_file.name,share_file.hash))
-    response = FileResponse(FileWrapper(file(share_file.name, 'rb')),
+    response = FileResponse(FileWrapper(open(share_file.name, 'rb')),
                             content_type='application/gzip')
     response['Content-Disposition'] = 'attachment; filename={}'.format(attachment_name)
     return response
