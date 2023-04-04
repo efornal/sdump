@@ -360,10 +360,8 @@ def update_databases(request):
                'extra_command_options': extra_command_options}
     return render_to_response('_select_databases.html', context)
 
-
-def get_postgresql_args(request,database):
-    args = []
-    extra_options = ''
+def get_backup_name(database):
+    backup_name = ''
     dump_date = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
     backup_directory = os.path.join( database.grupo.directorio,
                                      settings.SUFFIX_SPORADIC_DUMPS)
@@ -372,6 +370,15 @@ def get_postgresql_args(request,database):
                                '%s_base-%s_%s.sql.gz' % (database.servidor.ip,
                                                          database.nombre,
                                                          dump_date) )
+    return backup_name
+
+def get_postgresql_args(request,database):
+    args = []
+    extra_options = ''
+    backup_name = get_backup_name(database)
+    
+    db_user, db_pass = get_db_credentials(database)
+
     args.append(str("/usr/bin/pg_dump"))
     args.append('-Z9')
     
@@ -391,50 +398,44 @@ def get_postgresql_args(request,database):
     args.append(str("-h"))
     args.append(str(database.servidor.ip))
 
+    args.append(str("-U"))
+    args.append(str(db_user))
+
     args.append(str("-f"))
     args.append(str(backup_name))
 
     args.append(str("-d"))
     args.append(str(database.nombre))
+    
+    logging.info("Running with params: \n {} \n".format(args))
+    
+    args.insert(0,"PGPASSWORD={}".format(db_pass))
+
     return args
 
 
 def get_mysql_args(request,database):
     args = []
-    extra_options = ''
-    dump_date = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
-    backup_directory = os.path.join( database.grupo.directorio,
-                                     settings.SUFFIX_SPORADIC_DUMPS)
-    backup_name = os.path.join(settings.DUMPS_DIRECTORY,
-                               backup_directory,
-                               '%s_base-%s_%s.sql.gz' % (database.servidor.ip,
-                                                         database.nombre,
-                                                         dump_date) )
-    args.append('/usr/bin/mysqldump')
-#mysqldump --host=${SERVER} --user=${USUARIO_DB} --password=${PASSWORD} \
-#	      --opt --databases ${BASE} ${OPCIONES_DUMP}
- 
-        
-    if 'extra_options' in request.POST:
-        extra_options += clean_extra_options(request.POST['extra_options'])
-    if extra_options:
-        args.append('-o')
-        args.append(extra_options)
+    db_user, db_pass = get_db_credentials(database)
 
-    args.append('-h')
+    args.append('/usr/bin/mysqldump')
+
+    backup_name = get_backup_name(database)
+    
+    args.append('--host')
     args.append(database.servidor.ip)
 
     args.append('-u')
     args.append(db_user)
-
-    args.append('-p')
-    args.append(db_pass)
-
     
-    args.append('-f')
-    args.append(backup_name)
-
     args.append(database.nombre)
+
+    args.append("| gzip > {}".format(backup_name))
+
+    logging.info("Running with params: \n {} \n".format(args))
+
+    args.insert(0,"MYSQL_PWD={}".format(db_pass))
+
     return args
 
 
@@ -497,58 +498,32 @@ def make_backup(request):
 
     if database.servidor.motor == 'postgresql':
         args = get_postgresql_args(request,database)
+    if database.servidor.motor == 'mysql':
+        args = get_mysql_args(request,database)
     
-    db_user, db_pass = get_db_credentials(database)
-    args.append(str("-U"))
-    args.append(str(db_user))
-
-    logging.warning("Running with params: \n {} \n".format(args))
-    args.insert(0,"PGPASSWORD={}".format(db_pass))
     command = ' '.join(args)
 
-    logging.warning("Making backup ,...")
+    logging.info("Making backup ,...")
 
     client = get_client_ssh_connection('dumps', 'dumpserver', 'pass')
-    logging.warning(client)
+
     if client is None:
         message_user += _('client_ssh_connection_error')
         return HttpResponse(message_user, content_type="text/plain")
 
     try:
-        # not found
-        #cmd_env = os.environ
-        #cmd_env['PGPASSWORD'] = db_pass
-        #cmd_env={"PGPASSWORD":db_pass}
-        #update_environment(environment)#
-        
-        stdin, stdout, stderr = client.exec_command(command)
+        stdin, stdout, stderr = client.exec_command(command, timeout=5)
         returned_code = stdout.channel.recv_exit_status()
         outlines = stdout.readlines()
         errlines = stderr.readlines()
-        print(stdout.channel.recv_exit_status())
-        print(outlines)
-        print(stdout)
-        print(stderr)
-        print(stdin)
-
-        
-        out = stdout.read().decode().strip()
-        error = stderr.read().decode().strip()
-        print("SALIDA:")
-        print(out)
-        print("ERROR::")
-        print(error)
+        logging.info("Script output: {}".format(outlines))
+        logging.info("Script error: {}".format(errlines))
     except SSHException as se:
         logging.error("SSHException: {}".format(e))
     except Exception as e:
         logging.error(e)
 
     client.close()
-#        proc_env = os.environ
-#        proc_env['PGPASSWORD'] = db_pass
-        # p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=proc_env)
-        # out, err = p.communicate()
-        # returned_code = p.returncode
 
     if 'opt_share' in request.POST and request.POST['opt_share']=='true':
         if database.alow_sharing:
@@ -563,7 +538,7 @@ def make_backup(request):
             message_user += "{}\n".format(_('no_permissions_to_share'))
         
     if returned_code:
-        logging.warning("Dump script exit code: {}".format(returned_code))
+        logging.info("Dump script exit code: {}".format(returned_code))
         message_user += "{}\n {}\n".format(_('backup_with_mistakes'),to_encode(out))
         if show_dump_errors_to_user():
             message_user += to_encode(err)

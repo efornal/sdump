@@ -17,7 +17,7 @@ services:
       
   dumps:
     tty: true
-    image: sdump_dumps:latest
+    image: dumps:latest
     restart: always
     environment:
       DUMPSERVER_USER: dumpserver
