@@ -83,9 +83,11 @@ class Version(models.Model):
         
     def __unicode__(self):
         return self.nombre
+    
+    def __str__(self):
+        return self.nombre
 
     
-
 class Grupo(models.Model):
     id = models.AutoField(
         primary_key=True,
@@ -107,6 +109,9 @@ class Grupo(models.Model):
         ordering = ['nombre']
         
     def __unicode__(self):
+        return self.nombre
+
+    def __str__(self):
         return self.nombre
 
     
@@ -176,6 +181,9 @@ class Servidor(models.Model):
         
     def __unicode__(self):
         return self.nombre
+    
+    def __str__(self):
+        return self.nombre
 
     
 
@@ -241,6 +249,9 @@ class Base(models.Model):
         
     def __unicode__(self):
         return self.nombre
+    
+    def __str__(self):
+        return self.nombre
 
     
 
@@ -279,6 +290,9 @@ class Usuario(models.Model):
     def __unicode__(self):
         return self.nombre
 
+    def __str__(self):
+        return self.nombre
+
 
 class Share(models.Model):
     id = models.AutoField(
@@ -305,6 +319,9 @@ class Share(models.Model):
         ordering = ['name']
         
     def __unicode__(self):
+        return self.name
+
+    def __str__(self):
         return self.name
 
     

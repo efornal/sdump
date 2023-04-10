@@ -34,6 +34,8 @@ from .decorators import validate_basic_http_autorization, validate_https_request
 import hashlib
 import paramiko
 from paramiko.ssh_exception import BadHostKeyException, AuthenticationException, SSHException
+import base64
+from django.contrib.auth import authenticate
 #from django.http import StreamingHttpResponse
 
 def health(request):
@@ -372,10 +374,11 @@ def get_backup_name(database):
                                                          dump_date) )
     return backup_name
 
-def get_postgresql_args(request,database):
+def get_postgresql_args(request,database,backup_name=''):
     args = []
     extra_options = ''
-    backup_name = get_backup_name(database)
+    if not backup_name:
+        backup_name = get_backup_name(database)
     
     db_user, db_pass = get_db_credentials(database)
 
@@ -414,13 +417,14 @@ def get_postgresql_args(request,database):
     return args
 
 
-def get_mysql_args(request,database):
+def get_mysql_args(request,database,backup_name=''):
     args = []
     db_user, db_pass = get_db_credentials(database)
 
     args.append('/usr/bin/mysqldump')
 
-    backup_name = get_backup_name(database)
+    if not backup_name:
+        backup_name = get_backup_name(database)
     
     args.append('--host')
     args.append(database.servidor.ip)
@@ -482,7 +486,7 @@ def make_backup(request):
     project_backup_dir = os.path.join(settings.DUMPS_DIRECTORY,
                                       backup_directory)
     if hasattr(settings, 'MAX_SPORADICS_BACKUPS'):
-        max_sporadic = settings.MAX_SPORADICS_BACKUPS
+        max_sporadic = int(settings.MAX_SPORADICS_BACKUPS)
 
     number_backups = number_of_backups(
         "{}/*".format(project_backup_dir),
@@ -645,19 +649,17 @@ def download(request):
 
 
 def basic_http_authentication(request):
-    import base64
-    from django.contrib.auth import authenticate
     auth = request.META['HTTP_AUTHORIZATION'].split()
     user = None
     if len(auth) == 2:
         if auth[0].lower() == "basic":
-            uname, passwd = base64.b64decode(auth[1]).split(':')
+            uname, passwd = base64.b64decode(auth[1]).decode().split(':')
             user = authenticate(username=uname, password=passwd)
     return user
 
     
-@validate_basic_http_autorization
-@validate_https_request
+##################################################@validate_basic_http_autorization
+#################################################@validate_https_request
 def api_make_backup(request):
 
     user = basic_http_authentication(request)
@@ -678,18 +680,6 @@ def api_make_backup(request):
         logging.error("Invalid Database Id")
         return HttpResponse('404 Request not found', status=404)
 
-    db_user = ''
-    db_pass = ''
-    if database.usuario and database.contrasenia:
-        db_user = database.usuario
-        db_pass = database.contrasenia
-    else:
-        if database.password_id:
-            logging.warning("Password not defined, using password_id ...")
-            db_user, db_pass = get_rattic_creds(database.password_id)
-        else:
-            logging.error("ERROR: No password or id password to use")
-            return HttpResponse('500 Internal Server Error', status=500)
     
     server = database.servidor
     server_ip = server.ip
@@ -698,13 +688,6 @@ def api_make_backup(request):
     backup_directory = os.path.join( database.grupo.directorio,
                                      settings.SUFFIX_SPORADIC_DUMPS)
 
-    dump_date=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
-    backup_name = os.path.join(settings.DUMPS_DIRECTORY,
-                               backup_directory,
-                               '%s_base-%s_%s.sql.gz' % (database.servidor.ip,
-                                                         database.nombre,
-                                                         dump_date) )
-
     # check for maximum sporadick backups
     max_sporadic = 5
     project_backup_dir = os.path.join(settings.DUMPS_DIRECTORY,
@@ -712,7 +695,7 @@ def api_make_backup(request):
                                       '%s*_base-%s_*' % (database.servidor.ip,
                                                         database.nombre) )
     if hasattr(settings, 'MAX_SPORADICS_BACKUPS'):
-        max_sporadic = settings.MAX_SPORADICS_BACKUPS
+        max_sporadic = int(settings.MAX_SPORADICS_BACKUPS)
 
     number_backups = number_of_backups(project_backup_dir)
 
@@ -721,63 +704,44 @@ def api_make_backup(request):
                         (number_backups,max_sporadic) )
         return HttpResponse('403 Copy limit exceeded', status=403)
 
-    logging.warning("Making backup ,...")
+    backup_name = get_backup_name(database)
 
-    args.append('sudo')
-    args.append(settings.DUMPS_SCRIPT)
-
-    if server.version:
-        args.append('-m')
-        args.append(server.version.nombre)
-        
-    if 'opt_inserts' in request.POST and request.POST['opt_inserts']=='true':
-        args.append('-i')
-        
-    if 'opt_clean' in request.POST and request.POST['opt_clean']=='true':
-        extra_options += ' --clean '
-        
-    if 'extra_options' in request.POST:
-        extra_options += clean_extra_options(request.POST['extra_options'])
-
-    if extra_options:
-        args.append('-o')
-        args.append(extra_options)
-
-    args.append('-H')
-    args.append(server_ip)
-
-    args.append('-d')
-    args.append(database.nombre)
-
-    args.append('-t')
-    args.append(database.servidor.motor)
-
-    args.append('-U')
-    args.append(db_user)
-
-    args.append('-D')
-    args.append( os.path.join(settings.DUMPS_DIRECTORY, backup_directory) )
-
-    args.append('-n')
-    args.append(backup_name)
-
-    args_debug = list(args)
-    args_debug.append('-P')
-    args_debug.append('**********')
+    if database.servidor.motor == 'postgresql':
+        args = get_postgresql_args(request,database,backup_name)
+    if database.servidor.motor == 'mysql':
+        args = get_mysql_args(request,database,backup_name)
     
-    args.append('-P')
-    args.append(db_pass)
+    command = ' '.join(args)
 
-    logging.warning("Running with params: \n %s \n" % (args_debug))
+    logging.info("Making backup ,...")
+
+    client = get_client_ssh_connection('dumps', 'dumpserver', 'pass')
+
+    if client is None:
+        logging.error(e)
+        return HttpResponse('404 Request not found', status=404)
+
     try:
-        p = subprocess.Popen(args)
+        stdin, stdout, stderr = client.exec_command(command)
+        returned_code = stdout.channel.recv_exit_status()
+        outlines = stdout.readlines()
+        errlines = stderr.readlines()
+        logging.info("Script output: {}".format(outlines))
+        logging.info("Script error: {}".format(errlines))
+        logging.info("Requested dump: {}".format(backup_name))
 
-        logging.warning("Requested dump: {}".format(backup_name))
-        message_user = "200 {}".format(backup_name)
-
+    except SSHException as se:
+        logging.error("SSHException: {}".format(e))
     except Exception as e:
-        logging.error('ERROR Exception: %s' % e)
+        logging.error(e)
+
+    client.close()
+
+    if returned_code:
         message_user = "500 Internal Server Error"
+    else:
+        logging.info("Dump script exit code: {}".format(returned_code))
+        message_user = "200 {}".format(backup_name)
 
     return HttpResponse(message_user, content_type="text/plain")
 
