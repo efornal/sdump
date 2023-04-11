@@ -262,6 +262,9 @@ DUMP_TIMEOUT = os.environ.get('DUMP_TIMEOUT')
 # views
 USER_NOTIFICATION = os.environ.get('USER_NOTIFICATION')
 DEFAULT_CHARSET = os.environ.get('DEFAULT_CHARSET')
-
+#
+# ssh user connecting to the dumps instance
+DUMPS_USER_NAME = os.environ.get('DUMPS_USER_NAME')
+DUMPS_USER_PASS = os.environ.get('DUMPS_USER_PASS')
 
 # ==================================================/

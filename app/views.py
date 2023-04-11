@@ -458,7 +458,14 @@ def get_db_credentials(database):
             message_user += "%s\n" % (_('backup_with_mistakes'))
     return db_user, db_pass
 
-def get_client_ssh_connection(hostname='', username='', password=''):
+def get_client_ssh_connection():
+    hostname = 'dumps'
+    username = ''
+    password = ''
+    if hasattr(settings, 'DUMPS_USER_NAME'):
+        username = settings.DUMPS_USER_NAME
+    if hasattr(settings, 'DUMPS_USER_PASS'):
+        password = settings.DUMPS_USER_PASS
     try:
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -509,7 +516,7 @@ def make_backup(request):
 
     logging.info("Making backup ,...")
 
-    client = get_client_ssh_connection('dumps', 'dumpserver', 'pass')
+    client = get_client_ssh_connection()
 
     if client is None:
         message_user += _('client_ssh_connection_error')
@@ -658,8 +665,8 @@ def basic_http_authentication(request):
     return user
 
     
-##################################################@validate_basic_http_autorization
-#################################################@validate_https_request
+@validate_basic_http_autorization
+@validate_https_request
 def api_make_backup(request):
 
     user = basic_http_authentication(request)
@@ -715,7 +722,7 @@ def api_make_backup(request):
 
     logging.info("Making backup ,...")
 
-    client = get_client_ssh_connection('dumps', 'dumpserver', 'pass')
+    client = get_client_ssh_connection()
 
     if client is None:
         logging.error(e)
