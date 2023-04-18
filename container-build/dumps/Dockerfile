@@ -1,4 +1,4 @@
-# docker build -t dumps:latest .
+# docker build -f container-build/dumps/Dockerfile -t dumps:latest .
 
 FROM debian:bullseye-slim
 
@@ -10,7 +10,6 @@ RUN apt-get install -y postgresql-client mariadb-client
 
 EXPOSE 22
 
-#RUN adduser dumpserver
 RUN useradd -ms /bin/bash dumpserver
 
 RUN mkdir -p /srv/dumps/disa/esporadicos/

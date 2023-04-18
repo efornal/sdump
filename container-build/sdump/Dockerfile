@@ -1,7 +1,5 @@
-# docker build -t sdump:latest .
+# docker build -f container-build/sdump/Dockerfile -t sdump:latest .
 
-#FROM python:2.7.18-buster
-#FROM python:3.8.16-bullseye
 FROM python:3.9.16-bullseye
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED 1
@@ -36,14 +34,8 @@ COPY static static
 COPY templates templates
 COPY tests tests
 
-COPY ./container-build/sdump/entrypoint.sh /entrypoint.sh
+COPY container-build/sdump/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-
-# conf para ssh a contenedor de dumps
-#RUN mkdir /root/.ssh && chmod 700 /root/.ssh
-#COPY ./container-build/id_rsa /root/.ssh/
-#COPY ./container-build/ssh_config /root/.ssh/config
-
 
 CMD ["gunicorn", "sdump.wsgi:application", "--bind",  ":8000"]
