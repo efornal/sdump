@@ -15,6 +15,6 @@ fi
 # fi
 
 service ssh restart 
-#tail -f /dev/null
+tail -f /dev/null
 
 exec "$@"
