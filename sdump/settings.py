@@ -264,7 +264,7 @@ USER_NOTIFICATION = os.environ.get('USER_NOTIFICATION')
 DEFAULT_CHARSET = os.environ.get('DEFAULT_CHARSET')
 #
 # ssh user connecting to the dumps instance
+DUMPS_HOST_NAME = os.environ.get('DUMPS_HOST_NAME')
 DUMPS_USER_NAME = os.environ.get('DUMPS_USER_NAME')
 DUMPS_USER_PASS = os.environ.get('DUMPS_USER_PASS')
 
-# ==================================================/

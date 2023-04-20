@@ -459,9 +459,11 @@ def get_db_credentials(database):
     return db_user, db_pass
 
 def get_client_ssh_connection():
-    hostname = 'dumps'
+    hostname = ''
     username = ''
     password = ''
+    if hasattr(settings, 'DUMPS_HOST_NAME'):
+        hostname = settings.DUMPS_HOST_NAME
     if hasattr(settings, 'DUMPS_USER_NAME'):
         username = settings.DUMPS_USER_NAME
     if hasattr(settings, 'DUMPS_USER_PASS'):
@@ -471,7 +473,7 @@ def get_client_ssh_connection():
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(hostname=hostname, username=username, password=password)
     except Exception as e:
-        logging.error('Error trying to connect to remote host,..')
+        logging.error('Error trying to connect to remote host {} with user {},..'.format(hostname,username))
         logging.error(e)
         client = None
     return client
