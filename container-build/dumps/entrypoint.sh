@@ -3,6 +3,7 @@ set -e
 
 if [[ -n ${DUMPS_USER_NAME} && -n ${DUMPS_USER_PASSWORD} ]]; then
     echo -e ${DUMPS_USER_NAME}:${DUMPS_USER_PASSWORD} | chpasswd
+    echo "Updated password of user ${DUMPS_USER_NAME}."
 fi
 
 service ssh restart 
