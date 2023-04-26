@@ -1,18 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-if [[ -n ${DUMPSERVER_USER} && -n ${DUMPSERVER_PASSWORD} ]]; then
-    echo -e ${DUMPSERVER_USER}:${DUMPSERVER_PASSWORD} | chpasswd
+if [[ -n ${DUMPS_USER_NAME} && -n ${DUMPS_USER_PASSWORD} ]]; then
+    echo -e ${DUMPS_USER_NAME}:${DUMPS_USER_PASSWORD} | chpasswd
 fi
-# if [ id -u $DUMPSERVER_USER &>/dev/null ]; then
-#     echo "ya existe, se omite usuario"
-# else
-#     echo "no existe"
-#     useradd ${DUMPSERVER_USER}
-#     echo -e ${DUMPSERVER_USER}:${DUMPSERVER_PASSWORD} | chpasswd
-#     echo "creado"
-
-# fi
 
 service ssh restart 
 tail -f /dev/null
