@@ -19,8 +19,9 @@ services:
     image: dumps:latest
     restart: always
     environment:
-      DUMPSERVER_USER: dumpserver
-      DUMPSERVER_PASSWORD: pass
+      DUMPS_HOST_NAME: dumps
+      DUMPS_USER_NAME: dumpserver
+      DUMPS_USER_PASS: pass
     volumes:
       - sdump_dumps:/srv/dumps
   
