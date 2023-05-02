@@ -37,6 +37,7 @@ from paramiko.ssh_exception import BadHostKeyException, AuthenticationException,
 import base64
 from django.contrib.auth import authenticate
 #from django.http import StreamingHttpResponse
+import socket
 
 def health(request):
     from django.http import HttpResponse
@@ -46,7 +47,7 @@ def health(request):
 def to_encode(text):
     if isinstance(text, bytes):
         return text.decode("utf-8")
-    return test
+    return text
 
 
 def set_language(request, lang='es'):
@@ -468,12 +469,39 @@ def get_client_ssh_connection():
         username = settings.DUMPS_USER_NAME
     if hasattr(settings, 'DUMPS_USER_PASS'):
         password = settings.DUMPS_USER_PASS
+
     try:
+        logging.warning('Conecting to remote host {} with user {},..'.format(hostname,username))
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(hostname=hostname, username=username, password=password)
+        client.connect(hostname=hostname, username=username, password=password, look_for_keys=False)
+    
+    except BadHostKeyException  as e:
+        logging.error('The server’s host key could not be verified')
+        logging.error(e)
+        client = None
+
+    except AuthenticationException  as e:
+        logging.error('authentication failed')
+        logging.error(e)
+        client = None
+
+    except socket.error  as e:
+        logging.error('Socket error occurred while connecting (not connection-refused or host-unreachable)') 
+        logging.error(e)
+        client = None
+
+    except NoValidConnectionsError as e:
+        logging.error('Connection-refused or host-unreachable socket errors.')
+        logging.error(e)
+        client = None
+
+    except SSHException as e:
+        logging.error('Error connecting or establishing an SSH session')
+        logging.error(e)
+        client = None
+        
     except Exception as e:
-        logging.error('Error trying to connect to remote host {} with user {},..'.format(hostname,username))
         logging.error(e)
         client = None
     return client
@@ -552,9 +580,9 @@ def make_backup(request):
         
     if returned_code:
         logging.info("Dump script exit code: {}".format(returned_code))
-        message_user += "{}\n {}\n".format(_('backup_with_mistakes'),to_encode(out))
+        message_user += "{}\n {}\n".format(_('backup_with_mistakes')," ".join(outlines))
         if show_dump_errors_to_user():
-            message_user += to_encode(err)
+            message_user += " ".join(errlines)
     else:
         message_user += _('backup_finished')
 
