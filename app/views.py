@@ -33,7 +33,7 @@ import json
 from .decorators import validate_basic_http_autorization, validate_https_request
 import hashlib
 import paramiko
-from paramiko.ssh_exception import BadHostKeyException, AuthenticationException, SSHException
+from paramiko.ssh_exception import BadHostKeyException, AuthenticationException, NoValidConnectionsError, SSHException
 import base64
 from django.contrib.auth import authenticate
 #from django.http import StreamingHttpResponse
