@@ -12,10 +12,6 @@ EXPOSE 22 80
 
 RUN useradd -ms /bin/bash dumpserver
 
-RUN mkdir -p /srv/dumps/disa/esporadicos/
-RUN mkdir -p /srv/dumps/wordpress/esporadicos/
-RUN chmod -R 777 /srv/dumps
-
 COPY container-build/dumps/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
