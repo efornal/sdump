@@ -24,6 +24,7 @@ services:
       DUMPS_USER_PASS: pass
     volumes:
       - sdump_dumps:/srv/dumps
+      - sdump_dumps_conf:/srv/dumps.conf.d
   
   sdump:
     restart: always
@@ -35,6 +36,7 @@ services:
     volumes:
       - .:/srv/sdump
       - sdump_dumps:/srv/dumps
+      - sdump_dumps_conf:/srv/dumps.conf.d
     ports:
       - "8000:8000"
     depends_on:
@@ -44,4 +46,6 @@ volumes:
   sdump_pgdata:
     external: true
   sdump_dumps:
+    external: true
+  sdump_dumps_conf:
     external: true
