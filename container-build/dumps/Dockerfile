@@ -2,15 +2,20 @@
 
 FROM debian:bullseye-slim
 
-WORKDIR /
+RUN apt-get update && apt-get install -y \
+    openssh-client openssh-server \
+    postgresql-client mariadb-client && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get -y update
-RUN apt-get install -y openssh-client openssh-server
-RUN apt-get install -y postgresql-client mariadb-client
+RUN useradd -ms /bin/bash dumpserver
+
+RUN mkdir -p /srv/dumps &&  \
+    chown -R dumpserver.www-data /srv/dumps && \
+    chmod -R 765 /srv/dumps
 
 EXPOSE 22 80
 
-RUN useradd -ms /bin/bash dumpserver
+WORKDIR /
 
 COPY container-build/dumps/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
