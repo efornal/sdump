@@ -9,10 +9,6 @@ RUN apt-get update && apt-get install -y \
 
 RUN useradd -ms /bin/bash dumpserver
 
-RUN mkdir -p /srv/dumps &&  \
-    chown -R dumpserver.www-data /srv/dumps && \
-    chmod -R 765 /srv/dumps
-
 EXPOSE 22 80
 
 WORKDIR /
