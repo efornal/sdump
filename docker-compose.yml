@@ -15,21 +15,22 @@ services:
       - sdump_pgdata:/var/lib/postgresql/data
       - ./db:/docker-entrypoint-initdb.d
       
-  dumps:
-    image: dumps:latest
+  dumps: 
+    build:
+      context: .
+      dockerfile: container-build/dumps/Dockerfile
     restart: always
-    environment:
-      DUMPS_HOST_NAME: dumps
-      DUMPS_USER_NAME: dumpserver
-      DUMPS_USER_PASS: pass
+    env_file:
+      - .env.dev
     volumes:
       - sdump_dumps:/srv/dumps
       - sdump_dumps_conf:/srv/dumps.conf.d
   
   sdump:
+    build:
+      context: .
+      dockerfile: container-build/sdump/Dockerfile
     restart: always
-#    build: .
-    image: sdump:latest
     command: python manage.py runserver 0.0.0.0:8000
     env_file:
       - .env.dev
