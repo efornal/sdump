@@ -1,5 +1,5 @@
 
-FROM python:3.9.16-bullseye
+FROM python:3.9.16-slim-bullseye
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED 1
@@ -20,7 +20,6 @@ RUN useradd -ms /bin/bash dumpserver
 WORKDIR /srv/sdump
 
 COPY requirements.txt .
-
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY container-build/sdump/entrypoint.sh /
