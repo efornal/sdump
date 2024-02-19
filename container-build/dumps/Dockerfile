@@ -1,8 +1,7 @@
-# docker build -f container-build/dumps/Dockerfile -t dumps:latest .
 
 FROM debian:bullseye-slim
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get -y update && apt-get install -y \
     openssh-client openssh-server \
     postgresql-client mariadb-client && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -13,7 +12,7 @@ EXPOSE 22 80
 
 WORKDIR /
 
-COPY container-build/dumps/entrypoint.sh /entrypoint.sh
+COPY container-build/dumps/entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 

@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 set -e
 
-mkdir -p /srv/dumps
-chown -R dumpserver.www-data /srv/dumps
-chmod -R 765 /srv/dumps
+
+if [ ! -d "/srv/dumps" ]; then
+    echo "Inicializando /srv/dumps" && mkdir -vp /srv/dumps
+else
+    echo "/srv/dumps ya existe, ok!"
+fi
+chown -v dumpserver.www-data /srv/dumps
+
 
 if [[ -n ${DUMPS_USER_NAME} && -n ${DUMPS_USER_PASS} ]]; then
     echo -e ${DUMPS_USER_NAME}:${DUMPS_USER_PASS} | chpasswd
