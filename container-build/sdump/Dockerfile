@@ -13,6 +13,8 @@ RUN apt-get update && apt-get -y upgrade && apt-get install -y \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     pip install --upgrade pip
 
+RUN useradd -ms /bin/bash dumpserver
+
 RUN mkdir -p /srv/dumps.conf.d && chown -R www-data.www-data /srv/dumps.conf.d
 
 WORKDIR /srv/sdump
