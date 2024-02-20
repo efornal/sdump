@@ -11,9 +11,9 @@ RUN apt-get -y update && apt-get install -y \
     git python-dev python3-pip python3-apt python3-ldap pkg-config \
     libpq-dev libyaml-dev libldap2-dev libsasl2-dev gettext \
     libjpeg-dev zlib1g-dev libgtk2.0-dev libgirepository1.0-dev \
-    python3-wheel python-pip-whl && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* && \
-    pip install --upgrade pip
+    python3-wheel python-pip-whl libcurl4-openssl-dev libssl-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* \
+    && pip install --upgrade pip
 
 RUN useradd -ms /bin/bash dumpserver
 

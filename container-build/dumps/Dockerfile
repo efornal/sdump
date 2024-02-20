@@ -3,8 +3,8 @@ FROM debian:bullseye-slim
 
 RUN apt-get -y update && apt-get install -y \
     openssh-client openssh-server \
-    postgresql-client mariadb-client && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    postgresql-client mariadb-client \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -ms /bin/bash dumpserver
 
