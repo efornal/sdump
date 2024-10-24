@@ -1,7 +1,12 @@
 
 FROM debian:bullseye-slim
 
-RUN apt-get -y update && apt-get install -y \
+ARG LOCAL_TIME=America/Argentina/Cordoba
+
+RUN rm /etc/localtime \
+    && ln -s /usr/share/zoneinfo/$LOCAL_TIME /etc/localtime
+
+RUN apt-get -y update && apt-get install -y --no-install-recommends \
     openssh-client openssh-server \
     postgresql-client mariadb-client \
     && apt-get clean && rm -rf /var/lib/apt/lists/*

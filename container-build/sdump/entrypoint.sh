@@ -10,8 +10,9 @@ fi
 chown -v www-data.www-data /srv/dumps.conf.d
 
 
-python manage.py compilemessages
+python manage.py compilemessages --locale es --locale en
 python manage.py collectstatic --noinput
 python manage.py migrate --database db_owner
 
 exec "$@"
+

@@ -1,5 +1,8 @@
 ## django configuration
 
+LANG=es_AR.UTF-8
+TZ=America\/Argentina\/Cordoba
+
 APPLICATION_NAME=Dumpserver
 APPLICATION_DESC=Dumpserver
 
