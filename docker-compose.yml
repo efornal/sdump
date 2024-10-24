@@ -38,12 +38,12 @@ services:
       - sdump_dumps:/srv/dumps
       - sdump_dumps_conf:/srv/dumps.conf.d
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -h db"]
+      test: ["CMD-SHELL", "psql --version"]
       interval: 10s
       timeout: 10s
       retries: 10
     healthcheck:
-      test: /usr/bin/mysqladmin -p$$MARIADB_ROOT_PASSWORD ping
+      test: ["CMD-SHELL", "mysqladmin --version"]
       timeout: 2s
       retries: 3
   

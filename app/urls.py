@@ -11,7 +11,6 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': settings.LOGIN_REDIRECT_URL},
         name='logout'),
-    url('health/', views.health, name='health'),
     url('^api/make_dump',views.api_make_backup, name='api_make_backup'),
     url('^api/dump_exists',views.api_backup_exists, name='api_backup_exists'),
     url('^api/get_database_id',views.api_get_database_id, name='api_get_database_id'),

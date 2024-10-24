@@ -39,10 +39,6 @@ from django.contrib.auth import authenticate
 #from django.http import StreamingHttpResponse
 import socket
 
-def health(request):
-    from django.http import HttpResponse
-    return HttpResponse(status=200)
-
 
 def to_encode(text):
     if isinstance(text, bytes):
