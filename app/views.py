@@ -250,7 +250,7 @@ def check_pass(request):
 
         server = Servidor.objects.get(nombre=request.POST['db_server'])
         if server:
-            args.update({'db_port': unicode(server.puerto)})
+            args.update({'db_port': str(server.puerto)})
         else:
             args.update({'db_port': '5432'})
 
