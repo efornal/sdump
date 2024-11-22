@@ -1,5 +1,5 @@
 
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 
 ARG LOCAL_TIME=America/Argentina/Cordoba
 
