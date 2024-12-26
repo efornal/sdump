@@ -149,6 +149,9 @@ STATIC_URL = os.environ.get('STATIC_URL')
 LOGIN_URL = os.environ.get('LOGIN_URL')
 LOGIN_REDIRECT_URL = os.environ.get('LOGIN_REDIRECT_URL')
 
+# Nivel mínimo para registrar eventos (cubre DEBUG, INFO, WARNING, ERROR)
+LOGGING_DEBUG = os.getenv("LOGGING_DEBUG", "DEBUG") == "DEBUG"
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
