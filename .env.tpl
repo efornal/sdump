@@ -10,6 +10,8 @@ BASE_URL=https://0.0.0.0:3443
 
 DEBUG=True
 
+LOGGING_DEBUG=DEBUG
+
 ALLOWED_HOSTS=['*']
 
 ADMINS=(("admin", "admin@site.com"),)

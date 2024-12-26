@@ -269,3 +269,32 @@ DUMPS_HOST_NAME = os.environ.get('DUMPS_HOST_NAME')
 DUMPS_USER_NAME = os.environ.get('DUMPS_USER_NAME')
 DUMPS_USER_PASS = os.environ.get('DUMPS_USER_PASS')
 
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console_stdout': {
+            'level': LOGGING_DEBUG,  # Puedes ajustar el nivel de log según tus necesidades
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,  # Enviar mensajes de log a stdout
+        },
+        'console_stderr': {
+            'level': LOGGING_DEBUG,
+            'class': 'logging.StreamHandler',
+            'stream': sys.stderr,  # Enviar errores a stderr
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console_stdout', 'console_stderr'],
+            'level': LOGGING_DEBUG,  # Nivel mínimo para registrar eventos (cubre DEBUG, INFO, WARNING, ERROR)
+            'propagate': True,
+        },
+        'django.contrib.sessions': {
+            'handlers': ['console_stdout', 'console_stderr'],
+            'level': LOGGING_DEBUG,
+            'propagate': False,
+        },
+    },
+}
