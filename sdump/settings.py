@@ -18,6 +18,7 @@ import environ
 import ldap
 import logging
 from django.utils.translation import ugettext_lazy as _
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_URL = os.environ.get('BASE_URL')
