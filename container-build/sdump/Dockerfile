@@ -46,4 +46,4 @@ COPY . ./
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["gunicorn", "sdump.wsgi:application", "--bind",  ":8000", "--workers", "$GUNICORN_WORKERS", "--timeout", "$GUNICORN_TIMEOUT"]
+CMD ["gunicorn", "sdump.wsgi:application", "--config", "gunicorn.conf.py"]
