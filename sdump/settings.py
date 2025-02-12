@@ -150,9 +150,6 @@ STATIC_URL = os.environ.get('STATIC_URL')
 LOGIN_URL = os.environ.get('LOGIN_URL')
 LOGIN_REDIRECT_URL = os.environ.get('LOGIN_REDIRECT_URL')
 
-# Nivel mínimo para registrar eventos (cubre DEBUG, INFO, WARNING, ERROR)
-LOGGING_DEBUG = os.getenv("LOGGING_DEBUG", "DEBUG") == "DEBUG"
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
@@ -274,30 +271,36 @@ DUMPS_USER_NAME = os.environ.get('DUMPS_USER_NAME')
 DUMPS_USER_PASS = os.environ.get('DUMPS_USER_PASS')
 
 
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'handlers': {
-        'console_stdout': {
-            'level': LOGGING_DEBUG,  # Puedes ajustar el nivel de log según tus necesidades
-            'class': 'logging.StreamHandler',
-            'stream': sys.stdout,  # Enviar mensajes de log a stdout
+    'formatters': {
+        'verbose': {
+            'format': '[{levelname}] {asctime} - {name} - {message}',
+            'style': '{',
         },
-        'console_stderr': {
-            'level': LOGGING_DEBUG,
+        'simple': {
+            'format': '[{levelname}] {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),  # Permite cambiar el nivel con una variable de entorno
             'class': 'logging.StreamHandler',
-            'stream': sys.stderr,  # Enviar errores a stderr
+            'formatter': 'verbose',
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['console_stdout', 'console_stderr'],
-            'level': LOGGING_DEBUG,  # Nivel mínimo para registrar eventos (cubre DEBUG, INFO, WARNING, ERROR)
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
             'propagate': True,
         },
-        'django.contrib.sessions': {
-            'handlers': ['console_stdout', 'console_stderr'],
-            'level': LOGGING_DEBUG,
+        'sdump': {  # Cambia "myapp" por el nombre de tu aplicación
+            'handlers': ['console'],
+            'level': 'DEBUG',  # En desarrollo puedes usar DEBUG
             'propagate': False,
         },
     },
