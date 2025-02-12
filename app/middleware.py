@@ -34,7 +34,7 @@ class HealthCheckMiddleware(object):
         # One-time configuration and initialization.
 
     def __call__(self, request):
-        context = os.environ.get('CONTEXT_ROOT')
+        context = os.environ.get('CONTEXT_ROOT','')
 
         if request.method == "GET":
             if request.path == "{}/readiness".format(context):
