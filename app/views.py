@@ -383,7 +383,7 @@ def get_postgresql_args(request,database,backup_name=''):
     args.append('-Z9')
     
     if 'opt_inserts' in request.POST and request.POST['opt_inserts']=='true':
-        args.append('-i')
+        args.append(' --inserts ')
         
     if 'opt_clean' in request.POST and request.POST['opt_clean']=='true':
         extra_options += ' --clean '
@@ -392,7 +392,7 @@ def get_postgresql_args(request,database,backup_name=''):
         extra_options += clean_extra_options(request.POST['extra_options'])
 
     if extra_options:
-        args.append(str("-o"))
+        #args.append(str("-o"))
         args.append(str(extra_options))
 
     args.append(str("-h"))
