@@ -277,7 +277,6 @@ def check_pass(request):
 
 @login_required
 def index(request,group_id=0, server_id=0, database_id=0):
-
     username = request.user.username
     context={}
         
@@ -407,7 +406,7 @@ def get_postgresql_args(request,database,backup_name=''):
     args.append(str("-d"))
     args.append(str(database.nombre))
     
-    logging.warning("Running with params: \n {} \n".format(args))
+    logging.info("Running with params: \n {} \n".format(args))
     
     args.insert(0,"PGPASSWORD={}".format(db_pass))
 
@@ -433,7 +432,7 @@ def get_mysql_args(request,database,backup_name=''):
 
     args.append("| gzip > {}".format(backup_name))
 
-    logging.warning("Running with params: \n {} \n".format(args))
+    logging.info("Running with params: \n {} \n".format(args))
 
     args.insert(0,"MYSQL_PWD={}".format(db_pass))
 

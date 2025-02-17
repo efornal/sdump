@@ -33,13 +33,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
+
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
 
 ADMINS = os.environ.get('ADMINS')
 
-
 MANAGERS = os.environ.get('MANAGERS')
-
 
 BASIC_AUTH_REALM = 'User Authentication'
 
@@ -270,37 +269,26 @@ DUMPS_HOST_NAME = os.environ.get('DUMPS_HOST_NAME')
 DUMPS_USER_NAME = os.environ.get('DUMPS_USER_NAME')
 DUMPS_USER_PASS = os.environ.get('DUMPS_USER_PASS')
 
-
-
+#
+# logging
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '[{levelname}] {asctime} - {name} - {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '[{levelname}] {message}',
-            'style': '{',
-        },
-    },
     'handlers': {
         'console': {
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),  # Permite cambiar el nivel con una variable de entorno
+            'level': os.getenv('LOGGING_LEVEL', 'INFO'),
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
         },
     },
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'level': os.getenv('LOGGING_LEVEL', 'INFO'),
             'propagate': True,
         },
-        'sdump': {  # Cambia "myapp" por el nombre de tu aplicación
+        '': {
             'handlers': ['console'],
-            'level': 'DEBUG',  # En desarrollo puedes usar DEBUG
+            'level': os.getenv('LOGGING_LEVEL', 'INFO'),
             'propagate': False,
         },
     },
